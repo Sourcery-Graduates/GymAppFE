@@ -3,6 +3,8 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
+import { ThemeProvider } from "@mui/material";
+import { GymTheme } from "./MUITheme/GymTheme.tsx";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +16,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={GymTheme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </StrictMode>
 );
