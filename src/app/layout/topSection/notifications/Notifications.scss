@@ -1,0 +1,19 @@
+.notifications {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 12px;
+	cursor: pointer;
+	color: black;
+
+	&:hover {
+		color: hsla(223, 100%, 44%, 1);
+		transition: color, 0.5s ease-in-out;
+	}
+}
+
+@media (max-width: 480px) {
+	.notifications {
+		margin-right: 0px;
+	}
+}

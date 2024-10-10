@@ -1,0 +1,16 @@
+.user_avatar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.options_menu {
+	display: none !important;
+}
+
+@media (max-width: 480px) {
+	.options_menu {
+		display: flex !important;
+	}
+}
