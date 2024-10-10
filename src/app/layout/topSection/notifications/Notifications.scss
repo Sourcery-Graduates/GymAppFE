@@ -1,0 +1,21 @@
+@import '@/styles/base/variables';
+
+.notifications {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 12px;
+	cursor: pointer;
+	color: $text-color;
+
+	&:hover {
+		color: $accent-color;
+		transition: color, 0.5s ease-in-out;
+	}
+}
+
+@media (max-width: 480px) {
+	.notifications {
+		margin-right: 0px;
+	}
+}

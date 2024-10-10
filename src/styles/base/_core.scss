@@ -1,24 +1,26 @@
 body {
-  margin: 0;
-  background-color: $background-color;
-  color: $text-color;
-  font-family: $font-family-primary;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
-  letter-spacing: $letter-spacing-base;
+	margin: 0;
+	min-width: 320px;
+	background-color: $background-color;
+	color: $text-color;
+	font-family: $font-family-primary;
+	font-size: $font-size-base;
+	line-height: $line-height-base;
+	letter-spacing: $letter-spacing-base;
 }
 
-button, .btn {
-  background-color: $accent-color;
-  color: $primary-color;
-  margin: 1px;
-  padding: $small-gap;
-  border: none;
-  border-radius: $border-radius-base;
-  transition: filter $transition-duration-base $transition-easing-base;
+button,
+.btn {
+	background-color: $accent-color;
+	color: $primary-color;
+	margin: 1px;
+	padding: $small-gap;
+	border: none;
+	border-radius: $border-radius-base;
+	transition: filter $transition-duration-base $transition-easing-base;
 
-  &:hover {
-    cursor: pointer;
-    filter: brightness(85%);
-  }
+	&:hover {
+		cursor: pointer;
+		filter: brightness(85%);
+	}
 }
