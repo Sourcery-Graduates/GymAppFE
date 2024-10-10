@@ -17,6 +17,7 @@ $gray-900: #212529;
 $font-family-primary: 'Roboto', sans-serif;
 $font-family-secondary: 'Poppins', sans-serif;
 $font-size-base: 16px;
+$font-size-very-small: 12px;
 $font-size-small: 14px;
 $font-size-medium: 20px;
 $font-size-large: 24px;
@@ -37,6 +38,8 @@ $breakpoint-tablet: 768px;
 
 // Other
 $border-radius-base: 8px;
+$border-radius-medium: 12px;
+$border-radius-large: 16px;
 $box-shadow-base: 0px 2px 5px rgba(255, 255, 255, 0.1);
 $transition-duration-base: 0.3s;
 $transition-easing-base: ease-in-out;

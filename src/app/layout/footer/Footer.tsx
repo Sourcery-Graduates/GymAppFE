@@ -6,7 +6,7 @@ const Footer = (): JSX.Element => {
 		return new Date().getFullYear();
 	}, []);
 
-	return <div className='footer'>Copyright © {currentYear} Sourcery graduates</div>;
+	return <footer className='footer'>Copyright © {currentYear} Sourcery graduates</footer>;
 };
 
 export default Footer;

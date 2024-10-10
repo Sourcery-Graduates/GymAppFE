@@ -7,7 +7,7 @@ interface NavigationItemProps {
 	navigateTo: AppRoutes;
 	description: string;
 	style?: React.CSSProperties;
-	className?: React.HTMLAttributes<HTMLDivElement> | string;
+	className?: string;
 }
 
 const NavigationItem = ({ className, style, navigateTo, children, description }: NavigationItemProps) => {

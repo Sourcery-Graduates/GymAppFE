@@ -1,4 +1,4 @@
-import { Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import './UserAvatar.scss';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
@@ -37,50 +37,47 @@ const UserAvatar = () => {
 
 	return (
 		<div className='user_avatar'>
-			<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-				<Tooltip title='Account settings'>
-					<IconButton
-						onClick={handleAvatarClick}
-						size='small'
-						aria-controls={open ? 'account-menu' : undefined}
-						aria-haspopup='true'
-						aria-expanded={open ? 'true' : undefined}
-					>
-						<AccountCircleIcon className='user_icon' />
-					</IconButton>
-				</Tooltip>
-				<Menu
-					className='user_menu'
-					anchorEl={anchorEl}
-					id='account-menu'
-					open={open}
-					onClose={handleMenuClose}
-					onClick={handleMenuClose}
-					transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+			<Tooltip title='Account settings'>
+				<IconButton
+					onClick={handleAvatarClick}
+					aria-controls={open ? 'account-menu' : undefined}
+					aria-haspopup='true'
+					aria-expanded={open ? 'true' : undefined}
 				>
-					<MenuItem className='menu_list_item' onClick={handleMyAccountClick}>
-						<ListItemIcon>
-							<ManageAccountsIcon className='menu_list_icon' />
-						</ListItemIcon>
-						<Typography className='menu_list_text'>My account</Typography>
-					</MenuItem>
-					<Divider />
-					<MenuItem className='menu_list_item options_menu' onClick={handleOptionsClick}>
-						<ListItemIcon>
-							<SettingsIcon className='menu_list_icon' />
-						</ListItemIcon>
-						<Typography className='menu_list_text'>Options</Typography>
-					</MenuItem>
-					<Divider className='options_menu' />
-					<MenuItem className='menu_list_item' onClick={handleLogoutClick}>
-						<ListItemIcon>
-							<Logout className='menu_list_icon' />
-						</ListItemIcon>
-						<Typography className='menu_list_text'>Logout</Typography>
-					</MenuItem>
-				</Menu>
-			</Box>
+					<AccountCircleIcon className='user_icon' />
+				</IconButton>
+			</Tooltip>
+			<Menu
+				className='user_menu'
+				anchorEl={anchorEl}
+				id='account-menu'
+				open={open}
+				onClose={handleMenuClose}
+				onClick={handleMenuClose}
+				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+			>
+				<MenuItem className='menu_list_item' onClick={handleMyAccountClick}>
+					<ListItemIcon>
+						<ManageAccountsIcon className='menu_list_icon' />
+					</ListItemIcon>
+					<Typography className='menu_list_text'>My account</Typography>
+				</MenuItem>
+				<Divider />
+				<MenuItem className='menu_list_item options_menu' onClick={handleOptionsClick}>
+					<ListItemIcon>
+						<SettingsIcon className='menu_list_icon' />
+					</ListItemIcon>
+					<Typography className='menu_list_text'>Options</Typography>
+				</MenuItem>
+				<Divider className='options_menu' />
+				<MenuItem className='menu_list_item' onClick={handleLogoutClick}>
+					<ListItemIcon>
+						<Logout className='menu_list_icon' />
+					</ListItemIcon>
+					<Typography className='menu_list_text'>Logout</Typography>
+				</MenuItem>
+			</Menu>
 		</div>
 	);
 };
