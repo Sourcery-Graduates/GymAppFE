@@ -1,13 +1,15 @@
+@import '@/styles/base/variables';
+
 .notifications {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	margin-right: 12px;
 	cursor: pointer;
-	color: black;
+	color: $gray-700;
 
 	&:hover {
-		color: hsla(223, 100%, 44%, 1);
+		color: $accent-color2;
 		transition: color, 0.5s ease-in-out;
 	}
 }

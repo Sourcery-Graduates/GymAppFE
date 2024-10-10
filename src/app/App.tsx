@@ -1,3 +1,4 @@
+import '@/App.scss';
 import ErrorPage from '@/app/errorPage/ErrorPage';
 import Home from '@/app/home/Home';
 import Layout from '@/app/layout/Layout';

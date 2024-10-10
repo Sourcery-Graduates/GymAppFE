@@ -47,7 +47,7 @@ const UserAvatar = () => {
 						aria-haspopup='true'
 						aria-expanded={open ? 'true' : undefined}
 					>
-						<AccountCircleIcon sx={{ color: 'black' }} />
+						<AccountCircleIcon className='user_icon' />
 					</IconButton>
 				</Tooltip>
 				<Menu
@@ -61,21 +61,21 @@ const UserAvatar = () => {
 				>
 					<MenuItem onClick={handleMyAccountClick}>
 						<ListItemIcon>
-							<ManageAccountsIcon sx={{ color: 'black' }} />
+							<ManageAccountsIcon className='menu_list_item user_profile' />
 						</ListItemIcon>
 						My account
 					</MenuItem>
 					<Divider />
-					<MenuItem className='options_menu' onClick={handleOptionsClick}>
+					<MenuItem className='menu_list_item options_menu' onClick={handleOptionsClick}>
 						<ListItemIcon>
-							<SettingsIcon sx={{ color: 'black' }} fontSize='small' />
+							<SettingsIcon />
 						</ListItemIcon>
 						Options
 					</MenuItem>
 					<Divider className='options_menu' />
 					<MenuItem onClick={handleLogoutClick}>
 						<ListItemIcon>
-							<Logout sx={{ color: 'black' }} fontSize='small' />
+							<Logout className='menu_list_item' />
 						</ListItemIcon>
 						Logout
 					</MenuItem>

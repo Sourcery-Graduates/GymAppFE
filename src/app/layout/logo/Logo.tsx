@@ -1,5 +1,5 @@
 import './Logo.scss';
-import cognizantLogo from '@/assets/cognizantLogo.jpeg';
+import cognizantLogo from '@/assets/cognizantLogoWhite.jpeg';
 
 const Logo = () => {
 	return (
