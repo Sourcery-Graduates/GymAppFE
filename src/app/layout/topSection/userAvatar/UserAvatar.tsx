@@ -1,4 +1,4 @@
-import { Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import './UserAvatar.scss';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
@@ -42,7 +42,6 @@ const UserAvatar = () => {
 					<IconButton
 						onClick={handleAvatarClick}
 						size='small'
-						sx={{ ml: 2 }}
 						aria-controls={open ? 'account-menu' : undefined}
 						aria-haspopup='true'
 						aria-expanded={open ? 'true' : undefined}
@@ -51,6 +50,7 @@ const UserAvatar = () => {
 					</IconButton>
 				</Tooltip>
 				<Menu
+					className='user_menu'
 					anchorEl={anchorEl}
 					id='account-menu'
 					open={open}
@@ -59,25 +59,25 @@ const UserAvatar = () => {
 					transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 				>
-					<MenuItem onClick={handleMyAccountClick}>
+					<MenuItem className='menu_list_item' onClick={handleMyAccountClick}>
 						<ListItemIcon>
-							<ManageAccountsIcon className='menu_list_item user_profile' />
+							<ManageAccountsIcon className='menu_list_icon' />
 						</ListItemIcon>
-						My account
+						<Typography className='menu_list_text'>My account</Typography>
 					</MenuItem>
 					<Divider />
 					<MenuItem className='menu_list_item options_menu' onClick={handleOptionsClick}>
 						<ListItemIcon>
-							<SettingsIcon />
+							<SettingsIcon className='menu_list_icon' />
 						</ListItemIcon>
-						Options
+						<Typography className='menu_list_text'>Options</Typography>
 					</MenuItem>
 					<Divider className='options_menu' />
-					<MenuItem onClick={handleLogoutClick}>
+					<MenuItem className='menu_list_item' onClick={handleLogoutClick}>
 						<ListItemIcon>
-							<Logout className='menu_list_item' />
+							<Logout className='menu_list_icon' />
 						</ListItemIcon>
-						Logout
+						<Typography className='menu_list_text'>Logout</Typography>
 					</MenuItem>
 				</Menu>
 			</Box>

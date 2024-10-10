@@ -1,9 +1,8 @@
 // Colors
 $primary-color: #181818; // Dark gray for the primary background
 $secondary-color: #282828; // Slightly lighter gray for secondary elements
-$accent-color: #ffc107; // Vibrant yellow for accents
-$accent-color2: #7f85f5; // Blue for accents
-$text-color: #ffffff; // White for text
+$accent-color: #3867c5; // Cognizant blue for accents
+$text-color: #6c757d; // Gray for text
 $background-color: #181818; // Same as primary color
 $white: #ffffff;
 $black: #000000;
@@ -11,6 +10,7 @@ $gray-100: #f8f9fa;
 $gray-200: #e9ecef;
 $gray-500: #adb5bd;
 $gray-700: #6c757d;
+$gray-800: #3f454b;
 $gray-900: #212529;
 
 // Typography
@@ -37,6 +37,6 @@ $breakpoint-tablet: 768px;
 
 // Other
 $border-radius-base: 8px;
-$box-shadow-base: 0 2px 4px rgba(0, 0, 0, 0.1);
+$box-shadow-base: 0px 2px 5px rgba(255, 255, 255, 0.1);
 $transition-duration-base: 0.3s;
 $transition-easing-base: ease-in-out;

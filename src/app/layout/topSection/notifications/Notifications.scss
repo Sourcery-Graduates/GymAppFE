@@ -6,10 +6,10 @@
 	align-items: center;
 	margin-right: 12px;
 	cursor: pointer;
-	color: $gray-700;
+	color: $text-color;
 
 	&:hover {
-		color: $accent-color2;
+		color: $accent-color;
 		transition: color, 0.5s ease-in-out;
 	}
 }

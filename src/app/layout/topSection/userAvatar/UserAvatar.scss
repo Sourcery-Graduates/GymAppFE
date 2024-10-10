@@ -1,5 +1,4 @@
-@import '@/styles/base/variables';
-
+@import '/src/styles/base/variables';
 .user_avatar {
 	display: flex;
 	justify-content: center;
@@ -7,16 +6,35 @@
 	cursor: pointer;
 
 	.user_icon {
-		color: $gray-700;
+		color: $text-color;
+	}
+}
+
+.user_menu .MuiPaper-root {
+	background-color: $background-color;
+	box-shadow: $box-shadow-base;
+}
+
+.menu_list_item {
+	.menu_list_text {
+		font-size: $font-size-small;
+		color: $text-color;
+	}
+	.menu_list_icon {
+		color: $text-color;
+	}
+	&:hover {
+		.menu_list_text {
+			color: $gray-500;
+		}
+		.menu_list_icon {
+			color: $gray-500;
+		}
 	}
 }
 
 .options_menu {
 	display: none !important;
-}
-
-.menu_list_item {
-	color: $gray-700;
 }
 
 @media (max-width: 480px) {

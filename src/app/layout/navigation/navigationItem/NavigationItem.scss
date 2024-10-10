@@ -31,10 +31,11 @@
 		align-items: center;
 		margin-top: 4px;
 		font-weight: 500;
-		font-size: 10px;
-		line-height: 12px;
+		font-size: $font-size-small;
+		line-height: 14px;
 		color: $gray-700;
 		text-align: center;
+		padding: 0 4px;
 	}
 }
 
@@ -43,11 +44,11 @@
 		border-radius: 12px;
 		background-color: $gray-900;
 		transition: background-color, 0.5s ease;
-		color: $accent-color2;
+		color: $accent-color;
 		transition: color, 0.5s ease;
 	}
 	.icon_description {
-		color: $accent-color2;
+		color: $accent-color;
 	}
 }
 
@@ -63,6 +64,8 @@
 	.navigation_item {
 		cursor: pointer;
 		margin-bottom: 0px;
+		width: 48px;
+		height: 48px;
 
 		&:hover {
 			transition: none;
