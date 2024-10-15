@@ -1,6 +1,6 @@
 export enum AppRoutes {
 	HOME = '/',
 	MY_TRAINING = '/my-training',
-	TRAINING = '/training',
+	ROUTINES = '/routines',
 	OPTIONS = '/options',
 }

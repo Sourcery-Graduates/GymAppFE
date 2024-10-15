@@ -10,12 +10,21 @@
 
 	&:hover {
 		color: $accent-color;
-		transition: color, 0.5s ease-in-out;
+		transition: color, $transition-duration-base $transition-easing-base;
 	}
 }
 
-@media (max-width: 480px) {
+@media (max-width: $breakpoint-phone) {
 	.notifications {
 		margin-right: 0px;
+		width: 36px;
+		height: 36px;
+
+		&:hover {
+			color: $text-color;
+			border-radius: $border-radius-medium;
+			background-color: $gray-500;
+			transition: background-color $transition-duration-base $transition-easing-base;
+		}
 	}
 }

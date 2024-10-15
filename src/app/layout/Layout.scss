@@ -49,14 +49,14 @@
 	}
 }
 
-@media (max-width: 768px) {
+@media (max-width: $breakpoint-tablet) {
 	.layout {
 		grid-template-columns: 48px auto;
 		grid-template-rows: 48px auto 24px;
 	}
 }
 
-@media (max-width: 480px) {
+@media (max-width: $breakpoint-phone) {
 	.layout {
 		display: inline-grid;
 		grid-template-columns: auto auto auto auto auto;
