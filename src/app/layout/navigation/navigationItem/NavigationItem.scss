@@ -14,7 +14,7 @@
 		.navigation_icon {
 			border-radius: $border-radius-medium;
 			background-color: $gray-500;
-			transition: background-color 0.5s ease-in-out;
+			transition: background-color $transition-duration-base $transition-easing-base;
 		}
 	}
 	.navigation_icon {
@@ -51,7 +51,7 @@
 	}
 }
 
-@media (max-width: 768px) {
+@media (max-width: $breakpoint-tablet) {
 	.navigation_item {
 		.icon_description {
 			display: none;
@@ -59,7 +59,7 @@
 	}
 }
 
-@media (max-width: 480px) {
+@media (max-width: $breakpoint-phone) {
 	.navigation_item {
 		cursor: pointer;
 		margin-bottom: 0px;

@@ -1,3 +1,5 @@
+@import '@/styles/base/variables';
+
 .top_section {
 	width: 100%;
 	display: flex;
@@ -16,7 +18,7 @@
 	}
 }
 
-@media (max-width: 480px) {
+@media (max-width: $breakpoint-phone) {
 	.top_section {
 		display: flex;
 		width: 100%;
