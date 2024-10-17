@@ -7,6 +7,7 @@ import Options from '@/app/options/Options';
 import Training from '@/app/training/Training';
 import { AppRoutes } from '@/types/routes';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import MyProfile from '@/app/myProfile/MyProfile';
 
 function App() {
 	return (
@@ -17,6 +18,7 @@ function App() {
 					<Route path={AppRoutes.TRAINING} element={<Training />} />
 					<Route path={AppRoutes.MY_TRAINING} element={<MyTraining />} />
 					<Route path={AppRoutes.OPTIONS} element={<Options />} />
+					<Route path={AppRoutes.MY_PROFILE} element={<MyProfile />} />
 					<Route path='*' element={<ErrorPage />} />
 				</Route>
 			</Routes>
