@@ -4,4 +4,5 @@ export enum AppRoutes {
 	ROUTINES = '/routines',
 	ROUTINE_DETAILS = '/routine-details/:routineId',
 	OPTIONS = '/options',
+	MY_PROFILE = '/my-profile'
 }

@@ -24,7 +24,8 @@ const UserAvatar = () => {
 		setAnchorEl(null);
 	};
 
-	const handleMyAccountClick = (): void => {
+	const handleMyProfileClick = (): void => {
+		navigate(AppRoutes.MY_PROFILE);
 		handleMenuClose();
 	};
 
@@ -60,11 +61,11 @@ const UserAvatar = () => {
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 			>
-				<MenuItem className='menu_list_item' onClick={handleMyAccountClick}>
+				<MenuItem className='menu_list_item' onClick={handleMyProfileClick}>
 					<ListItemIcon>
 						<ManageAccountsIcon className='menu_list_icon' />
 					</ListItemIcon>
-					<Typography className='menu_list_text'>My account</Typography>
+					<Typography className='menu_list_text'>My profile</Typography>
 				</MenuItem>
 				<Divider />
 				<MenuItem className='menu_list_item options_menu' onClick={handleOptionsClick}>
