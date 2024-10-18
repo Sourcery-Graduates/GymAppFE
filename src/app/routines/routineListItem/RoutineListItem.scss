@@ -1,0 +1,39 @@
+@import "../../../styles/base/variables";
+
+.routine-list-item {
+  padding: 8px;
+  min-width: 180px;
+  max-width: 500px;
+  height: 10rem;
+  position: relative;
+  border-radius: $border-radius-base;
+  border: 1px solid $secondary-color;
+
+  &_name {
+    display: block;
+    margin-right: 3rem;
+
+    & h3 {
+      margin: 0.5rem 0;
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &_description {
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+  }
+
+  &_options {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+}
