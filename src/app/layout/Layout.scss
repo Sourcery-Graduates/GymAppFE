@@ -75,7 +75,7 @@
 			border-top: solid 1px $gray-800;
 		}
 		&_topSection {
-			display: flex;
+			display: fix;
 			grid-column-start: 4;
 			grid-column-end: 6;
 			grid-row-start: 2;
@@ -90,6 +90,9 @@
 			grid-column-end: 6;
 			grid-row-start: 1;
 			grid-row-end: 1;
+			max-height: calc(100vh - 64px);
+			max-height: calc(100dvh - 64px);
+			overflow: scroll;
 		}
 		&_footer {
 			display: none;

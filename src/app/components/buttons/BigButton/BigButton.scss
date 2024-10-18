@@ -1,0 +1,17 @@
+@import '@/styles/base/variables';
+
+.big-button {
+  padding: 0.9rem;
+  border-radius: $border-radius-base;
+  border: 1px solid $accent-color;
+  background-color: $background-color;
+  color: $accent-color;
+  white-space: nowrap;
+  font-size: $font-size-base;
+
+  & span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
