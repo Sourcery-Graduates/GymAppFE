@@ -10,6 +10,11 @@ body {
 	letter-spacing: $letter-spacing-base;
 }
 
+p {
+	padding: 0;
+	margin: 0;
+}
+
 button,
 .btn {
 	background-color: $accent-color;

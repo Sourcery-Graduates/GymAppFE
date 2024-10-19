@@ -1,6 +1,7 @@
 import React from "react";
 import "./RoutineListItem.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
 const RoutineListItem: React.FC<Props> = (props) => {
   return (
@@ -14,6 +15,14 @@ const RoutineListItem: React.FC<Props> = (props) => {
       <div className="routine-list-item_options">
         <MoreVertIcon />
       </div>
+      <div className="likes-container">
+        <div className="likes-number">
+          <p>{props.likes}</p>
+        </div>
+        <div className={`likes-icon ${props.userLikes ? "active" : ""}`}>
+          <ThumbUpOffAltIcon fontSize="small" />
+        </div>
+      </div>
     </div>
   );
 };
@@ -21,7 +30,9 @@ const RoutineListItem: React.FC<Props> = (props) => {
 type Props = {
   id: string;
   name: string;
-  description: string;
+  description?: string;
+  likes: number;
+  userLikes: boolean;
 };
 
 export default RoutineListItem;
