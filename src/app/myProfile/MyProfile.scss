@@ -1,0 +1,51 @@
+@import "../../styles/base/variables";
+
+.my_profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90vw;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1.5rem;
+    min-width: 500px;
+    max-width: 500px;
+    position: relative;
+    border-radius: $border-radius-base;
+    border: 1px solid $secondary-color;
+
+    .avatar-image {
+        min-width: 200px;
+        min-height: 200px;
+        margin-bottom: 25px;
+    }
+    
+    .fullname-text {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+    
+    .username-text {
+     opacity: 0.6;
+     margin: 0; 
+     font-size: 0.8rem;
+    }
+
+    .location-field {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+    .bio-field {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+}
+
