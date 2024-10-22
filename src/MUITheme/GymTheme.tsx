@@ -19,6 +19,7 @@ declare module '@mui/material/styles' {
 
 const GymTheme = createTheme({
 	palette: {
+		mode: "dark",
 		text: {
 			primary: textColor,
 		},
