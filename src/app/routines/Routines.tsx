@@ -7,9 +7,9 @@ import React from "react";
 
 import BigButton from "../components/buttons/BigButton/BigButton";
 import MyRoutines from "./myRoutines/MyRoutines";
+import PublicRoutines from "./publicRoutines/PublicRoutines";
 
 import "./Routines.scss";
-import PublicRoutines from "./publicRoutines/PublicRoutines";
 
 const Routines = () => {
   const [tabValue, setTabValue] = React.useState("my-routines");

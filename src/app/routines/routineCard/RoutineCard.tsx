@@ -1,13 +1,27 @@
+import { AppRoutes } from "@/types/routes";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+import RoutineOptionsButton from "./routineOptionsButton/RoutineOptionsButton";
 
 import "./RoutineCard.scss";
 
 const RoutineCard: React.FC<Props> = (props) => {
+  const navigate = useNavigate();
+
+  const openRoutineDetails = (routineId: string) => {
+    const url = AppRoutes.ROUTINE_DETAILS.replace(":routineId", routineId);
+    navigate(url);
+  };
+
   return (
     <div className="routine-list-item">
-      <div className="routine-list-item_name">
+      <div
+        className="routine-list-item_name"
+        onClick={() => openRoutineDetails(props.id)}
+      >
         <h3>
           <title>{props.name}</title>
           {props.name}
@@ -17,7 +31,7 @@ const RoutineCard: React.FC<Props> = (props) => {
         <p>{props.description}</p>
       </div>
       <div className="routine-list-item_options">
-        <MoreVertIcon />
+        <RoutineOptionsButton />
       </div>
       <div className="likes-container">
         <div className="likes-number">
@@ -36,6 +50,7 @@ const RoutineCard: React.FC<Props> = (props) => {
 };
 
 type Props = {
+  id: string;
   name: string;
   description?: string;
   likes: number;

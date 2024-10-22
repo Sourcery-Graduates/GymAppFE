@@ -1,4 +1,3 @@
-import '@/App.scss';
 import ErrorPage from '@/app/errorPage/ErrorPage';
 import Home from '@/app/home/Home';
 import Layout from '@/app/layout/Layout';
@@ -8,6 +7,10 @@ import Routines from '@/app/routines/Routines';
 import { AppRoutes } from '@/types/routes';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import RoutineDetails from './routines/routineDetails/RoutineDetails';
+
+import '@/App.scss';
+
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +18,7 @@ function App() {
         <Route path={AppRoutes.HOME} element={<Layout />}>
           <Route path={AppRoutes.HOME} element={<Home />} />
           <Route path={AppRoutes.ROUTINES} element={<Routines />} />
+          <Route path={AppRoutes.ROUTINE_DETAILS} element={<RoutineDetails />} />
           <Route path={AppRoutes.MY_TRAINING} element={<MyTraining />} />
           <Route path={AppRoutes.OPTIONS} element={<Options />} />
           <Route path='*' element={<ErrorPage />} />

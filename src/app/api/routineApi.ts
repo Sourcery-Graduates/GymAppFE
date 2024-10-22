@@ -1,4 +1,4 @@
-import { Routine } from "../entities/Routine"
+import { Routine } from "../../types/entities/Routine"
 
 const routines = [
   {

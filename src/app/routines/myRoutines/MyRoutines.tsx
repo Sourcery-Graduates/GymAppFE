@@ -21,6 +21,7 @@ const MyRoutines: () => ReactNode = () => {
     <div className="routine-list-wrapper">
       {routines?.map((routine) => (
         <RoutineCard
+          id={routine.id}
           key={routine.id}
           name={routine.name}
           description={routine.description}
