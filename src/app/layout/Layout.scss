@@ -38,6 +38,9 @@
 		grid-column-end: 2;
 		grid-row-start: 2;
 		grid-row-end: 2;
+		max-height: calc(100vh - 64px);
+		max-height: calc(100dvh - 64px);
+		overflow: scroll;
 	}
 	&_footer {
 		display: flex;
@@ -53,6 +56,12 @@
 	.layout {
 		grid-template-columns: 48px auto;
 		grid-template-rows: 48px auto 24px;
+
+		&_outlet {
+			max-height: calc(100vh - 48px);
+			max-height: calc(100dvh - 48px);
+			overflow: scroll;
+		}
 	}
 }
 

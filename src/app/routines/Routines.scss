@@ -62,25 +62,6 @@
   justify-self: end;
 }
 
-.routine-list-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 8px;
-  padding: 8px 0;
-}
-
-@media (max-width: $breakpoint-computer) {
-  .routine-list-wrapper {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-
-@media (max-width: $breakpoint-tablet) {
-  .routine-list-wrapper {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
 @media (max-width: $breakpoint-phone) {
   .routines-top {
     display: flex;
@@ -98,11 +79,5 @@
 
   .new-routine-btn {
     width: 100%;
-  }
-
-  .routine-list-wrapper {
-    grid-template-columns: 1fr;
-    max-height: calc(100dvh - 64px - 181px);
-    overflow: scroll;
   }
 }
