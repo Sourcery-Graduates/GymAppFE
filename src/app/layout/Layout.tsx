@@ -9,7 +9,6 @@ import useAuth from '@/app/common/hooks/useAuth';
 
 const Layout = () => {
 	const { isLoggedIn } = useAuth();
-	console.log(isLoggedIn);
 
 	return (
 		<>
