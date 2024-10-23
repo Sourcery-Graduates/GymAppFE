@@ -1,18 +1,10 @@
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditIcon from "@mui/icons-material/Edit";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {
-  Divider,
-  IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import React from "react";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import React from 'react';
 
-import "./RoutineOptionsButton.scss";
+import './RoutineOptionsButton.scss';
 
 const RoutineOptionsButton = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -35,40 +27,40 @@ const RoutineOptionsButton = () => {
   };
 
   return (
-    <div className="routine_options_button">
-      <Tooltip title="Routine options">
+    <div className='routine_options_button'>
+      <Tooltip title='Routine options'>
         <IconButton
           onClick={handleButtonClick}
-          aria-controls={open ? "routine-options" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          size="small"
+          aria-controls={open ? 'routine-options' : undefined}
+          aria-haspopup='true'
+          aria-expanded={open ? 'true' : undefined}
+          size='small'
         >
-          <MoreVertIcon className="options_icon" />
+          <MoreVertIcon className='options_icon' />
         </IconButton>
       </Tooltip>
       <Menu
-        className="routine_options_menu"
+        className='routine_options_menu'
         anchorEl={anchorEl}
-        id="routine-options"
+        id='routine-options'
         open={open}
         onClose={handleMenuClose}
         onClick={handleMenuClose}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem className="menu_list_item" onClick={handleEditRoutineClick}>
+        <MenuItem className='menu_list_item' onClick={handleEditRoutineClick}>
           <ListItemIcon>
-            <EditIcon className="menu_list_icon" />
+            <EditIcon className='menu_list_icon' />
           </ListItemIcon>
-          <Typography className="menu_list_text">Edit Routine</Typography>
+          <Typography className='menu_list_text'>Edit Routine</Typography>
         </MenuItem>
         <Divider />
-        <MenuItem className="menu_list_item" onClick={handleDeleteRoutineClick}>
+        <MenuItem className='menu_list_item' onClick={handleDeleteRoutineClick}>
           <ListItemIcon>
-            <DeleteForeverIcon className="menu_list_icon" />
+            <DeleteForeverIcon className='menu_list_icon' />
           </ListItemIcon>
-          <Typography className="menu_list_text">Delete Routine</Typography>
+          <Typography className='menu_list_text'>Delete Routine</Typography>
         </MenuItem>
       </Menu>
     </div>

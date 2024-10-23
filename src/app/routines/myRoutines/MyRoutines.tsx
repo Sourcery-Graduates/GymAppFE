@@ -1,16 +1,16 @@
-import BasicSpinner from "@/app/components/loaders/BasicSpinner";
-import { useQuery } from "@tanstack/react-query";
-import { ReactNode } from "react";
+import BasicSpinner from '@/app/components/loaders/BasicSpinner';
+import { useQuery } from '@tanstack/react-query';
+import { ReactNode } from 'react';
 
-import { fetchRoutines } from "../../api/routineApi";
-import RoutineCard from "../routineCard/RoutineCard";
+import { fetchRoutines } from '../../api/routineApi';
+import RoutineCard from '../routineCard/RoutineCard';
 
-import "./MyRoutines.scss";
+import './MyRoutines.scss';
 
 const MyRoutines: () => ReactNode = () => {
   const { data: routines, isLoading } = useQuery({
     queryFn: () => fetchRoutines(),
-    queryKey: ["routines"],
+    queryKey: ['routines'],
   });
 
   if (isLoading) {
@@ -18,7 +18,7 @@ const MyRoutines: () => ReactNode = () => {
   }
 
   return (
-    <div className="routine-list-wrapper">
+    <div className='routine-list-wrapper'>
       {routines?.map((routine) => (
         <RoutineCard
           id={routine.id}

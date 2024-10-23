@@ -1,4 +1,4 @@
-import "./RoutineDetails.scss";
+import './RoutineDetails.scss';
 
 const RoutineDetails = () => {
   return <div>Routine Details</div>;

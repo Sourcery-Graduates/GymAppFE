@@ -1,10 +1,11 @@
-import './Navigation.scss';
-import HomeIcon from '@mui/icons-material/Home';
-import SettingsIcon from '@mui/icons-material/Settings';
 import NavigationItem from '@/app/layout/navigation/navigationItem/NavigationItem';
+import { AppRoutes } from '@/types/routes';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import { AppRoutes } from '@/types/routes';
+import HomeIcon from '@mui/icons-material/Home';
+import SettingsIcon from '@mui/icons-material/Settings';
+
+import './Navigation.scss';
 
 const Navigation = () => {
   return (

@@ -1,5 +1,6 @@
 import { Routine } from "../../types/entities/Routine"
 
+// Mocked data below:
 const routines = [
   {
     id: "1",
@@ -41,14 +42,12 @@ const routines = [
 export const fetchRoutines = async (query = ""): Promise<Routine[]> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  console.log("fetched routines");
-
-  const filteredRoutines = routines.filter((todo) =>
-    todo.name.toLowerCase().includes(query.toLowerCase())
+  const filteredRoutines: Routine[] = routines.filter((routine) =>
+    routine.name.toLowerCase().includes(query.toLowerCase())
   );
 
   // Uncomment the line below to trigger an error
   // throw new Error();
 
-  return [...filteredRoutines];
+  return filteredRoutines;
 };
