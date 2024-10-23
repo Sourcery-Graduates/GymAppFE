@@ -58,56 +58,58 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
         >
           OP
         </Avatar>
-        <TextField
-          label='Firstname'
-          fullWidth
-          className='form-field'
-          variant='filled'
-          {...register('firstname')}
-          error={!!errors.firstname}
-        />
-        <TextField
-          label='Lastname'
-          fullWidth
-          className='form-field'
-          variant='filled'
-          {...register('lastname')}
-          error={!!errors.lastname}
-        />
-        <TextField
-          label='Username'
-          fullWidth
-          className='form-field'
-          variant='filled'
-          {...register('username')}
-          error={!!errors.username}
-        />
-        <TextField
-          label='Location'
-          fullWidth
-          className='form-field'
-          variant='filled'
-          {...register('location')}
-          error={!!errors.location}
-        />
-        <TextField
-          label='Bio'
-          fullWidth
-          multiline
-          rows={4}
-          className='form-field'
-          variant='filled'
-          {...register('bio')}
-          error={!!errors.bio}
-        />
+        <Stack className='profile-data-container' margin={1}>
+          <TextField
+            label='Firstname'
+            fullWidth
+            className='form-field'
+            variant='filled'
+            {...register('firstname')}
+            error={!!errors.firstname}
+          />
+          <TextField
+            label='Lastname'
+            fullWidth
+            className='form-field'
+            variant='filled'
+            {...register('lastname')}
+            error={!!errors.lastname}
+          />
+          <TextField
+            label='Username'
+            fullWidth
+            className='form-field'
+            variant='filled'
+            {...register('username')}
+            error={!!errors.username}
+          />
+          <TextField
+            label='Location'
+            fullWidth
+            className='form-field'
+            variant='filled'
+            {...register('location')}
+            error={!!errors.location}
+          />
+          <TextField
+            label='Bio'
+            fullWidth
+            multiline
+            rows={4}
+            className='form-field'
+            variant='filled'
+            {...register('bio')}
+            error={!!errors.bio}
+          />
 
-        <Stack spacing={2} direction='row' margin={1}>
-          <Button variant='outlined' color='info' type='submit'>
-            Save
-          </Button>
-          <Button variant='outlined' color='error' onClick={onCancel}>
-            Cancel
-          </Button>
+          <Stack spacing={2} direction='row' margin={1}>
+            <Button variant='outlined' color='info' type='submit'>
+              Save
+            </Button>
+            <Button variant='outlined' color='error' onClick={onCancel}>
+              Cancel
+            </Button>
+          </Stack>
         </Stack>
       </form>
     </ThemeProvider>
