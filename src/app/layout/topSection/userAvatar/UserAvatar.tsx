@@ -10,8 +10,8 @@ import { AppRoutes } from '@/types/routes';
 import useAuth from '@/app/common/hooks/useAuth';
 
 const UserAvatar = () => {
-	const { logOutUser } = useAuth();
-	const navigate = useNavigate();
+  const { logOutUser } = useAuth();
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -29,10 +29,10 @@ const UserAvatar = () => {
     handleMenuClose();
   };
 
-	const handleLogoutClick = (): void => {
-		handleMenuClose();
-		logOutUser();
-	};
+  const handleLogoutClick = (): void => {
+    handleMenuClose();
+    logOutUser();
+  };
 
   const handleOptionsClick = (): void => {
     navigate(AppRoutes.OPTIONS);

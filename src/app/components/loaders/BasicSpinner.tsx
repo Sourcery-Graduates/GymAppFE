@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import "./BasicSpinner.scss";
+import './BasicSpinner.scss';
 
 const BasicSpinner: React.FC = () => {
   return (
-    <div className="loader-container">
-      <span className="loader"></span>
+    <div className='loader-container'>
+      <span className='loader'></span>
     </div>
   );
 };
