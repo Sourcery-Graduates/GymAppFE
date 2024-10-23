@@ -7,8 +7,10 @@ import React from 'react';
 import { Logout } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '@/types/routes';
+import useAuth from '@/app/common/hooks/useAuth';
 
 const UserAvatar = () => {
+	const { logOutUser } = useAuth();
 	const navigate = useNavigate();
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -28,6 +30,7 @@ const UserAvatar = () => {
 
 	const handleLogoutClick = (): void => {
 		handleMenuClose();
+		logOutUser();
 	};
 
 	const handleOptionsClick = (): void => {
