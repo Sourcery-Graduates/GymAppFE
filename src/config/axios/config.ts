@@ -6,12 +6,7 @@ const api: AxiosInstance = axios.create({
 });
 
 export const getToken = (): string | null => {
-	let token: string | null = null;
-	const tokenLocalStore = localStorage.getItem('token') ?? sessionStorage.getItem('token');
-	if (tokenLocalStore !== null) {
-		token = tokenLocalStore;
-	}
-	return token;
+	return localStorage.getItem('token') ?? sessionStorage.getItem('token');
 };
 
 api.interceptors.request.use((config) => {

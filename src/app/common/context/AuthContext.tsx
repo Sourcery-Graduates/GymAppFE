@@ -1,4 +1,4 @@
-import { type AuthState } from '@/app/common/context/types';
+import { AuthState } from '@/types/auth';
 import React, { createContext, useState } from 'react';
 
 interface AuthContextProps {

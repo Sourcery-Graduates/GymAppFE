@@ -1,12 +1,9 @@
 import api from '@/config/axios/config';
+import { LoginInResponse, RegisterBody } from '@/types/auth';
 
 export enum Auth_Endpoint {
 	LOGIN = 'api/auth/authenticate',
 	REGISTER = 'api/auth/register',
-}
-
-interface LoginInResponse {
-	token: string;
 }
 
 export const login = async (username: string, password: string, stayLoggedIn: boolean): Promise<void> => {
@@ -14,7 +11,6 @@ export const login = async (username: string, password: string, stayLoggedIn: bo
 	const config = { headers: { Authorization: 'Basic ' + basicAuthHeader } };
 
 	const response = await api.get(Auth_Endpoint.LOGIN, config);
-	console.log(response);
 	const data: LoginInResponse = response.data;
 
 	if (stayLoggedIn) {
@@ -24,18 +20,11 @@ export const login = async (username: string, password: string, stayLoggedIn: bo
 	}
 };
 
-interface RegisterBody {
-	username: string;
-	password: string;
-	email: string;
-}
-
 export const register = async (username: string, password: string, email: string): Promise<void> => {
 	const requestBody: RegisterBody = {
 		username: username,
 		password: password,
 		email: email,
 	};
-	console.log(requestBody);
 	await api.post(Auth_Endpoint.REGISTER, requestBody);
 };
