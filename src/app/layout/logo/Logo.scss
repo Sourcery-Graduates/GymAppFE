@@ -1,3 +1,5 @@
+@import '@/styles/base/variables';
+
 .app_logo_container {
 	display: flex;
 	flex-direction: column;
@@ -13,7 +15,7 @@
 	}
 }
 
-@media (max-width: 768px) {
+@media (max-width: $breakpoint-tablet) {
 	.app_logo_container {
 		.app_logo {
 			width: 24px;

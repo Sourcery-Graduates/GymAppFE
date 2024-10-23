@@ -1,0 +1,25 @@
+@import '../../../../styles/base/variables';
+
+.basic-button {
+  border-radius: $border-radius-base;
+  border: 1px solid $accent-color;
+  background-color: $background-color;
+  color: $accent-color;
+  white-space: nowrap;
+
+  & span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.big {
+  padding: 0.9rem;
+  font-size: $font-size-base;
+}
+
+.small {
+  padding: 0.3rem;
+  font-size: $font-size-small;
+}

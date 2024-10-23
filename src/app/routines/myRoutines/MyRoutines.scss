@@ -1,0 +1,31 @@
+@import '@/styles/base/variables';
+
+.routine-list-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+@media (max-width: 1690px) {
+  .routine-list-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .routine-list-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: $breakpoint-phone) {
+  .routine-list-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-height: calc(100dvh - 64px - 181px);
+    overflow: scroll;
+  }
+}

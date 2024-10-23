@@ -1,17 +1,17 @@
 @import '/src/styles/base/variables';
 
-.user_avatar {
+.routine_options_button {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
 
-	.user_icon {
+	.options_icon {
 		color: $text-color;
 	}
 }
 
-.user_menu .MuiPaper-root {
+.routine_options_menu .MuiPaper-root {
 	background-color: $background-color;
 	box-shadow: $box-shadow-base;
 }
@@ -31,15 +31,5 @@
 		.menu_list_icon {
 			color: $gray-500;
 		}
-	}
-}
-
-.options_menu {
-	display: none !important;
-}
-
-@media (max-width: $breakpoint-phone) {
-	.options_menu {
-		display: flex !important;
 	}
 }
