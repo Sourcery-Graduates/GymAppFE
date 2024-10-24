@@ -24,16 +24,16 @@ const validationSchema = Yup.object().shape({
   firstname: Yup.string()
     .required('Firstname is required')
     .min(3, 'Firstname must be at least 3 characters')
-    .max(20, 'Firstname must be at most 20 characters'),
+    .max(64, 'Firstname must be at most 64 characters'),
   lastname: Yup.string()
     .required('Lastname is required')
     .min(3, 'Lastname must be at least 3 characters')
-    .max(20, 'Lastname must be at most 20 characters'),
+    .max(64, 'Lastname must be at most 64 characters'),
   username: Yup.string()
     .required('Username is required')
     .min(3, 'Username must be at least 3 characters')
     .max(32, 'Username must be at most 32 characters'),
-  location: Yup.string().required('Location is required').max(32, 'Location must be at most 32 characters'),
+  location: Yup.string().required('Location is required').max(128, 'Location must be at most 128 characters'),
   bio: Yup.string().max(340, 'Bio must be at most 340 characters'),
 });
 
@@ -75,6 +75,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
             variant='filled'
             {...register('firstname')}
             error={!!errors.firstname}
+            helperText={errors.firstname?.message}
           />
           <TextField
             label='Lastname'
@@ -83,6 +84,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
             variant='filled'
             {...register('lastname')}
             error={!!errors.lastname}
+            helperText={errors.lastname?.message}
           />
           <TextField
             label='Username'
@@ -91,6 +93,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
             variant='filled'
             {...register('username')}
             error={!!errors.username}
+            helperText={errors.username?.message}
           />
           <TextField
             label='Location'
@@ -99,6 +102,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
             variant='filled'
             {...register('location')}
             error={!!errors.location}
+            helperText={errors.location?.message}
           />
           <TextField
             label='Bio'
@@ -109,6 +113,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
             variant='filled'
             {...register('bio')}
             error={!!errors.bio}
+            helperText={errors.bio?.message}
           />
 
           <Stack spacing={2} direction='row' margin={1}>
