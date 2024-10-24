@@ -71,6 +71,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
           <TextField
             label='Firstname'
             fullWidth
+            size='small'
             className='form-field'
             variant='filled'
             {...register('firstname')}
@@ -80,6 +81,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
           <TextField
             label='Lastname'
             fullWidth
+            size='small'
             className='form-field'
             variant='filled'
             {...register('lastname')}
@@ -89,6 +91,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
           <TextField
             label='Username'
             fullWidth
+            size='small'
             className='form-field'
             variant='filled'
             {...register('username')}
@@ -98,6 +101,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
           <TextField
             label='Location'
             fullWidth
+            size='small'
             className='form-field'
             variant='filled'
             {...register('location')}
@@ -108,6 +112,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
             label='Bio'
             fullWidth
             multiline
+            size='small'
             rows={4}
             className='form-field'
             variant='filled'
