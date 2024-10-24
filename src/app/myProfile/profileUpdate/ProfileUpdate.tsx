@@ -21,11 +21,20 @@ interface ProfileUpdateProps {
 }
 
 const validationSchema = Yup.object().shape({
-  firstname: Yup.string().required('Firstname is required').min(3, 'Firstname must be at least 3 characters'),
-  lastname: Yup.string().required('Lastname is required').min(3, 'Lastname must be at least 3 characters'),
-  username: Yup.string().required('Username is required'),
-  location: Yup.string().required('Location is required'),
-  bio: Yup.string(),
+  firstname: Yup.string()
+    .required('Firstname is required')
+    .min(3, 'Firstname must be at least 3 characters')
+    .max(20, 'Firstname must be at most 20 characters'),
+  lastname: Yup.string()
+    .required('Lastname is required')
+    .min(3, 'Lastname must be at least 3 characters')
+    .max(20, 'Lastname must be at most 20 characters'),
+  username: Yup.string()
+    .required('Username is required')
+    .min(3, 'Username must be at least 3 characters')
+    .max(32, 'Username must be at most 32 characters'),
+  location: Yup.string().required('Location is required').max(32, 'Location must be at most 32 characters'),
+  bio: Yup.string().max(340, 'Bio must be at most 340 characters'),
 });
 
 const ProfileUpdate = (props: ProfileUpdateProps) => {
