@@ -8,33 +8,33 @@ import AuthenticationPage from '@/app/layout/authenticationPage/AuthenticationPa
 import useAuth from '@/app/common/hooks/useAuth';
 
 const Layout = () => {
-	const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth();
 
-	return (
-		<>
-			{!isLoggedIn ? (
-				<AuthenticationPage />
-			) : (
-				<div className='layout'>
-					<div className='layout_logo'>
-						<Logo />
-					</div>
-					<div className='layout_navigation'>
-						<Navigation />
-					</div>
-					<div className='layout_topSection'>
-						<TopSection />
-					</div>
-					<div className='layout_outlet'>
-						<Outlet />
-					</div>
-					<div className='layout_footer'>
-						<Footer />
-					</div>
-				</div>
-			)}
-		</>
-	);
+  return (
+    <>
+      {!isLoggedIn ? (
+        <AuthenticationPage />
+      ) : (
+        <div className='layout'>
+          <div className='layout_logo'>
+            <Logo />
+          </div>
+          <div className='layout_navigation'>
+            <Navigation />
+          </div>
+          <div className='layout_topSection'>
+            <TopSection />
+          </div>
+          <div className='layout_outlet'>
+            <Outlet />
+          </div>
+          <div className='layout_footer'>
+            <Footer />
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Layout;

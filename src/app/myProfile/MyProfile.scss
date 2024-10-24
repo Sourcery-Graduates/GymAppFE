@@ -1,0 +1,153 @@
+@import "../../styles/base/variables";
+
+.my_profile {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        height: calc(100vh - 64px);
+    }
+
+    @media (max-width: 500px) {
+        justify-content: center;
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 1.5rem;
+    max-width: 1000px;
+    height: min(1000, 65vh);
+    position: relative;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        justify-content: center;
+        align-self: center;
+        padding: 0.3rem;
+        min-width: auto;
+        height: 75vh;
+        overflow: hidden;
+    }
+
+    @media (max-width: 500px) {
+        min-width: unset;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0.6rem;
+        height: 84vh;
+        max-width: unset;
+        width: 94vw;
+    }
+
+    .avatar-image {
+        min-width: min(300px, 50vh, 35vw);
+        min-height: min(300px, 50vh, 35vw);
+        margin-bottom: 25px;
+
+        @media (max-width: 1050px) {
+            min-width: min(37vh, 27vw );
+            min-height: min(37vh, 27vw );
+        }
+
+        @media (max-width: 768px) {
+            min-width: 200px;
+            min-height: 200px;
+            align-self: center;
+        }
+
+        @media (max-width: 500px) {
+            margin-bottom: 6vh;
+        }
+    }
+    
+    .profile-data-container {
+        margin-left: min(60px, 5vw);
+        width: 40vw;
+
+        @media (max-width: 768px) {
+            margin-left: unset;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            width: calc(100% - 15px);
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .fullname-text {
+            margin: 0;
+            font-size: 2rem;
+    
+            @media (max-width: 768px) {
+                font-size: 1.3rem;
+                margin-bottom: 1vh;
+            }
+        }
+        
+        .username-text {
+         opacity: 0.6;
+         margin: 0; 
+         font-size: 1rem;
+    
+            @media (max-width: 768px) {
+                font-size: 1rem;
+                margin-bottom: 1vh;
+            }
+        }
+    
+        .location-field {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+    
+            @media (max-width: 768px) {
+                font-size: 1rem;
+                margin-bottom: 1vh;
+            }
+        }
+    
+        .bio-field {
+            margin-top: 1rem;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .form-field {
+            margin-bottom: 0.5rem;
+            width: 100%;
+
+            @media (max-width: 768px) {
+                width: 62vw;
+            }
+
+            @media (max-width: 500px) {
+                width: 80vw;
+            }
+        }
+    
+        .form-control {
+            margin-top: 20%;
+    
+            @media (max-width: 768px) {
+                margin-top: 10%;
+            }
+
+            @media (max-width: 500px) {
+                margin-top: 5%;
+            }
+        }
+    }
+}
+

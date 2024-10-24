@@ -6,6 +6,7 @@ import Options from '@/app/options/Options';
 import Routines from '@/app/routines/Routines';
 import { AppRoutes } from '@/types/routes';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import MyProfile from '@/app/myProfile/MyProfile';
 
 import RoutineDetails from './routines/routineDetails/RoutineDetails';
 
@@ -21,6 +22,7 @@ function App() {
           <Route path={AppRoutes.ROUTINE_DETAILS} element={<RoutineDetails />} />
           <Route path={AppRoutes.MY_TRAINING} element={<MyTraining />} />
           <Route path={AppRoutes.OPTIONS} element={<Options />} />
+          <Route path={AppRoutes.MY_PROFILE} element={<MyProfile />} />
           <Route path='*' element={<ErrorPage />} />
         </Route>
       </Routes>
