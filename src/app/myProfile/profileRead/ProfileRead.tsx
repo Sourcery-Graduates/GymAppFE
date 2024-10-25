@@ -2,7 +2,7 @@ import '../MyProfile.scss';
 import { Avatar, Button } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Profile } from '../profileUpdate/ProfileUpdate';
+import { Profile } from '@/types/entities/UserProfile';
 
 interface ProfileReadProps {
   editAction: () => void;
@@ -12,11 +12,7 @@ interface ProfileReadProps {
 const ProfileRead = (props: ProfileReadProps) => {
   return (
     <div className='container'>
-      <Avatar
-        src='https://www.fit.pl/img/2007/02/_max/arnie.jpg'
-        className='avatar-image'
-        sx={{ bgcolor: deepPurple[500] }}
-      >
+      <Avatar src={props.profile.avatarUrl} className='avatar-image' sx={{ bgcolor: deepPurple[500] }}>
         OP
       </Avatar>
 

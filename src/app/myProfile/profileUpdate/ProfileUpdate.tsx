@@ -1,41 +1,16 @@
-import { GymTheme } from '@/MUITheme/GymTheme';
 import '../MyProfile.scss';
-import { Avatar, Button, TextField, ThemeProvider } from '@mui/material';
+import { Avatar, Button, TextField } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import { useForm } from 'react-hook-form';
-import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-export interface Profile {
-  firstname: string;
-  lastname: string;
-  username: string;
-  bio: string;
-  location: string;
-}
+import { validationSchema } from './validationSchema';
+import { Profile } from '@/types/entities/UserProfile';
 
 interface ProfileUpdateProps {
   cancelAction: () => void;
   saveAction: (profile: Profile) => void;
   profile: Profile;
 }
-
-const validationSchema = Yup.object().shape({
-  firstname: Yup.string()
-    .required('Firstname is required')
-    .min(3, 'Firstname must be at least 3 characters')
-    .max(64, 'Firstname must be at most 64 characters'),
-  lastname: Yup.string()
-    .required('Lastname is required')
-    .min(3, 'Lastname must be at least 3 characters')
-    .max(64, 'Lastname must be at most 64 characters'),
-  username: Yup.string()
-    .required('Username is required')
-    .min(3, 'Username must be at least 3 characters')
-    .max(32, 'Username must be at most 32 characters'),
-  location: Yup.string().required('Location is required').max(128, 'Location must be at most 128 characters'),
-  bio: Yup.string().max(340, 'Bio must be at most 340 characters'),
-});
 
 const ProfileUpdate = (props: ProfileUpdateProps) => {
   const {
@@ -58,80 +33,74 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
   };
 
   return (
-    <ThemeProvider theme={GymTheme}>
-      <form className='container' onSubmit={handleSubmit(onSubmit)}>
-        <Avatar
-          src='https://www.fit.pl/img/2007/02/_max/arnie.jpg'
-          className='avatar-image'
-          sx={{ bgcolor: deepPurple[500] }}
-        >
-          OP
-        </Avatar>
-        <div className='profile-data-container'>
-          <TextField
-            label='Firstname'
-            fullWidth
-            size='small'
-            className='form-field'
-            variant='filled'
-            {...register('firstname')}
-            error={!!errors.firstname}
-            helperText={errors.firstname?.message}
-          />
-          <TextField
-            label='Lastname'
-            fullWidth
-            size='small'
-            className='form-field'
-            variant='filled'
-            {...register('lastname')}
-            error={!!errors.lastname}
-            helperText={errors.lastname?.message}
-          />
-          <TextField
-            label='Username'
-            fullWidth
-            size='small'
-            className='form-field'
-            variant='filled'
-            {...register('username')}
-            error={!!errors.username}
-            helperText={errors.username?.message}
-          />
-          <TextField
-            label='Location'
-            fullWidth
-            size='small'
-            className='form-field'
-            variant='filled'
-            {...register('location')}
-            error={!!errors.location}
-            helperText={errors.location?.message}
-          />
-          <TextField
-            label='Bio'
-            fullWidth
-            multiline
-            size='small'
-            rows={4}
-            className='form-field'
-            variant='filled'
-            {...register('bio')}
-            error={!!errors.bio}
-            helperText={errors.bio?.message}
-          />
+    <form className='container' onSubmit={handleSubmit(onSubmit)}>
+      <Avatar src={props.profile.avatarUrl} className='avatar-image' sx={{ bgcolor: deepPurple[500] }}>
+        OP
+      </Avatar>
+      <div className='profile-data-container'>
+        <TextField
+          label='Firstname'
+          fullWidth
+          size='small'
+          className='form-field'
+          variant='filled'
+          {...register('firstname')}
+          error={!!errors.firstname}
+          helperText={errors.firstname?.message}
+        />
+        <TextField
+          label='Lastname'
+          fullWidth
+          size='small'
+          className='form-field'
+          variant='filled'
+          {...register('lastname')}
+          error={!!errors.lastname}
+          helperText={errors.lastname?.message}
+        />
+        <TextField
+          label='Username'
+          fullWidth
+          size='small'
+          className='form-field'
+          variant='filled'
+          {...register('username')}
+          error={!!errors.username}
+          helperText={errors.username?.message}
+        />
+        <TextField
+          label='Location'
+          fullWidth
+          size='small'
+          className='form-field'
+          variant='filled'
+          {...register('location')}
+          error={!!errors.location}
+          helperText={errors.location?.message}
+        />
+        <TextField
+          label='Bio'
+          fullWidth
+          multiline
+          size='small'
+          rows={4}
+          className='form-field'
+          variant='filled'
+          {...register('bio')}
+          error={!!errors.bio}
+          helperText={errors.bio?.message}
+        />
 
-          <div className='form-control'>
-            <Button variant='outlined' color='info' type='submit'>
-              Save
-            </Button>
-            <Button variant='outlined' color='error' onClick={onCancel}>
-              Cancel
-            </Button>
-          </div>
+        <div className='form-control'>
+          <Button variant='outlined' color='info' type='submit'>
+            Save
+          </Button>
+          <Button variant='outlined' color='error' onClick={onCancel}>
+            Cancel
+          </Button>
         </div>
-      </form>
-    </ThemeProvider>
+      </div>
+    </form>
   );
 };
 
