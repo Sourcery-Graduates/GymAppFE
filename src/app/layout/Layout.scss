@@ -40,7 +40,7 @@
 		grid-row-end: 2;
 		max-height: calc(100vh - 64px);
 		max-height: calc(100dvh - 64px);
-		overflow: scroll;
+		overflow: auto;
 	}
 	&_footer {
 		display: flex;
