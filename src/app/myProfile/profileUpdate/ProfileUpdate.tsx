@@ -1,6 +1,6 @@
 import { GymTheme } from '@/MUITheme/GymTheme';
 import '../MyProfile.scss';
-import { Avatar, Stack, Button, TextField, ThemeProvider } from '@mui/material';
+import { Avatar, Button, TextField, ThemeProvider } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -67,7 +67,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
         >
           OP
         </Avatar>
-        <Stack className='profile-data-container' margin={1}>
+        <div className='profile-data-container'>
           <TextField
             label='Firstname'
             fullWidth
@@ -121,15 +121,15 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
             helperText={errors.bio?.message}
           />
 
-          <Stack spacing={2} direction='row' margin={1}>
+          <div className='form-control'>
             <Button variant='outlined' color='info' type='submit'>
               Save
             </Button>
             <Button variant='outlined' color='error' onClick={onCancel}>
               Cancel
             </Button>
-          </Stack>
-        </Stack>
+          </div>
+        </div>
       </form>
     </ThemeProvider>
   );
