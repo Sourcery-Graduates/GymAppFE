@@ -1,10 +1,11 @@
 @import '../../../styles/base/variables';
 
-.routine-details-container {
+.routine-form-container {
   width: 100%;
 }
 
 .routine-options-bar {
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -22,7 +23,9 @@
   }
 }
 
-.delete-routine-button {
-  color: $red-delete;
-  border-color: $red-delete;
+.routine-form {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }

@@ -2,7 +2,16 @@ import React, { ReactNode } from 'react';
 
 import './Button.scss';
 
-const Button: React.FC<Props> = ({ children, className, type, onClick, isDisabled = false, style, size = 'big' }) => {
+const Button: React.FC<Props> = ({
+  children,
+  className,
+  type,
+  onClick,
+  isDisabled = false,
+  style,
+  size = 'big',
+  form,
+}) => {
   return (
     <button
       className={`basic-button ${className ? `${className}` : ''} ${size}`}
@@ -10,6 +19,7 @@ const Button: React.FC<Props> = ({ children, className, type, onClick, isDisable
       onClick={onClick}
       disabled={isDisabled}
       style={style}
+      form={form}
     >
       <span>{children}</span>
     </button>
@@ -24,6 +34,7 @@ type Props = {
   isDisabled?: boolean;
   style?: React.CSSProperties;
   size?: 'big' | 'small';
+  form?: string;
 };
 
 export default Button;
