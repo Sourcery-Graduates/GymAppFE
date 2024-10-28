@@ -16,7 +16,7 @@ const ProfileRead = (props: ProfileReadProps) => {
 
       <div className='profile-data-container'>
         <h3 className='fullname-text'>
-          {props.profile.firstname} {props.profile.lastname}
+          {props.profile.firstName} {props.profile.lastName}
         </h3>
         <h4 className='username-text'>{props.profile.username}</h4>
 

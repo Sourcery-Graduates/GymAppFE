@@ -1,6 +1,6 @@
 export const emptyUserProfile = {
-  firstname: '-',
-  lastname: '-',
+  firstName: '-',
+  lastName: '-',
   username: '-',
   location: '-',
   bio: '',

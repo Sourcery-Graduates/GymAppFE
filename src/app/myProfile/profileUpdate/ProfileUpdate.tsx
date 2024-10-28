@@ -42,9 +42,9 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
           size='small'
           className='form-field'
           variant='filled'
-          {...register('firstname')}
-          error={!!errors.firstname}
-          helperText={errors.firstname?.message}
+          {...register('firstName')}
+          error={!!errors.firstName}
+          helperText={errors.firstName?.message}
         />
         <TextField
           label='Lastname'
@@ -52,9 +52,9 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
           size='small'
           className='form-field'
           variant='filled'
-          {...register('lastname')}
-          error={!!errors.lastname}
-          helperText={errors.lastname?.message}
+          {...register('lastName')}
+          error={!!errors.lastName}
+          helperText={errors.lastName?.message}
         />
         <TextField
           label='Username'

@@ -4,8 +4,8 @@ import ProfileRead from './profileRead/ProfileRead';
 import ProfileUpdate from './profileUpdate/ProfileUpdate';
 import { Profile } from '@/types/entities/UserProfile';
 // import { emptyUserProfile } from './EmptyUserProfile';
-import { useQuery } from '@tanstack/react-query';
-import { getMyUserProfile } from '@/api/userProfileApi';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getMyUserProfile, updateMyUserProfile } from '@/api/userProfileApi';
 import { emptyUserProfile } from './EmptyUserProfile';
 
 const MyProfile = () => {
@@ -22,12 +22,17 @@ const MyProfile = () => {
     retry: false,
   });
 
+  const { mutateAsync: sendUpdatedProfile } = useMutation({
+    mutationKey: ['userProfile'],
+    mutationFn: updateMyUserProfile,
+  });
+
   const toggleIsEditing = () => {
     setIsEditing(!isEditing);
   };
 
   const handleSaveProfile = (updatedProfile: Profile) => {
-    console.log(updatedProfile);
+    sendUpdatedProfile(updatedProfile);
     setIsEditing(false);
   };
 
