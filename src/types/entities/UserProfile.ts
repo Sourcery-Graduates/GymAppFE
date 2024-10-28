@@ -6,3 +6,7 @@ export interface Profile {
   avatarUrl: string;
   location: string;
 }
+
+export interface ProfileWithSettings extends Profile {
+  settings: unknown;
+}

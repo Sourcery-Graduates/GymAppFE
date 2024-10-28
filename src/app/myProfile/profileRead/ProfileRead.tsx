@@ -12,9 +12,7 @@ interface ProfileReadProps {
 const ProfileRead = (props: ProfileReadProps) => {
   return (
     <div className='container'>
-      <Avatar src={props.profile.avatarUrl} className='avatar-image' sx={{ bgcolor: deepPurple[500] }}>
-        OP
-      </Avatar>
+      <Avatar src={props.profile.avatarUrl} className='avatar-image' sx={{ bgcolor: deepPurple[500] }}></Avatar>
 
       <div className='profile-data-container'>
         <h3 className='fullname-text'>

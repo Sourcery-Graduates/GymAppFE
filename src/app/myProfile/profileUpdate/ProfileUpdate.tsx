@@ -34,9 +34,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
 
   return (
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
-      <Avatar src={props.profile.avatarUrl} className='avatar-image' sx={{ bgcolor: deepPurple[500] }}>
-        OP
-      </Avatar>
+      <Avatar src={props.profile.avatarUrl} className='avatar-image' sx={{ bgcolor: deepPurple[500] }}></Avatar>
       <div className='profile-data-container'>
         <TextField
           label='Firstname'
