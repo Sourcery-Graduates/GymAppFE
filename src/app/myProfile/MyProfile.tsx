@@ -3,14 +3,14 @@ import './MyProfile.scss';
 import ProfileRead from './profileRead/ProfileRead';
 import ProfileUpdate from './profileUpdate/ProfileUpdate';
 import { Profile } from '@/types/entities/UserProfile';
-// import { emptyUserProfile } from './EmptyUserProfile';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getMyUserProfile, updateMyUserProfile } from '@/api/userProfileApi';
 import { emptyUserProfile } from './EmptyUserProfile';
+import BasicSpinner from '../components/loaders/BasicSpinner';
 
 const MyProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  // const [profile, setProfile] = useState<Profile>(emptyUserProfile);
+  const queryClient = useQueryClient();
 
   const {
     data: profile,
@@ -25,6 +25,7 @@ const MyProfile = () => {
   const { mutateAsync: sendUpdatedProfile } = useMutation({
     mutationKey: ['userProfile'],
     mutationFn: updateMyUserProfile,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['userProfile'], exact: true }),
   });
 
   const toggleIsEditing = () => {
@@ -36,19 +37,20 @@ const MyProfile = () => {
     setIsEditing(false);
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  // if (error) return <div>Error loading profile</div>;
-
   return (
     <div className='my_profile'>
-      {isEditing ? (
+      {isLoading ? (
+        <div className='spinner-container'>
+          <BasicSpinner />
+        </div>
+      ) : isEditing ? (
         <ProfileUpdate
           cancelAction={toggleIsEditing}
           profile={profile || emptyUserProfile}
           saveAction={handleSaveProfile}
         />
       ) : (
-        <ProfileRead editAction={toggleIsEditing} profile={profile || emptyUserProfile} />
+        <ProfileRead errorLoading={!!error} editAction={toggleIsEditing} profile={profile || emptyUserProfile} />
       )}
     </div>
   );

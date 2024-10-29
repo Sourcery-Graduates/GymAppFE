@@ -1,15 +1,32 @@
 import '../MyProfile.scss';
-import { Avatar, Button } from '@mui/material';
+import { Alert, Avatar, Button, Snackbar } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Profile } from '@/types/entities/UserProfile';
+import { useEffect, useState } from 'react';
 
 interface ProfileReadProps {
   editAction: () => void;
   profile: Profile;
+  errorLoading: boolean;
 }
 
 const ProfileRead = (props: ProfileReadProps) => {
+  const [snackbarOpen, setSnackbarOpen] = useState(props.errorLoading);
+
+  useEffect(() => {
+    if (props.errorLoading) {
+      setSnackbarOpen(true);
+    }
+  }, [props.errorLoading]);
+
+  const handleClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
   return (
     <div className='container'>
       <Avatar src={props.profile.avatarUrl} className='avatar-image' sx={{ bgcolor: deepPurple[500] }}></Avatar>
@@ -38,6 +55,16 @@ const ProfileRead = (props: ProfileReadProps) => {
           </Button>
         </div>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
+          Error loading profile data. Please try again later.
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
