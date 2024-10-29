@@ -1,4 +1,4 @@
-import { Routine } from '../../types/entities/Routine';
+import { Routine } from '../types/entities/Routine';
 
 // Mocked data below:
 let routines: Routine[] = [

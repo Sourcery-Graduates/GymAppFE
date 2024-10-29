@@ -2,7 +2,7 @@ import BasicSpinner from '@/app/components/loaders/BasicSpinner';
 import { useQuery } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
-import { fetchRoutines } from '../../api/routineApi';
+import { fetchRoutines } from '../../../api/routineApi';
 import RoutineCard from '../routineCard/RoutineCard';
 
 import './MyRoutines.scss';

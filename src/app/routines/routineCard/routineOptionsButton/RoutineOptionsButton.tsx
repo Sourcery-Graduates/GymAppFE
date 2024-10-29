@@ -1,15 +1,15 @@
-import { deleteRoutine } from '@/app/api/routineApi';
+import { deleteRoutine } from '@/api/routineApi';
 import ConfirmationDialog from '@/app/components/dialogs/ConfirmationDialog';
 import { AppRoutes } from '@/types/routes';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import './RoutineOptionsButton.scss';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const RoutineOptionsButton: React.FC<Props> = ({ routineId }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -23,6 +23,9 @@ const RoutineOptionsButton: React.FC<Props> = ({ routineId }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['routines'] });
     },
+    onError: () => {
+      alert('Failed to delete data');
+    },
   });
 
   const handleClose = () => {
@@ -30,11 +33,7 @@ const RoutineOptionsButton: React.FC<Props> = ({ routineId }) => {
   };
 
   const handleConfirm = async () => {
-    try {
-      await deleteRoutineMutation(routineId);
-    } catch (e) {
-      console.log(e);
-    }
+    await deleteRoutineMutation(routineId);
     setOpenConfirmationDialog(false);
   };
 

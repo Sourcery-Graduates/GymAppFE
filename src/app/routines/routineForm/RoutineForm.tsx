@@ -1,4 +1,4 @@
-import { createRoutine, updateRoutine } from '@/app/api/routineApi';
+import { createRoutine, updateRoutine } from '@/api/routineApi';
 import Button from '@/app/components/buttons/Button/Button';
 import { Routine } from '@/types/entities/Routine';
 import { AppRoutes } from '@/types/routes';
@@ -41,6 +41,9 @@ const RoutineForm: React.FC<Props> = ({ routine }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['routines'], exact: true });
       navigate(AppRoutes.ROUTINES);
+    },
+    onError: () => {
+      alert('Failed to save data');
     },
   });
 

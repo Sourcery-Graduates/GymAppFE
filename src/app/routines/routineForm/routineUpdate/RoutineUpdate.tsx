@@ -1,9 +1,10 @@
-import { fetchRoutineDetails } from '@/app/api/routineApi';
+import { fetchRoutineDetails } from '@/api/routineApi';
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 import RoutineForm from '../RoutineForm';
+
 import './RoutineUpdate.scss';
 
 const RoutineUpdate = () => {

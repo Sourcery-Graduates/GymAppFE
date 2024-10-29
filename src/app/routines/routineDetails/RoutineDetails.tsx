@@ -1,4 +1,4 @@
-import { deleteRoutine, fetchRoutineDetails } from '@/app/api/routineApi';
+import { deleteRoutine, fetchRoutineDetails } from '@/api/routineApi';
 import Button from '@/app/components/buttons/Button/Button';
 import ConfirmationDialog from '@/app/components/dialogs/ConfirmationDialog';
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
@@ -56,6 +56,9 @@ const RoutineDetails = () => {
     mutationFn: deleteRoutine,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['routines'], exact: true });
+    },
+    onError: () => {
+      alert('Failed to delete data');
     },
   });
 
