@@ -1,7 +1,9 @@
 import { createTheme } from '@mui/material';
-import variables from '../styles/base/export.module.scss';
 
-const { textColor, primaryColor, secondaryColor, accentColor, fontFamilyPrimary } = variables;
+import variables from '../styles/base/export.module.scss';
+import { grey } from '@mui/material/colors';
+
+const { textColor, primaryColor, secondaryColor, accentColor, fontFamilyPrimary, redDelete } = variables;
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -19,7 +21,6 @@ declare module '@mui/material/styles' {
 
 const GymTheme = createTheme({
   palette: {
-    mode: 'dark',
     text: {
       primary: textColor,
     },
@@ -32,9 +33,53 @@ const GymTheme = createTheme({
     accent: {
       main: accentColor,
     },
+    error: {
+      main: redDelete,
+    },
   },
   typography: {
     fontFamily: fontFamilyPrimary,
+  },
+  components: {
+    MuiFilledInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: grey[900], // Set background color for input fields in dark mode
+
+          '&:hover': {
+            backgroundColor: '#272727', // Background on hover
+          },
+
+          '&.Mui-focused': {
+            backgroundColor: '#252525', // Background when focused
+          },
+        },
+
+        input: {
+          color: textColor, // Text color inside input
+        },
+      },
+    },
+
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: grey[500], // Label color in dark mode
+
+          '&.Mui-focused': {
+            color: grey[400], // Label color when focused
+          },
+        },
+      },
+    },
+
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          color: grey[500], // Helper text color in dark mode
+        },
+      },
+    },
   },
 });
 
