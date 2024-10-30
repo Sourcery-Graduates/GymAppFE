@@ -9,12 +9,19 @@ import MyRoutines from './myRoutines/MyRoutines';
 import PublicRoutines from './publicRoutines/PublicRoutines';
 
 import './Routines.scss';
+import { useNavigate } from 'react-router-dom';
+import { AppRoutes } from '@/types/routes';
 
 const Routines = () => {
   const [tabValue, setTabValue] = React.useState('my-routines');
+  const navigate = useNavigate();
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
+  };
+
+  const handleOnClick = () => {
+    navigate(AppRoutes.ROUTINE_CREATE);
   };
 
   return (
@@ -27,7 +34,7 @@ const Routines = () => {
           <input className='search-field' type='search' placeholder='Search routines...' onChange={() => {}} />
         </form>
         <div className='routine-options'>
-          <Button className='new-routine-btn'>
+          <Button className='new-routine-btn' onClick={handleOnClick}>
             <AddIcon />
             &nbsp;NEW ROUTINE
           </Button>

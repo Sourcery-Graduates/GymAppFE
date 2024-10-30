@@ -1,7 +1,7 @@
-import { Routine } from '../../types/entities/Routine';
+import { Routine } from '../types/entities/Routine';
 
 // Mocked data below:
-const routines = [
+let routines: Routine[] = [
   {
     id: '1',
     name: 'Arni/Push it as hard as you can to the limit',
@@ -55,4 +55,53 @@ export const fetchRoutines = async (query = ''): Promise<Routine[]> => {
   // throw new Error();
 
   return filteredRoutines;
+};
+
+export const fetchRoutineDetails = async (routineId: string): Promise<Routine> => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  const routineDetails: Routine | undefined = routines.find((routine) =>
+    routine.id === routineId
+  );
+
+  if (routineDetails === undefined) {
+    throw new Error();
+  }
+
+  return routineDetails;
+};
+
+export const createRoutine = async (data: {name: string, description?: string}): Promise<Routine> => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  const newRoutine: Routine = {
+    id: (Math.random()*1000).toString(),
+    name: data.name,
+    description: data.description,
+    likes: Math.floor(Math.random()*100000),
+    userLikes: false
+  };
+  routines.push(newRoutine);
+
+  return newRoutine;
+};
+
+export const updateRoutine = async (newRoutine: Routine): Promise<Routine> => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  routines = routines.map((routine) =>
+    routine.id === newRoutine.id ? newRoutine : routine
+  );
+
+  return newRoutine;
+};
+
+export const deleteRoutine = async (routineId: string): Promise<string> => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  routines = routines.filter((routine) =>
+    routine.id !== routineId
+  );
+
+  return routineId;
 };

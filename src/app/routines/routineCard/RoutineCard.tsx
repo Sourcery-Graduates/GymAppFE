@@ -31,7 +31,7 @@ const RoutineCard: React.FC<Props> = (props) => {
         <p>{props.description}</p>
       </div>
       <div className='routine-list-item_options'>
-        <RoutineOptionsButton />
+        <RoutineOptionsButton routineId={props.id} />
       </div>
       <div className='likes-container'>
         <div className='likes-number'>

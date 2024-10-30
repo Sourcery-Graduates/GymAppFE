@@ -9,6 +9,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MyProfile from '@/app/myProfile/MyProfile';
 
 import RoutineDetails from './routines/routineDetails/RoutineDetails';
+import RoutineCreate from './routines/routineForm/routineCreate/RoutineCreate';
+import RoutineUpdate from './routines/routineForm/routineUpdate/RoutineUpdate';
 
 import '@/App.scss';
 
@@ -20,6 +22,8 @@ function App() {
           <Route path={AppRoutes.HOME} element={<Home />} />
           <Route path={AppRoutes.ROUTINES} element={<Routines />} />
           <Route path={AppRoutes.ROUTINE_DETAILS} element={<RoutineDetails />} />
+          <Route path={AppRoutes.ROUTINE_UPDATE} element={<RoutineUpdate />} />
+          <Route path={AppRoutes.ROUTINE_CREATE} element={<RoutineCreate />} />
           <Route path={AppRoutes.MY_TRAINING} element={<MyTraining />} />
           <Route path={AppRoutes.OPTIONS} element={<Options />} />
           <Route path={AppRoutes.MY_PROFILE} element={<MyProfile />} />
