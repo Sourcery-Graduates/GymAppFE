@@ -1,11 +1,11 @@
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  firstname: Yup.string()
+  firstName: Yup.string()
     .required('Firstname is required')
     .min(3, 'Firstname must be at least 3 characters')
     .max(64, 'Firstname must be at most 64 characters'),
-  lastname: Yup.string()
+  lastName: Yup.string()
     .required('Lastname is required')
     .min(3, 'Lastname must be at least 3 characters')
     .max(64, 'Lastname must be at most 64 characters'),
