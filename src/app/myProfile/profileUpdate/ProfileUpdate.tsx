@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './validationSchema';
 import { Profile } from '@/types/entities/UserProfile';
+import AppAlert from '@/app/components/alerts/AppAlert';
+import { useState } from 'react';
 
 interface ProfileUpdateProps {
   cancelAction: () => void;
@@ -13,6 +15,12 @@ interface ProfileUpdateProps {
 }
 
 const ProfileUpdate = (props: ProfileUpdateProps) => {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const handleClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') return;
+    setSnackbarOpen(false); // Close Snackbar
+  };
+
   const {
     register,
     handleSubmit,
@@ -23,8 +31,12 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (data: Profile) => {
-    props.saveAction(data);
+  const onSubmit = async (data: Profile) => {
+    try {
+      await props.saveAction(data); // Await mutation
+    } catch (error) {
+      if (error) setSnackbarOpen(true);
+    }
   };
 
   const onCancel = () => {
@@ -98,6 +110,12 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
           </Button>
         </div>
       </div>
+      <AppAlert
+        open={snackbarOpen}
+        onClose={handleClose}
+        text='Error saving profile data. Please try again later.'
+        severity='error'
+      />
     </form>
   );
 };

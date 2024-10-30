@@ -19,7 +19,6 @@ export const updateMyUserProfile: (payload: Profile) => Promise<Profile> = async
       claim: 'true',
     },
   };
-  console.log(body);
   const response = await api.put(userProfileApiUrl, body);
 
   const userProfile: ProfileWithSettings = response.data;

@@ -1,9 +1,11 @@
 import '../MyProfile.scss';
-import { Alert, Avatar, Button, Snackbar } from '@mui/material';
+import { Avatar, Button } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Profile } from '@/types/entities/UserProfile';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import AppAlert from '@/app/components/alerts/AppAlert';
+import useAuth from '@/app/common/hooks/useAuth';
 
 interface ProfileReadProps {
   editAction: () => void;
@@ -12,14 +14,9 @@ interface ProfileReadProps {
 }
 
 const ProfileRead = (props: ProfileReadProps) => {
+  const { logOutUser } = useAuth();
+
   const [snackbarOpen, setSnackbarOpen] = useState(props.errorLoading);
-
-  useEffect(() => {
-    if (props.errorLoading) {
-      setSnackbarOpen(true);
-    }
-  }, [props.errorLoading]);
-
   const handleClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
@@ -47,7 +44,7 @@ const ProfileRead = (props: ProfileReadProps) => {
         </div>
 
         <div className='form-control'>
-          <Button variant='outlined' color='error'>
+          <Button variant='outlined' color='error' onClick={logOutUser}>
             Logout
           </Button>
           <Button variant='outlined' color='warning' onClick={props.editAction}>
@@ -55,16 +52,12 @@ const ProfileRead = (props: ProfileReadProps) => {
           </Button>
         </div>
       </div>
-      <Snackbar
+      <AppAlert
         open={snackbarOpen}
-        autoHideDuration={3000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
-          Error loading profile data. Please try again later.
-        </Alert>
-      </Snackbar>
+        text='Error loading profile data. Please try again later.'
+        severity='error'
+      />
     </div>
   );
 };

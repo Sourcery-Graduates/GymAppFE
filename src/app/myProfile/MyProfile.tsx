@@ -14,7 +14,7 @@ const MyProfile = () => {
 
   const {
     data: profile,
-    error,
+    error: errorQuery,
     isLoading,
   } = useQuery<Profile>({
     queryKey: ['userProfile'],
@@ -22,7 +22,7 @@ const MyProfile = () => {
     retry: false,
   });
 
-  const { mutateAsync: sendUpdatedProfile } = useMutation({
+  const { mutateAsync: sendUpdatedProfile, error: errorMutation } = useMutation({
     mutationKey: ['userProfile'],
     mutationFn: updateMyUserProfile,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['userProfile'], exact: true }),
@@ -32,9 +32,9 @@ const MyProfile = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleSaveProfile = (updatedProfile: Profile) => {
-    sendUpdatedProfile(updatedProfile);
-    setIsEditing(false);
+  const handleSaveProfile = async (updatedProfile: Profile) => {
+    await sendUpdatedProfile(updatedProfile);
+    if (!errorMutation) setIsEditing(false);
   };
 
   return (
@@ -50,7 +50,7 @@ const MyProfile = () => {
           saveAction={handleSaveProfile}
         />
       ) : (
-        <ProfileRead errorLoading={!!error} editAction={toggleIsEditing} profile={profile || emptyUserProfile} />
+        <ProfileRead errorLoading={!!errorQuery} editAction={toggleIsEditing} profile={profile || emptyUserProfile} />
       )}
     </div>
   );
