@@ -1,0 +1,14 @@
+.authentication_background {
+  height: 100dvh;
+  width: 100%;
+  background-color: grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.authentication_container {
+  opacity: 1;
+  background-color: black;
+  width: 400px;
+  height: 600px;
+}
