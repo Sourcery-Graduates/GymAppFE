@@ -1,6 +1,6 @@
 import './ExerciseModal.scss';
 import { fetchExerciseByName } from '@/api/exerciseApi';
-import { CreateRoutineExercise, ExerciseDetails } from '@/types/entities/Exercise';
+import { CreateRoutineExercise } from '@/types/entities/Exercise';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Autocomplete,
@@ -12,9 +12,9 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
 import { validationSchema } from './validationSchema';
 import { Controller, useForm } from 'react-hook-form';
+import { useQuery } from '@tanstack/react-query';
 
 interface ExerciseModalProps {
   open: boolean;
@@ -22,7 +22,6 @@ interface ExerciseModalProps {
 }
 
 const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
-  const [exerciseOptions, setExerciseOptions] = useState<ExerciseDetails[]>([]);
   const {
     register,
     control,
@@ -47,18 +46,10 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
     handleClose();
   };
 
-  useEffect(() => {
-    // Fetch mock data on component mount
-    const fetchData = async () => {
-      try {
-        const data = await fetchExerciseByName();
-        setExerciseOptions(data);
-      } catch (error) {
-        console.error('Failed to fetch exercises:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  const { data: exerciseOptions } = useQuery({
+    queryFn: async () => fetchExerciseByName(),
+    queryKey: ['exerciseOptions'],
+  });
 
   return (
     <Dialog
@@ -94,7 +85,7 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
                   <Autocomplete
                     disablePortal
                     fullWidth
-                    options={exerciseOptions}
+                    options={exerciseOptions || []}
                     getOptionLabel={(option) => option.name}
                     isOptionEqualToValue={(option, value) => option.id === value.id}
                     onChange={(_, newValue) => {
