@@ -68,73 +68,71 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTitle>Add exercise</DialogTitle>
         <DialogContent>
-          <DialogContent>
-            <div className='form-row'>
-              <Controller
-                name='exerciseId'
-                control={control}
-                render={({ field }) => (
-                  <Autocomplete
-                    disablePortal
-                    fullWidth
-                    options={exerciseOptions || []}
-                    getOptionLabel={(option) => option.name}
-                    isOptionEqualToValue={(option, value) => option.id === value.id}
-                    onChange={(_, newValue) => {
-                      field.onChange(newValue ? newValue.id : '');
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label='Choose exercise'
-                        error={!!errors.exerciseId}
-                        helperText={errors.exerciseId ? errors.exerciseId.message : ''}
-                      />
-                    )}
-                  />
-                )}
-              />
-            </div>
-            <div className='form-row'>
-              <TextField
-                label='Default sets'
-                {...register('defaultSets')}
-                error={!!errors.defaultSets}
-                helperText={errors.defaultSets ? 'Default sets must be > 0' : ''}
-              />
-              <TextField
-                label='Default reps'
-                {...register('defaultReps')}
-                error={!!errors.defaultReps}
-                helperText={errors.defaultReps ? 'Default reps must be > 0' : ''}
-              />
-            </div>
-            <div className='form-row'>
-              <TextField
-                label='Default weight'
-                {...register('defaultWeight')}
-                error={!!errors.defaultWeight}
-                helperText={errors.defaultWeight ? 'Default weight must be > 0' : ''}
-              />
-              <TextField
-                label='Default rest time'
-                {...register('defaultRestTime')}
-                error={!!errors.defaultRestTime}
-                helperText={errors.defaultRestTime?.message}
-              />
-            </div>
-            <div className='form-row'>
-              <TextField
-                fullWidth
-                multiline
-                rows={2}
-                label='Notes'
-                {...register('notes')}
-                error={!!errors.notes}
-                helperText={errors.notes?.message}
-              />
-            </div>
-          </DialogContent>
+          <div className='form-row'>
+            <Controller
+              name='exerciseId'
+              control={control}
+              render={({ field }) => (
+                <Autocomplete
+                  disablePortal
+                  fullWidth
+                  options={exerciseOptions || []}
+                  getOptionLabel={(option) => option.name}
+                  isOptionEqualToValue={(option, value) => option.id === value.id}
+                  onChange={(_, newValue) => {
+                    field.onChange(newValue ? newValue.id : '');
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label='Choose exercise'
+                      error={!!errors.exerciseId}
+                      helperText={errors.exerciseId ? errors.exerciseId.message : ''}
+                    />
+                  )}
+                />
+              )}
+            />
+          </div>
+          <div className='form-row'>
+            <TextField
+              label='Sets'
+              {...register('defaultSets')}
+              error={!!errors.defaultSets}
+              helperText={errors.defaultSets ? 'Sets must be > 0' : ''}
+            />
+            <TextField
+              label='Reps'
+              {...register('defaultReps')}
+              error={!!errors.defaultReps}
+              helperText={errors.defaultReps ? 'Reps must be > 0' : ''}
+            />
+          </div>
+          <div className='form-row'>
+            <TextField
+              label='Weight'
+              {...register('defaultWeight')}
+              error={!!errors.defaultWeight}
+              helperText={errors.defaultWeight ? 'Weight must be > 0' : ''}
+            />
+            <TextField
+              label='Rest time'
+              {...register('defaultRestTime')}
+              error={!!errors.defaultRestTime}
+              helperText={errors.defaultRestTime?.message}
+            />
+          </div>
+          <div className='form-row'>
+            <TextField
+              fullWidth
+              multiline
+              rows={2}
+              label='Notes'
+              {...register('notes')}
+              error={!!errors.notes}
+              helperText={errors.notes?.message}
+            />
+          </div>
         </DialogContent>
         <DialogActions>
           <Button variant='outlined' color='error' onClick={onClose}>
