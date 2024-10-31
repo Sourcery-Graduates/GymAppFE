@@ -32,9 +32,9 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       exerciseId: '',
-      defaultSets: 0,
-      defaultReps: 0,
-      defaultWeight: 0,
+      defaultSets: undefined,
+      defaultReps: undefined,
+      defaultWeight: undefined,
       defaultRestTime: '',
       notes: '',
     },
@@ -42,6 +42,11 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
 
   const onSubmit = (data: CreateRoutineExercise) => {
     console.log(data); // Handle form submission
+    reset();
+    handleClose();
+  };
+
+  const onClose = () => {
     reset();
     handleClose();
   };
@@ -94,7 +99,7 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label='Exercise name'
+                        label='Choose exercise'
                         error={!!errors.exerciseId}
                         helperText={errors.exerciseId ? errors.exerciseId.message : ''}
                       />
@@ -108,13 +113,13 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
                 label='Default sets'
                 {...register('defaultSets')}
                 error={!!errors.defaultSets}
-                helperText={errors.defaultSets?.message}
+                helperText={errors.defaultSets ? 'Default sets must be > 0' : ''}
               />
               <TextField
                 label='Default reps'
                 {...register('defaultReps')}
                 error={!!errors.defaultReps}
-                helperText={errors.defaultReps?.message}
+                helperText={errors.defaultReps ? 'Default reps must be > 0' : ''}
               />
             </div>
             <div className='form-row'>
@@ -122,7 +127,7 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
                 label='Default weight'
                 {...register('defaultWeight')}
                 error={!!errors.defaultWeight}
-                helperText={errors.defaultWeight?.message}
+                helperText={errors.defaultWeight ? 'Default weight must be > 0' : ''}
               />
               <TextField
                 label='Default rest time'
@@ -136,7 +141,7 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
                 fullWidth
                 multiline
                 rows={2}
-                label='Optional description'
+                label='Notes'
                 {...register('notes')}
                 error={!!errors.notes}
                 helperText={errors.notes?.message}
@@ -145,7 +150,7 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
           </DialogContent>
         </DialogContent>
         <DialogActions>
-          <Button variant='outlined' color='error' onClick={handleClose}>
+          <Button variant='outlined' color='error' onClick={onClose}>
             Cancel
           </Button>
           <Button variant='outlined' color='info' type='submit'>
