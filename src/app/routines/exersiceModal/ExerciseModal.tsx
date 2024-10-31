@@ -2,16 +2,7 @@ import './ExerciseModal.scss';
 import { fetchExerciseByName } from '@/api/exerciseApi';
 import { CreateRoutineExercise } from '@/types/entities/Exercise';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Autocomplete,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  TextField,
-} from '@mui/material';
+import { Autocomplete, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { validationSchema } from './validationSchema';
 import { Controller, useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
@@ -77,10 +68,6 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTitle>Add exercise</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To add an exercise to the routine, please enter the specified parameters below. We have an extensive
-            database of over 800 exercises, that will satisfy your needs.
-          </DialogContentText>
           <DialogContent>
             <div className='form-row'>
               <Controller
