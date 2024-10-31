@@ -2,6 +2,7 @@ import { ExerciseDetails } from '@/types/entities/Exercise';
 
 const mockExercises: Array<ExerciseDetails> = [
   {
+    id: '1',
     name: 'Latissimus Dorsi-SMR',
     force: 'static',
     level: 'beginner',
@@ -15,9 +16,9 @@ const mockExercises: Array<ExerciseDetails> = [
     ],
     category: 'stretching',
     images: ['Latissimus_Dorsi-SMR/0.jpg', 'Latissimus_Dorsi-SMR/1.jpg'],
-    id: 'Latissimus_Dorsi-SMR',
   },
   {
+    id: '2',
     name: 'Leg-Over Floor Press',
     force: 'push',
     level: 'intermediate',
@@ -32,9 +33,9 @@ const mockExercises: Array<ExerciseDetails> = [
     ],
     category: 'strength',
     images: ['Leg-Over_Floor_Press/0.jpg', 'Leg-Over_Floor_Press/1.jpg'],
-    id: 'Leg-Over_Floor_Press',
   },
   {
+    id: '3',
     name: 'Leg-Up Hamstring Stretch',
     force: 'push',
     level: 'beginner',
@@ -49,9 +50,9 @@ const mockExercises: Array<ExerciseDetails> = [
     ],
     category: 'stretching',
     images: ['Leg-Up_Hamstring_Stretch/0.jpg', 'Leg-Up_Hamstring_Stretch/1.jpg'],
-    id: 'Leg-Up_Hamstring_Stretch',
   },
   {
+    id: '4',
     name: 'Leg Extensions',
     force: 'push',
     level: 'beginner',
@@ -67,9 +68,9 @@ const mockExercises: Array<ExerciseDetails> = [
     ],
     category: 'strength',
     images: ['Leg_Extensions/0.jpg', 'Leg_Extensions/1.jpg'],
-    id: 'Leg_Extensions',
   },
   {
+    id: '5',
     name: 'Upward Stretch',
     force: 'static',
     level: 'beginner',
@@ -83,9 +84,9 @@ const mockExercises: Array<ExerciseDetails> = [
     ],
     category: 'stretching',
     images: ['Upward_Stretch/0.jpg', 'Upward_Stretch/1.jpg'],
-    id: 'Upward_Stretch',
   },
   {
+    id: '6',
     name: 'V-Bar Pulldown',
     force: 'pull',
     level: 'intermediate',
@@ -103,9 +104,9 @@ const mockExercises: Array<ExerciseDetails> = [
     ],
     category: 'strength',
     images: ['V-Bar_Pulldown/0.jpg', 'V-Bar_Pulldown/1.jpg'],
-    id: 'V-Bar_Pulldown',
   },
   {
+    id: '7',
     name: 'V-Bar Pullup',
     force: 'pull',
     level: 'beginner',
@@ -122,9 +123,9 @@ const mockExercises: Array<ExerciseDetails> = [
     ],
     category: 'strength',
     images: ['V-Bar_Pullup/0.jpg', 'V-Bar_Pullup/1.jpg'],
-    id: 'V-Bar_Pullup',
   },
   {
+    id: '8',
     name: 'Vertical Swing',
     force: 'pull',
     level: 'beginner',
@@ -140,9 +141,9 @@ const mockExercises: Array<ExerciseDetails> = [
     ],
     category: 'plyometrics',
     images: ['Vertical_Swing/0.jpg', 'Vertical_Swing/1.jpg'],
-    id: 'Vertical_Swing',
   },
   {
+    id: '9',
     name: 'Walking, Treadmill',
     force: null,
     level: 'beginner',
@@ -156,9 +157,9 @@ const mockExercises: Array<ExerciseDetails> = [
     ],
     category: 'cardio',
     images: ['Walking_Treadmill/0.jpg', 'Walking_Treadmill/1.jpg'],
-    id: 'Walking_Treadmill',
   },
   {
+    id: '10',
     name: 'Weighted Ball Hyperextension',
     force: 'pull',
     level: 'intermediate',
@@ -174,7 +175,6 @@ const mockExercises: Array<ExerciseDetails> = [
     ],
     category: 'strength',
     images: ['Weighted_Ball_Hyperextension/0.jpg', 'Weighted_Ball_Hyperextension/1.jpg'],
-    id: 'Weighted_Ball_Hyperextension',
   },
 ];
 
