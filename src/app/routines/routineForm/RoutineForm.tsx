@@ -15,10 +15,11 @@ import { InferType } from 'yup';
 import { routineValidationSchema } from './routineValidationSchema';
 
 import './RoutineForm.scss';
+import React from 'react';
 
 type FormFields = InferType<typeof routineValidationSchema>;
 
-const RoutineForm: React.FC<Props> = ({ routine }) => {
+const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -26,7 +27,11 @@ const RoutineForm: React.FC<Props> = ({ routine }) => {
     if (routine) {
       routine.name = data.name;
       routine.description = data.description;
-      updateRoutineMutation(routine);
+      updateRoutineMutation({
+        name: data.name,
+        description: data.description,
+        routineId: routine.id,
+      });
     } else {
       createRoutineMutation({ name: data.name, description: data.description });
     }
@@ -112,7 +117,7 @@ const RoutineForm: React.FC<Props> = ({ routine }) => {
   );
 };
 
-type Props = {
+type RoutineProps = {
   routine?: Routine;
 };
 
