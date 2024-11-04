@@ -10,7 +10,9 @@
   .register_form {
     display: flex;
     flex-direction: column;
-
+    .show-password-button {
+      color: $text-color;
+    }
     .form-field {
       margin-bottom: 16px;
     }
@@ -26,7 +28,7 @@
       margin-top: 16px;
       &:hover {
         cursor: pointer;
-        color: white;
+        color: $gray-500;
       }
     }
 

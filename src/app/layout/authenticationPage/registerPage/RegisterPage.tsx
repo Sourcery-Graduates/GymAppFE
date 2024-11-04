@@ -2,17 +2,22 @@ import { registerUser } from '@/api/authentication';
 import Button from '@/app/components/buttons/Button/Button';
 import { Register, registerValidationSchema } from '@/types/entities/Authentication';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { TextField } from '@mui/material';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import './RegisterPage.scss';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 interface RegisterPageProps {
   setIsLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const currentYear: number = useMemo(() => {
     return new Date().getFullYear();
   }, []);
@@ -23,7 +28,7 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
     reset,
     clearErrors,
     formState: { errors },
-  } = useForm({
+  } = useForm<Register>({
     defaultValues: {
       username: '',
       email: '',
@@ -32,15 +37,18 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
     resolver: yupResolver(registerValidationSchema),
   });
 
-  const { mutate } = useMutation({
-    mutationFn: (data: Register) => registerUser(data),
+  const { mutate, error } = useMutation({
+    mutationFn: async (data: Register) => {
+      await registerUser(data);
+    },
+    onSuccess: () => {
+      reset();
+    },
+    onError: () => {
+      alert('An error occured: ' + error?.message);
+    },
   });
 
-  // const onRegister = (data: RegisterBody) => {
-  //   registerUser(data.username, data.password, data.email)
-  //     .then(() => {})
-  //     .catch();
-  // };
   return (
     <div className='register_container'>
       <form className='register_form' onSubmit={handleSubmit(mutate)}>
@@ -57,7 +65,6 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
         />
         <TextField
           label='Password'
-          type='password'
           size='small'
           className='form-field'
           variant='filled'
@@ -65,6 +72,23 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
           error={!!errors.password}
           helperText={errors.password?.message}
           onBlur={() => clearErrors('password')}
+          type={showPassword ? 'text' : 'password'}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position='end'>
+                  <IconButton
+                    className={'show-password-button'}
+                    aria-label={showPassword ? 'hide the password' : 'display the password'}
+                    onClick={handleClickShowPassword}
+                    edge='end'
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
+          }}
         />
         <TextField
           label='Email adress'

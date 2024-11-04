@@ -33,6 +33,6 @@ export const loginValidationSchema = baseValidationSchema.shape({
   stayLoggedIn: Yup.boolean().required(),
 });
 
-export const registerValidationSchema = loginValidationSchema.shape({
-  email: Yup.string().email('Invalid email address').required('Email is required'),
+export const registerValidationSchema = baseValidationSchema.shape({
+  email: Yup.string().required('Email is required').email('Invalid email address'),
 });

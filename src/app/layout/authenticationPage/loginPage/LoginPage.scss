@@ -11,8 +11,28 @@
     display: flex;
     flex-direction: column;
 
+    .show-password-button {
+      color: $text-color;
+    }
     .form-field {
       margin-bottom: 16px;
+    }
+    .remember-me-box {
+      display: flex;
+      align-items: center;
+      .remember-me {
+        width: 16px;
+        height: 16px;
+        margin: 0 0 0 5px;
+        cursor: pointer;
+        appearance: none;
+        background-color: $text-color;
+
+        &:checked {
+          appearance: revert;
+          accent-color: $accent-color;
+        }
+      }
     }
   }
   .login_form_text {
@@ -26,12 +46,18 @@
       margin-top: 16px;
       &:hover {
         cursor: pointer;
-        color: white;
+        color: $gray-500;
       }
     }
 
     &_footer {
       font-size: $font-size-very-small;
     }
+  }
+}
+
+@media (max-width: $breakpoint-phone) {
+  .login_container {
+    padding: 32px;
   }
 }

@@ -3,11 +3,12 @@ import useAuth from '@/app/common/hooks/useAuth';
 import Button from '@/app/components/buttons/Button/Button';
 import { LoginForm, loginValidationSchema } from '@/types/entities/Authentication';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { TextField } from '@mui/material';
-import { useMemo } from 'react';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import './LoginPage.scss';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 interface LoginPageProps {
   setIsLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,6 +16,10 @@ interface LoginPageProps {
 
 const LoginPage = ({ setIsLoginForm }: LoginPageProps) => {
   const { setIsLoggedIn } = useAuth();
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const currentYear: number = useMemo(() => {
     return new Date().getFullYear();
@@ -24,8 +29,9 @@ const LoginPage = ({ setIsLoginForm }: LoginPageProps) => {
     loginUser(data.username, data.password, data.stayLoggedIn)
       .then(() => {
         setIsLoggedIn(true);
+        reset();
       })
-      .catch();
+      .catch(() => alert('an error occured'));
   };
 
   const {
@@ -59,7 +65,6 @@ const LoginPage = ({ setIsLoginForm }: LoginPageProps) => {
         />
         <TextField
           label='Password'
-          type='password'
           size='small'
           className='form-field'
           variant='filled'
@@ -67,10 +72,27 @@ const LoginPage = ({ setIsLoginForm }: LoginPageProps) => {
           error={!!errors.password}
           helperText={errors.password?.message}
           onBlur={() => clearErrors('password')}
+          type={showPassword ? 'text' : 'password'}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position='end'>
+                  <IconButton
+                    className={'show-password-button'}
+                    aria-label={showPassword ? 'hide the password' : 'display the password'}
+                    onClick={handleClickShowPassword}
+                    edge='end'
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
+          }}
         />
-        <div className='form-field'>
+        <div className='form-field remember-me-box'>
           <label htmlFor='checkbox'>Remember me</label>
-          <input id='checkbox' type='checkbox' {...register('stayLoggedIn')} />
+          <input id='checkbox' type='checkbox' className='remember-me' {...register('stayLoggedIn')} />
         </div>
         <Button type='submit'>Login</Button>
       </form>
