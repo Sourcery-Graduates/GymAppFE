@@ -1,4 +1,4 @@
-import { fetchRoutineDetails } from '@/api/routineApi';
+import { fetchRoutineWithExercises } from '@/api/routineApi';
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -10,8 +10,8 @@ import './RoutineUpdate.scss';
 const RoutineUpdate = () => {
   const { routineId } = useParams();
 
-  const { data: routine, isLoading } = useQuery({
-    queryFn: () => fetchRoutineDetails(routineId!),
+  const { data: data, isLoading } = useQuery({
+    queryFn: () => fetchRoutineWithExercises(routineId!),
     queryKey: ['routines', routineId],
   });
 
@@ -22,7 +22,7 @@ const RoutineUpdate = () => {
       </div>
     );
   }
-  return <RoutineForm routine={routine} />;
+  return <RoutineForm routine={data?.routine} />;
 };
 
 export default RoutineUpdate;

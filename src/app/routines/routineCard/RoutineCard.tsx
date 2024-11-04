@@ -7,7 +7,7 @@ import RoutineOptionsButton from './routineOptionsButton/RoutineOptionsButton';
 
 import './RoutineCard.scss';
 
-const RoutineCard: React.FC<Props> = (props) => {
+const RoutineCard: React.FC<RoutineProps> = (props) => {
   const navigate = useNavigate();
 
   const openRoutineDetails = (routineId: string) => {
@@ -45,12 +45,13 @@ const RoutineCard: React.FC<Props> = (props) => {
   );
 };
 
-type Props = {
+type RoutineProps = {
   id: string;
   name: string;
   description?: string;
   likes: number;
   userLikes: boolean;
+  createdAt: string;
 };
 
 export default RoutineCard;
