@@ -24,7 +24,7 @@ const MyRoutines: () => ReactNode = () => {
     //TODO: add app alerts
   }
 
-  //TODO: chan
+  //TODO: change mock likes to real likes
   return (
     <div className='routine-list-wrapper'>
       {routines &&
