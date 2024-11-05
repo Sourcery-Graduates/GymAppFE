@@ -37,5 +37,8 @@ export const loginValidationSchema = baseValidationSchema.shape({
 });
 
 export const registerValidationSchema = baseValidationSchema.shape({
-  email: Yup.string().required('Email is required').email('Invalid email address'),
+  email: Yup.string()
+    .required('Email is required')
+    .email('Invalid email address')
+    .max(128, 'Email must be at most 128 characters'),
 });
