@@ -42,9 +42,12 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
       await registerUser(data);
     },
     onSuccess: () => {
+      // #TODO add proper success handling (snackbar)
+      setIsLoginForm(true);
       reset();
     },
     onError: () => {
+      // #TODO proper error handling
       alert('An error occured: ' + error?.message);
     },
   });

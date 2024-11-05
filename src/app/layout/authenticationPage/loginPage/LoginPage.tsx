@@ -31,6 +31,7 @@ const LoginPage = ({ setIsLoginForm }: LoginPageProps) => {
         setIsLoggedIn(true);
         reset();
       })
+      // #TODO proper error handling
       .catch(() => alert('an error occured'));
   };
 
