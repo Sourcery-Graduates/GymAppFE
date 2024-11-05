@@ -2,8 +2,7 @@
 
 .routine-list-item {
   padding: 8px;
-  min-width: 180px;
-  max-width: 500px;
+  width: 500px;
   height: 9rem;
   position: relative;
   border-radius: $border-radius-base;
@@ -84,5 +83,13 @@
     &:hover {
       cursor: pointer;
     }
+  }
+}
+
+@media (max-width: 1690px) {
+  .routine-list-item {
+    width: auto;
+    min-width: 180px;
+    max-width: 500px;
   }
 }
