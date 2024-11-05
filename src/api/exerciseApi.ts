@@ -9,6 +9,6 @@ export const fetchExerciseByName = async (exercisePrefix: string = ''): Promise<
 
   const response = await api.get(exerciseSearchApi + `?page=${page}&size=${size}&prefix=${exercisePrefix}`);
   const exerciseDetails: ExerciseDetails[] = response.data.data;
-
+  console.log(response.data);
   return exerciseDetails;
 };
