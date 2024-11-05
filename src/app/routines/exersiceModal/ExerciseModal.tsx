@@ -2,7 +2,19 @@ import './ExerciseModal.scss';
 import { fetchExerciseByName } from '@/api/exerciseApi';
 import { CreateRoutineExercise } from '@/types/entities/Exercise';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Autocomplete, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import {
+  Autocomplete,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
 import { validationSchema } from './validationSchema';
 import { Controller, useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
@@ -26,7 +38,7 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
       defaultSets: undefined,
       defaultReps: undefined,
       defaultWeight: undefined,
-      defaultRestTime: '',
+      defaultRestTime: undefined,
       notes: '',
     },
   });
@@ -47,24 +59,11 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
     queryKey: ['exerciseOptions'],
   });
 
-  return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      sx={{
-        '& .MuiPaper-root': {
-          color: 'text.primary',
-          backgroundColor: 'primary.main',
-          borderRadius: '8px',
-          border: 1,
-          borderColor: 'secondary.main',
+  const weightUnits = ['kg', 'lbs'];
+  const timeUnits = ['seconds', 'minutes'];
 
-          '& .MuiTypography-root': {
-            color: 'text.primary',
-          },
-        },
-      }}
-    >
+  return (
+    <Dialog onClose={handleClose} open={open} className='exercise-modal-dialog'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTitle>Add exercise</DialogTitle>
         <DialogContent>
@@ -99,13 +98,13 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
               label='Sets'
               {...register('defaultSets')}
               error={!!errors.defaultSets}
-              helperText={errors.defaultSets ? 'Sets must be > 0' : ''}
+              helperText={errors.defaultSets?.message}
             />
             <TextField
               label='Reps'
               {...register('defaultReps')}
               error={!!errors.defaultReps}
-              helperText={errors.defaultReps ? 'Reps must be > 0' : ''}
+              helperText={errors.defaultReps?.message}
             />
           </div>
           <div className='form-row'>
@@ -113,13 +112,47 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
               label='Weight'
               {...register('defaultWeight')}
               error={!!errors.defaultWeight}
-              helperText={errors.defaultWeight ? 'Weight must be > 0' : ''}
+              helperText={errors.defaultWeight?.message}
             />
+            <Controller
+              name='weightUnit'
+              control={control}
+              render={({ field }) => (
+                <FormControl variant='filled'>
+                  <InputLabel>Weight Unit</InputLabel>
+                  <Select {...field} label='Weight Unit' error={!!errors.weightUnit}>
+                    {weightUnits.map((unit) => (
+                      <MenuItem key={unit} value={unit}>
+                        {unit}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+            />
+          </div>
+          <div className='form-row'>
             <TextField
               label='Rest time'
               {...register('defaultRestTime')}
               error={!!errors.defaultRestTime}
               helperText={errors.defaultRestTime?.message}
+            />
+            <Controller
+              name='restTimeUnit'
+              control={control}
+              render={({ field }) => (
+                <FormControl variant='filled'>
+                  <InputLabel>Time Unit</InputLabel>
+                  <Select {...field} label='Time Unit' error={!!errors.restTimeUnit}>
+                    {timeUnits.map((unit) => (
+                      <MenuItem key={unit} value={unit}>
+                        {unit}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
             />
           </div>
           <div className='form-row'>
