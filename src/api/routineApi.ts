@@ -1,4 +1,4 @@
-import { Routine, RoutineWithExercises } from '../types/entities/Routine';
+import { PagedRoutine, Routine, RoutineWithExercises } from '../types/entities/Routine';
 import api from '@/config/axios/config.ts';
 
 export enum Routine_Endpoint {
@@ -12,6 +12,12 @@ export const fetchUserRoutines = async (): Promise<Routine[]> => {
 
   return response.data;
 };
+
+export const fetchAllPublicRoutines = async (): Promise<PagedRoutine> => {
+  const response = await api.get(Routine_Endpoint.ROUTINE);
+
+  return response.data;
+}
 
 export const fetchRoutineWithExercises = async (routineId: string): Promise<RoutineWithExercises> => {
   const response = await api.get(`${Routine_Endpoint.ROUTINE_EXERCISE}?routineId=${routineId}`);
