@@ -16,12 +16,18 @@ import { routineValidationSchema } from './routineValidationSchema';
 
 import './RoutineForm.scss';
 import React from 'react';
+import { useState } from 'react';
+import ExerciseModal from '../exersiceModal/ExerciseModal';
 
 type FormFields = InferType<typeof routineValidationSchema>;
 
 const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleClickOpen = () => setModalOpen(true);
+  const handleClose = () => setModalOpen(false);
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     if (routine) {
@@ -109,10 +115,11 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
         />
       </form>
       <div className='routine-exercise-list'>LIST OF EXERCISES</div>
-      <Button>
+      <Button onClick={handleClickOpen}>
         <AddIcon />
         &nbsp;ADD EXERCISE
       </Button>
+      <ExerciseModal open={modalOpen} handleClose={handleClose} />
     </div>
   );
 };
