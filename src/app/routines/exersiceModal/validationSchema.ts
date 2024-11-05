@@ -14,12 +14,16 @@ export const validationSchema = Yup.object().shape({
     .typeError('Weight must be a valid number')
     .required('Weight is required')
     .min(0, 'Weight must be > 0'),
-  weightUnit: Yup.string().oneOf(['kg', 'lbs'], 'Weight unit must be kg or lbs'),
+  weightUnit: Yup.string()
+    .required('Weight unit must be kg or lbs')
+    .oneOf(['kg', 'lbs'], 'Weight unit must be kg or lbs'),
 
   defaultRestTime: Yup.number()
     .typeError('Rest time must be a valid number')
     .required('Rest time is required')
     .min(0, 'Rest time must be > 0'),
-  restTimeUnit: Yup.string().oneOf(['seconds', 'minutes'], 'Rest time unit must be seconds or minutes'),
+  restTimeUnit: Yup.string()
+    .required('Rest time unit must be seconds or minutes')
+    .oneOf(['seconds', 'minutes'], 'Rest time unit must be seconds or minutes'),
   notes: Yup.string().max(1000, 'Notes must be at most 1000 characters'),
 });
