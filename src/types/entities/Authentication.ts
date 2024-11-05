@@ -26,7 +26,10 @@ const baseValidationSchema = Yup.object().shape({
     .required('Username is required')
     .min(3, 'Username must be at least 3 characters')
     .max(32, 'Username must be at most 32 characters'),
-  password: Yup.string().required('Passowrd is required'),
+  password: Yup.string()
+    .required('Password is required')
+    .min(8, 'Password must be at least 8 characters')
+    .max(128, 'Password must be at most 128 characters'),
 });
 
 export const loginValidationSchema = baseValidationSchema.shape({
@@ -34,5 +37,8 @@ export const loginValidationSchema = baseValidationSchema.shape({
 });
 
 export const registerValidationSchema = baseValidationSchema.shape({
-  email: Yup.string().required('Email is required').email('Invalid email address'),
+  email: Yup.string()
+    .required('Email is required')
+    .email('Invalid email address')
+    .max(128, 'Email must be at most 128 characters'),
 });
