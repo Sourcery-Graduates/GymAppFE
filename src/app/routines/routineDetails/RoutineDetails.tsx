@@ -1,4 +1,4 @@
-import { deleteRoutine, fetchRoutineDetails } from '@/api/routineApi';
+import { deleteRoutine, fetchRoutineWithExercises } from '@/api/routineApi';
 import Button from '@/app/components/buttons/Button/Button';
 import ConfirmationDialog from '@/app/components/dialogs/ConfirmationDialog';
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
@@ -47,8 +47,8 @@ const RoutineDetails = () => {
     navigate(-1);
   };
 
-  const { data: routine, isLoading } = useQuery({
-    queryFn: () => fetchRoutineDetails(routineId!),
+  const { data: data, isLoading } = useQuery({
+    queryFn: () => fetchRoutineWithExercises(routineId!),
     queryKey: ['routines', routineId],
   });
 
@@ -91,8 +91,8 @@ const RoutineDetails = () => {
           />
         </div>
       </div>
-      <h2>{routine?.name}</h2>
-      <div className='routine-description'>{routine?.description}</div>
+      <h2>{data?.routine.name}</h2>
+      <div className='routine-description'>{data?.routine.description}</div>
       <div className='routine-exercise-list'>SPACE FOR EXERCISES</div>
     </div>
   );

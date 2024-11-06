@@ -15,18 +15,29 @@ import { InferType } from 'yup';
 import { routineValidationSchema } from './routineValidationSchema';
 
 import './RoutineForm.scss';
+import React from 'react';
+import { useState } from 'react';
+import ExerciseModal from '../exersiceModal/ExerciseModal';
 
 type FormFields = InferType<typeof routineValidationSchema>;
 
-const RoutineForm: React.FC<Props> = ({ routine }) => {
+const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleClickOpen = () => setModalOpen(true);
+  const handleClose = () => setModalOpen(false);
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     if (routine) {
       routine.name = data.name;
       routine.description = data.description;
-      updateRoutineMutation(routine);
+      updateRoutineMutation({
+        name: data.name,
+        description: data.description,
+        routineId: routine.id,
+      });
     } else {
       createRoutineMutation({ name: data.name, description: data.description });
     }
@@ -104,15 +115,16 @@ const RoutineForm: React.FC<Props> = ({ routine }) => {
         />
       </form>
       <div className='routine-exercise-list'>LIST OF EXERCISES</div>
-      <Button>
+      <Button onClick={handleClickOpen}>
         <AddIcon />
         &nbsp;ADD EXERCISE
       </Button>
+      <ExerciseModal open={modalOpen} handleClose={handleClose} />
     </div>
   );
 };
 
-type Props = {
+type RoutineProps = {
   routine?: Routine;
 };
 

@@ -1,17 +1,17 @@
 import api from '@/config/axios/config';
-import { LoginInResponse, RegisterBody } from '@/types/auth';
+import { LoginResponse, Register } from '@/types/entities/Authentication';
 
 export enum Auth_Endpoint {
   LOGIN = 'api/auth/authenticate',
   REGISTER = 'api/auth/register',
 }
 
-export const login = async (username: string, password: string, stayLoggedIn: boolean): Promise<void> => {
+export const loginUser = async (username: string, password: string, stayLoggedIn: boolean): Promise<void> => {
   const basicAuthHeader = btoa(`${username}:${password}`);
   const config = { headers: { Authorization: 'Basic ' + basicAuthHeader } };
 
   const response = await api.get(Auth_Endpoint.LOGIN, config);
-  const data: LoginInResponse = response.data;
+  const data: LoginResponse = response.data;
 
   if (stayLoggedIn) {
     localStorage.setItem('token', data.token);
@@ -20,11 +20,6 @@ export const login = async (username: string, password: string, stayLoggedIn: bo
   }
 };
 
-export const register = async (username: string, password: string, email: string): Promise<void> => {
-  const requestBody: RegisterBody = {
-    username: username,
-    password: password,
-    email: email,
-  };
+export const registerUser = async (requestBody: Register): Promise<void> => {
   await api.post(Auth_Endpoint.REGISTER, requestBody);
 };
