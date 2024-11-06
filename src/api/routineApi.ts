@@ -60,9 +60,7 @@ export const fetchRoutines = async (query = ''): Promise<Routine[]> => {
 export const fetchRoutineDetails = async (routineId: string): Promise<Routine> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  const routineDetails: Routine | undefined = routines.find((routine) =>
-    routine.id === routineId
-  );
+  const routineDetails: Routine | undefined = routines.find((routine) => routine.id === routineId);
 
   if (routineDetails === undefined) {
     throw new Error();
@@ -71,15 +69,15 @@ export const fetchRoutineDetails = async (routineId: string): Promise<Routine> =
   return routineDetails;
 };
 
-export const createRoutine = async (data: {name: string, description?: string}): Promise<Routine> => {
+export const createRoutine = async (data: { name: string; description?: string }): Promise<Routine> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   const newRoutine: Routine = {
-    id: (Math.random()*1000).toString(),
+    id: (Math.random() * 1000).toString(),
     name: data.name,
     description: data.description,
-    likes: Math.floor(Math.random()*100000),
-    userLikes: false
+    likes: Math.floor(Math.random() * 100000),
+    userLikes: false,
   };
   routines.push(newRoutine);
 
@@ -89,9 +87,7 @@ export const createRoutine = async (data: {name: string, description?: string}):
 export const updateRoutine = async (newRoutine: Routine): Promise<Routine> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  routines = routines.map((routine) =>
-    routine.id === newRoutine.id ? newRoutine : routine
-  );
+  routines = routines.map((routine) => (routine.id === newRoutine.id ? newRoutine : routine));
 
   return newRoutine;
 };
@@ -99,9 +95,7 @@ export const updateRoutine = async (newRoutine: Routine): Promise<Routine> => {
 export const deleteRoutine = async (routineId: string): Promise<string> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  routines = routines.filter((routine) =>
-    routine.id !== routineId
-  );
+  routines = routines.filter((routine) => routine.id !== routineId);
 
   return routineId;
 };
