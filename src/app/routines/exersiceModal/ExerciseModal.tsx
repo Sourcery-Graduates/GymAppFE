@@ -20,6 +20,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { debounce } from '@/app/common/utils/debounce';
+import { timeUnits, weightUnits } from './measurementUnits';
 
 interface ExerciseModalProps {
   open: boolean;
@@ -28,8 +29,6 @@ interface ExerciseModalProps {
 
 const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
   const [prefix, setPrefix] = useState('');
-  const weightUnits = ['kg', 'lbs'];
-  const timeUnits = ['seconds', 'minutes'];
 
   const {
     register,
