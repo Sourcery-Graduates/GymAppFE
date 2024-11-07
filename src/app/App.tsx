@@ -14,6 +14,8 @@ import RoutineUpdate from './routines/routineForm/routineUpdate/RoutineUpdate';
 
 import WorkoutCreate from './workouts/workoutCreate/WorkoutCreate.tsx';
 
+import '@/App.scss';
+
 function App() {
   return (
     <BrowserRouter>

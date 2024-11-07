@@ -14,6 +14,9 @@ import { useNavigate } from 'react-router-dom';
 
 import './RoutineDetails.scss';
 
+//TODO: to be removed
+import { mockRoutineData } from '@/types/entities/mockRoutineData';
+
 const RoutineDetails = () => {
   const { routineId } = useParams();
   const navigate = useNavigate();
@@ -65,8 +68,9 @@ const RoutineDetails = () => {
   const startWorkoutHandler = () => {
     navigate(
       AppRoutes.WORKOUT_CREATE,
-      { state: { routineData: data } }
+      { state: { routineData: mockRoutineData } }
     );
+    // TODO: replace mockRoutineData with data when proper routine-exercise data fetching is done
   };
 
   if (isLoading) {

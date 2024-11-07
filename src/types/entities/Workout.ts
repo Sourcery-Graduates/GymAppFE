@@ -1,3 +1,5 @@
+import { SimpleExercise } from '@/types/entities/Routine.ts';
+
 export interface Workout {
   id?: string;
   name: string;
@@ -9,13 +11,15 @@ export interface Workout {
 }
 
 export interface WorkoutExercise {
-  exerciseId: string;
+  workoutExerciseId: string | null;
+  exercise: SimpleExercise;
   orderNumber: number;
   notes?: string;
   sets: WorkoutExerciseSet[];
 }
 
 export interface WorkoutExerciseSet {
+  workoutExerciseSetId: string | null;
   setNumber: number;
   reps?: number;
   weight?: number;

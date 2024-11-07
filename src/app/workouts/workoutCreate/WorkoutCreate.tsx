@@ -1,22 +1,11 @@
-// src/pages/WorkoutCreateFromRoutine.tsx
-
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Workout } from '@/types/entities/Workout';
 import { RoutineExercise } from '@/types/entities/Routine';
 import { createWorkout } from '@/api/workoutApi';
 import { AppRoutes } from '@/types/routes';
-import {
-  Button,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Divider, Grid,
-} from '@mui/material';
-
-//TODO: to be removed
-import { mockRoutineData } from '@/types/entities/mockRoutineData';
+import { Typography, List, ListItem, ListItemText, Divider, Grid } from '@mui/material';
+import Button from '@/app/components/buttons/Button/Button.tsx';
 
 const WorkoutCreate: React.FC = () => {
   const location = useLocation();
@@ -24,9 +13,7 @@ const WorkoutCreate: React.FC = () => {
   const [workout, setWorkout] = useState<Workout | null>(null);
 
   useEffect(() => {
-    // TODO: remove comment when proper data fetching exists
-    // const routineData = location.state?.routineData;
-    const routineData = mockRoutineData; // mocked routineData
+    const routineData = location.state?.routineData;
 
     if (routineData) {
       const initialWorkout: Workout = {
@@ -35,12 +22,14 @@ const WorkoutCreate: React.FC = () => {
         comment: '',
         routineId: routineData.routine.id,
         exercises: routineData.exercises.map((routineExercise: RoutineExercise) => ({
-          exerciseId: routineExercise.exercise.id,
+          workoutExerciseId: null,
+          exercise: routineExercise.exercise,
           orderNumber: routineExercise.orderNumber,
           notes: routineExercise.notes || '',
           sets: Array.from(
             { length: routineExercise.defaultsSets || 1 },
             (_, index) => ({
+              workoutExerciseSetId: null,
               setNumber: index + 1,
               reps: routineExercise.defaultReps,
               weight: routineExercise.defaultWeight,
@@ -51,7 +40,7 @@ const WorkoutCreate: React.FC = () => {
         })),
       };
       setWorkout(initialWorkout);
-    } else {
+  } else {
       console.error('No routineData provided');
     }
   }, [location.state]);
@@ -63,7 +52,6 @@ const WorkoutCreate: React.FC = () => {
         // TODO: remove comment when WorkoutDetails.tsx is created
         // navigate(AppRoutes.WORKOUT_DETAILS.replace(':workoutId', savedWorkout.id!));
       } catch (error) {
-        console.error('Error creating workout:', error);
         alert('Failed to create workout.');
       }
     }
@@ -80,9 +68,10 @@ const WorkoutCreate: React.FC = () => {
           Create Workout from Routine
         </Typography>
         <Button
-          variant="contained"
-          color="primary"
           onClick={handleCreateWorkout}
+          className="create-workout-button"
+          type="button"
+          size="big"
         >
           CREATE WORKOUT
         </Button>
@@ -112,7 +101,7 @@ const WorkoutCreate: React.FC = () => {
         {workout.exercises.map((exercise, index) => (
           <Grid item xs={12} md={6} lg={4} key={index}>
             <Typography variant="h6" gutterBottom>
-              Exercise {index + 1}: {exercise.exerciseId}
+              Exercise {index + 1}: {exercise.exercise.name}
             </Typography>
             <Divider style={{ margin: '8px 0' }} />
             <List>
@@ -139,4 +128,5 @@ const WorkoutCreate: React.FC = () => {
     </div>
   );
 };
-  export default WorkoutCreate;
+
+export default WorkoutCreate;
