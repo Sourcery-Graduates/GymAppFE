@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchAllPublicRoutines } from '@/api/routineApi';
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
 import RoutineListItem from './routineListItem/RoutineListItem';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PagedRoutine } from '@/types/entities/Routine';
 import { TablePagination } from '@mui/material';
 
@@ -60,6 +60,7 @@ const PublicRoutines = ({ scrollTop }: PublicRoutinesProps) => {
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleRowsPerPageChange}
             rowsPerPageOptions={[10, 25, 50, 100]}
+            labelRowsPerPage='Rows:'
             className='customTablePagination'
           />
         </div>
