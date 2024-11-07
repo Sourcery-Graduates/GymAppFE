@@ -13,11 +13,11 @@ export const fetchUserRoutines = async (): Promise<Routine[]> => {
   return response.data;
 };
 
-export const fetchAllPublicRoutines = async (): Promise<PagedRoutine> => {
-  const response = await api.get(Routine_Endpoint.ROUTINE);
+export const fetchAllPublicRoutines = async (page: number, size: number): Promise<PagedRoutine> => {
+  const response = await api.get(`${Routine_Endpoint.ROUTINE}?page=${page}&size=${size}&sort=name%2CASC`);
 
   return response.data;
-}
+};
 
 export const fetchRoutineWithExercises = async (routineId: string): Promise<RoutineWithExercises> => {
   const response = await api.get(`${Routine_Endpoint.ROUTINE_EXERCISE}?routineId=${routineId}`);

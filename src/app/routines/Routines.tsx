@@ -15,6 +15,11 @@ import { AppRoutes } from '@/types/routes';
 const Routines = () => {
   const [tabValue, setTabValue] = React.useState('my-routines');
   const navigate = useNavigate();
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  const scrollTop = () => {
+    scrollRef.current?.scrollIntoView({ block: 'end' });
+  };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
@@ -25,7 +30,7 @@ const Routines = () => {
   };
 
   return (
-    <div className='routines-container'>
+    <div className='routines-container' ref={scrollRef}>
       <div className='routines-top'>
         <form className='search-bar'>
           <button className='search-button'>
@@ -49,7 +54,7 @@ const Routines = () => {
         </div>
       </div>
       {tabValue === 'my-routines' && <MyRoutines />}
-      {tabValue === 'public-routines' && <PublicRoutines />}
+      {tabValue === 'public-routines' && <PublicRoutines scrollTop={scrollTop} />}
     </div>
   );
 };

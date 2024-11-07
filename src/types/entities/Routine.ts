@@ -29,7 +29,7 @@ export interface RoutineWithExercises {
 }
 
 export interface PagedRoutine {
-    routines: Routine[];
+    data: Routine[];
     totalPages: number;
     totalElements: number;
 }
