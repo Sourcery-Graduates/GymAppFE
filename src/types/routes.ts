@@ -7,4 +7,5 @@ export enum AppRoutes {
   ROUTINE_CREATE = '/routine-create',
   OPTIONS = '/options',
   MY_PROFILE = '/my-profile',
+  WORKOUT_CREATE = '/workout-create',
 }
