@@ -18,6 +18,7 @@ import './RoutineForm.scss';
 import React from 'react';
 import { useState } from 'react';
 import ExerciseModal from '../exersiceModal/ExerciseModal';
+import ExercisesTable from '../exercisesTable/ExercisesTable';
 
 type FormFields = InferType<typeof routineValidationSchema>;
 
@@ -120,6 +121,7 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
         &nbsp;ADD EXERCISE
       </Button>
       <ExerciseModal open={modalOpen} handleClose={handleClose} />
+      <ExercisesTable />
     </div>
   );
 };
