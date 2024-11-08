@@ -64,6 +64,10 @@ const WorkoutCreate: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  const sortedExercises = [...workout.exercises].sort(
+    (a, b) => a.orderNumber - b.orderNumber
+  );
+
   return (
     <div className='workout-create'>
       <div className='workout-create-header'>
@@ -96,7 +100,7 @@ const WorkoutCreate: React.FC = () => {
         Exercises:
       </Typography>
       <div className='exercise-list-wrapper'>
-        {workout.exercises.map((exercise) => (
+        {sortedExercises.map((exercise) => (
           <ExerciseCard key={exercise.exercise.id} exercise={exercise} />
         ))}
       </div>

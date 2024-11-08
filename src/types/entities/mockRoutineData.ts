@@ -26,6 +26,19 @@ export const mockRoutineData: RoutineWithExercises = {
       notes: 'Keep your back straight and go slow',
     },
     {
+      routineExerciseId: 'routine-exercise-12',
+      exercise: {
+        id: 'exercise-12',
+        name: 'Squat2',
+      },
+      orderNumber: 4,
+      defaultsSets: 3,
+      defaultReps: 121,
+      defaultWeight: 1001,
+      defaultRestTime: 601,
+      notes: '2Keep your back straight and go slow2',
+    },
+    {
       routineExerciseId: 'routine-exercise-2',
       exercise: {
         id: 'exercise-2',

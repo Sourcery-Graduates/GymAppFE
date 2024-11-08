@@ -1,24 +1,20 @@
 @import '@/styles/base/variables';
 
 .exercise-card {
-  padding: 8px;
-  width: 500px;
+  padding: 16px;
   border: 1px solid $secondary-color;
   border-radius: $border-radius-base;
-  position: relative;
+  width: 100%;
+  box-sizing: border-box;
 
   .divider {
     margin: 8px 0;
     border-color: #6c757d;
+    width: auto;
+    max-width: 100%;
   }
 
   .notes {
     margin-top: 8px;
-  }
-
-  @media (max-width: 1690px) {
-    width: auto;
-    min-width: 180px;
-    max-width: 500px;
   }
 }
