@@ -1,13 +1,14 @@
-import { ExerciseDetails, mockExercises } from '@/types/entities/Exercise';
+import api from '@/config/axios/config';
+import { ExerciseDetails } from '@/types/entities/Exercise';
+
+const exerciseSearchApi = '/api/workout/exercise';
 
 export const fetchExerciseByName = async (exercisePrefix: string = ''): Promise<ExerciseDetails[]> => {
-  await new Promise((resolve) => setTimeout(resolve, 100));
+  const size = 10;
+  const page = 0;
 
-  if (exercisePrefix == '') return mockExercises;
-
-  const exerciseDetails: ExerciseDetails[] = mockExercises.filter((exercise) =>
-    exercise.name.startsWith(exercisePrefix),
-  );
+  const response = await api.get(exerciseSearchApi + `?page=${page}&size=${size}&prefix=${exercisePrefix}`);
+  const exerciseDetails: ExerciseDetails[] = response.data.data;
 
   return exerciseDetails;
 };

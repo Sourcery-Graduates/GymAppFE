@@ -13,11 +13,13 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import './RoutineDetails.scss';
+import useAuth from '@/app/common/hooks/useAuth';
 
 //TODO: to be removed
 import { mockRoutineData } from '@/types/entities/mockRoutineData';
 
 const RoutineDetails = () => {
+  const { userId } = useAuth();
   const { routineId } = useParams();
   const navigate = useNavigate();
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
@@ -87,23 +89,27 @@ const RoutineDetails = () => {
         <IconButton aria-label='go back' onClick={goBackHandler}>
           <ArrowBackIosNewIcon sx={{ color: 'accent.main' }} />
         </IconButton>
-        <div className='routine-options'>
-          <Button size='small' onClick={openRoutineUpdate}>
-            <EditIcon fontSize='small' /> &nbsp; Edit Routine
-          </Button>
-          <Button size='small' className='delete-routine-button' onClick={handleClickOpen}>
-            <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Routine
-          </Button>
+        {data?.routine.userId === userId && (
+          <div className='routine-options'>
+            <Button size='small' onClick={openRoutineUpdate}>
+              <EditIcon fontSize='small' /> &nbsp; Edit Routine
+            </Button>
+            <Button size='small' className='delete-routine-button' onClick={handleClickOpen}>
+              <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Routine
+            </Button>
+            <ConfirmationDialog
+              description='Are you sure you want to delete this Routine?'
+              open={openConfirmationDialog}
+              onConfirm={handleConfirm}
+              onClose={handleClose}
+            />
+          </div>
+        )}
+        {
           <Button size='small' className='start-workout-button' onClick={startWorkoutHandler}>
             Start Workout
           </Button>
-          <ConfirmationDialog
-            description='Are you sure you want to delete this Routine?'
-            open={openConfirmationDialog}
-            onConfirm={handleConfirm}
-            onClose={handleClose}
-          />
-        </div>
+        }
       </div>
       <h2>{data?.routine.name}</h2>
       <div className='routine-description'>{data?.routine.description}</div>

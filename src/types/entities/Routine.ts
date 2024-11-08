@@ -5,6 +5,7 @@ export interface Routine {
   likes?: number;
   userLikes?: boolean;
   createdAt: string;
+  userId: string;
 }
 
 export interface SimpleExercise {
@@ -26,4 +27,10 @@ export interface RoutineExercise {
 export interface RoutineWithExercises {
   routine: Routine;
   exercises: RoutineExercise[];
+}
+
+export interface PagedRoutine {
+    data: Routine[];
+    totalPages: number;
+    totalElements: number;
 }
