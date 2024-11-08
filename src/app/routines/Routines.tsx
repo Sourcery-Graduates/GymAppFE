@@ -13,8 +13,11 @@ import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '@/types/routes';
 import { debounce } from '@/app/common/utils/debounce.ts';
 
+const MY_ROUTINES = 'my-routines';
+const PUBLIC_ROUTINES = 'public-routines';
+
 const Routines = () => {
-  const [tabValue, setTabValue] = React.useState('my-routines');
+  const [tabValue, setTabValue] = React.useState(MY_ROUTINES);
   const navigate = useNavigate();
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [searchValue, setSearchValue] = React.useState('');
@@ -32,8 +35,8 @@ const Routines = () => {
   };
 
   const debouncedHandleSearch = debounce((event: React.ChangeEvent<HTMLInputElement>) => {
-    if (tabValue === 'my-routines') {
-      setTabValue('public-routines');
+    if (tabValue === MY_ROUTINES) {
+      setTabValue(PUBLIC_ROUTINES);
     }
     setSearchValue(event.target.value);
   }, 300);
@@ -66,13 +69,13 @@ const Routines = () => {
       <div className='routines-filter-bar'>
         <div className='tabs-wrapper'>
           <Tabs value={tabValue} onChange={handleTabChange} textColor='inherit' indicatorColor='secondary'>
-            <Tab value='my-routines' label='My Routines' />
-            <Tab value='public-routines' label='Public Routines' />
+            <Tab value={MY_ROUTINES} label='My Routines' />
+            <Tab value={PUBLIC_ROUTINES} label='Public Routines' />
           </Tabs>
         </div>
       </div>
-      {tabValue === 'my-routines' && <MyRoutines />}
-      {tabValue === 'public-routines' && <PublicRoutines scrollTop={scrollTop} searchValue={searchValue} />}
+      {tabValue === MY_ROUTINES && <MyRoutines />}
+      {tabValue === PUBLIC_ROUTINES && <PublicRoutines scrollTop={scrollTop} searchValue={searchValue} />}
     </div>
   );
 };
