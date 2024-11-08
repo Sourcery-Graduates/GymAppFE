@@ -40,7 +40,7 @@ const WorkoutCreate: React.FC = () => {
         })),
       };
       setWorkout(initialWorkout);
-  } else {
+    } else {
       console.error('No routineData provided');
     }
   }, [location.state]);
@@ -98,12 +98,12 @@ const WorkoutCreate: React.FC = () => {
         Exercises:
       </Typography>
       <Grid container spacing={3} style={{ marginTop: '16px', width: '60%' }}>
-        {workout.exercises.map((exercise, index) => (
-          <Grid item xs={12} md={6} lg={4} key={index}>
+        {workout.exercises.map((exercise) => (
+          <Grid item xs={12} md={6} lg={4} key={exercise.exercise.id}>
             <Typography variant="h6" gutterBottom>
-              Exercise {index + 1}: {exercise.exercise.name}
+              Exercise: {exercise.exercise.name}
             </Typography>
-            <Divider style={{ margin: '8px 0' }} />
+            <Divider style={{ margin: '8px 0', color: '#6c757d', borderColor: '#6c757d' }} />
             <List>
               {exercise.sets.map((set, setIndex) => (
                 <ListItem key={setIndex}>
@@ -118,8 +118,8 @@ const WorkoutCreate: React.FC = () => {
                 </ListItem>
               ))}
             </List>
-            <Divider style={{ margin: '8px 0' }} />
-            <Typography variant="body2" color="textSecondary" style={{ marginTop: '8px' }}>
+            <Divider style={{ margin: '8px 0', color: '#6c757d', borderColor: '#6c757d' }} />
+            <Typography variant="body2" style={{ marginTop: '8px' }}>
               Notes: {exercise.notes || 'None'}
             </Typography>
           </Grid>
