@@ -1,0 +1,32 @@
+@import '@/styles/base/variables';
+
+.workout-create {
+  width: 100%;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+}
+
+.exercise-list-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+
+  @media (max-width: 1690px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: $breakpoint-phone) {
+    grid-template-columns: 1fr;
+  }
+}
