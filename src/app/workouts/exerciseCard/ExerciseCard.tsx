@@ -1,11 +1,11 @@
 import React from 'react';
-import { Exercise } from '@/types/entities/Workout';
+import { WorkoutExercise } from '@/types/entities/Workout.ts';
 import { Typography, Divider, List, ListItem, ListItemText } from '@mui/material';
 
 import './ExerciseCard.scss';
 
 type ExerciseCardProps = {
-  exercise: Exercise;
+  exercise: WorkoutExercise;
 };
 
 const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise }) => {
