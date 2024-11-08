@@ -4,7 +4,7 @@ import {useQuery} from '@tanstack/react-query';
 import {fetchAllPublicRoutines} from '@/api/routineApi';
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
 import RoutineListItem from './routineListItem/RoutineListItem';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {PagedRoutine} from '@/types/entities/Routine';
 import {TablePagination} from '@mui/material';
 
