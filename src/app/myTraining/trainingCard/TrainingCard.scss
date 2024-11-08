@@ -12,20 +12,25 @@
   &:hover {
     transform: translateY(-4px); // Lift on hover for interactivity
   }
+  &__header {
+    display: flex;
+    justify-content: space-between;
 
-  &__date {
-    font-size: $font-size-small;
-    color: $text-color;
-  }
+    &--name {
+      font-size: $font-size-base;
+      font-weight: 600;
+      color: $text-color;
+    }
 
-  &__name {
-    font-size: $font-size-base;
-    color: $text-color;
-  }
+    &--date {
+      font-size: $font-size-small;
+      color: $text-color;
+    }
 
-  &__exercises {
-    font-size: $font-size-small;
-    color: $text-color;
+    &--exercises {
+      font-size: $font-size-small;
+      color: $text-color;
+    }
   }
 }
 @media (max-width: 1690px) {

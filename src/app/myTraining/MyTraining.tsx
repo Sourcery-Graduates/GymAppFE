@@ -1,7 +1,7 @@
 import { getUserWorkoutGrid } from '@/api/workout';
 import './MyTraining.scss';
 import { useQuery } from '@tanstack/react-query';
-import TrainingCard from '@/app/myTraining/trainingCard/trainingCard';
+import TrainingCard from '@/app/myTraining/trainingCard/TrainingCard';
 
 const MyTraining = () => {
   const queryKey = 'user-workout-grid';
