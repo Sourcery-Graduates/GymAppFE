@@ -4,15 +4,16 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchAllPublicRoutines } from '@/api/routineApi';
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
 import RoutineListItem from './routineListItem/RoutineListItem';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PagedRoutine } from '@/types/entities/Routine';
 import { TablePagination } from '@mui/material';
 
 interface PublicRoutinesProps {
   scrollTop: () => void;
+  searchValue: string;
 }
 
-const PublicRoutines = ({ scrollTop }: PublicRoutinesProps) => {
+const PublicRoutines = ({ scrollTop, searchValue }: PublicRoutinesProps) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const {
@@ -20,8 +21,8 @@ const PublicRoutines = ({ scrollTop }: PublicRoutinesProps) => {
     isLoading,
     error,
   } = useQuery<PagedRoutine>({
-    queryFn: () => fetchAllPublicRoutines(currentPage, rowsPerPage),
-    queryKey: ['public-routines', currentPage, rowsPerPage],
+    queryFn: () => fetchAllPublicRoutines(currentPage, rowsPerPage, searchValue),
+    queryKey: ['public-routines', currentPage, rowsPerPage, searchValue],
   });
 
   useEffect(() => {
