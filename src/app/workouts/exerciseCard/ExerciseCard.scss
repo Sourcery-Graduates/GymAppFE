@@ -1,20 +1,22 @@
 @import '@/styles/base/variables';
 
 .exercise-card {
-  padding: 16px;
+  padding: $padding-base;
   border: 1px solid $secondary-color;
   border-radius: $border-radius-base;
   width: 100%;
   box-sizing: border-box;
+  background-color: $background-color;
+  color: $text-color;
 
   .divider {
-    margin: 8px 0;
-    border-color: #6c757d;
+    margin: $small-gap 0;
+    border-color: $gray-700;
     width: auto;
     max-width: 100%;
   }
 
   .notes {
-    margin-top: 8px;
+    margin-top: $small-gap;
   }
 }
