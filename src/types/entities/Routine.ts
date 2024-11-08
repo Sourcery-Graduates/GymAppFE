@@ -5,6 +5,7 @@ export interface Routine {
   likes?: number;
   userLikes?: boolean;
   createdAt: string;
+  userId: string;
 }
 
 export interface SimpleExercise {
