@@ -1,57 +1,6 @@
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
-
-const mockExercises = [
-  {
-    id: 1,
-    exerciseName: 'Bench Press',
-    sets: 3,
-    reps: 10,
-    weight: 80,
-    weightUnit: 'kg',
-    restTime: 60,
-    restTimeUnit: 'seconds',
-  },
-  {
-    id: 2,
-    exerciseName: 'Squat',
-    sets: 4,
-    reps: 12,
-    weight: 100,
-    weightUnit: 'kg',
-    restTime: 90,
-    restTimeUnit: 'seconds',
-  },
-  {
-    id: 3,
-    exerciseName: 'Deadlift',
-    sets: 3,
-    reps: 8,
-    weight: 120,
-    weightUnit: 'kg',
-    restTime: 120,
-    restTimeUnit: 'seconds',
-  },
-  {
-    id: 4,
-    exerciseName: 'Shoulder Press',
-    sets: 4,
-    reps: 10,
-    weight: 40,
-    weightUnit: 'kg',
-    restTime: 45,
-    restTimeUnit: 'seconds',
-  },
-  {
-    id: 5,
-    exerciseName: 'Bicep Curl',
-    sets: 3,
-    reps: 15,
-    weight: 20,
-    weightUnit: 'kg',
-    restTime: 30,
-    restTimeUnit: 'seconds',
-  },
-];
+import { mockExercises } from '@/types/entities/Exercise';
+import ExercisesTableRow from './ExercisesTableRow';
 
 const ExercisesTable = () => {
   return (
@@ -71,19 +20,7 @@ const ExercisesTable = () => {
           </TableHead>
           <TableBody>
             {mockExercises.map((exercise, index) => (
-              <TableRow key={exercise.id}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{exercise.exerciseName}</TableCell>
-                <TableCell>{exercise.sets}</TableCell>
-                <TableCell>{exercise.reps}</TableCell>
-                <TableCell>
-                  {exercise.weight} {exercise.weightUnit}
-                </TableCell>
-                <TableCell>
-                  {exercise.restTime} {exercise.restTimeUnit}
-                </TableCell>
-                <TableCell align='right'>Add options like Info or Delete here</TableCell>
-              </TableRow>
+              <ExercisesTableRow data={exercise} index={index} />
             ))}
           </TableBody>
         </Table>
