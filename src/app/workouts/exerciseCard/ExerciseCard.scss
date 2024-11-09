@@ -1,10 +1,10 @@
 @import '@/styles/base/variables';
 
 .exercise-card {
+  width: 400px;
   padding: 16px;
-  border: 1px solid $secondary-color;
+  border: $border;
   border-radius: $border-radius-base;
-  width: 100%;
   box-sizing: border-box;
 
   .divider {

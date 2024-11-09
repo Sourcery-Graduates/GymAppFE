@@ -4,6 +4,7 @@ import { RoutineWithExercises } from '@/types/entities/Routine';
 
 export const mockRoutineData: RoutineWithExercises = {
   routine: {
+    userId: '1',
     id: 'routine-1',
     name: 'Full Body Routine',
     description: 'A well-rounded routine targeting all major muscle groups.',
@@ -19,11 +20,12 @@ export const mockRoutineData: RoutineWithExercises = {
         name: 'Squat',
       },
       orderNumber: 1,
-      defaultsSets: 3,
+      defaultSets: 3,
       defaultReps: 12,
       defaultWeight: 100,
       defaultRestTime: 60,
-      notes: 'Keep your back straight and go slow',
+      notes:
+        'Keep your back straight and go slow, Keep your back straight and go slow, Keep your back straight and go slow, Keep your back straight and go slow, Keep your back straight and go slow, Keep your back straight and go slow, Keep your back straight and go slow, straight123 x Keep your back straight and go slow, Keep your back straight and go slow, Keep your back straight and go slow, Keep your back straight and go slow, Keep your back straight and go slow, Keep your back straight and go slow, Keep your back straight and go slow, straight567',
     },
     {
       routineExerciseId: 'routine-exercise-12',
@@ -32,7 +34,7 @@ export const mockRoutineData: RoutineWithExercises = {
         name: 'Squat2',
       },
       orderNumber: 4,
-      defaultsSets: 3,
+      defaultSets: 3,
       defaultReps: 121,
       defaultWeight: 1001,
       defaultRestTime: 601,
@@ -45,7 +47,7 @@ export const mockRoutineData: RoutineWithExercises = {
         name: 'Bench Press',
       },
       orderNumber: 2,
-      defaultsSets: 4,
+      defaultSets: 4,
       defaultReps: 8,
       defaultWeight: 80,
       defaultRestTime: 90,
@@ -58,7 +60,7 @@ export const mockRoutineData: RoutineWithExercises = {
         name: 'Deadlift',
       },
       orderNumber: 3,
-      defaultsSets: 3,
+      defaultSets: 3,
       defaultReps: 10,
       defaultWeight: 120,
       defaultRestTime: 120,

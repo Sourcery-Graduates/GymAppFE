@@ -1,3 +1,4 @@
+import '@/App.scss';
 import ErrorPage from '@/app/errorPage/ErrorPage';
 import Home from '@/app/home/Home';
 import Layout from '@/app/layout/Layout';
@@ -13,8 +14,7 @@ import RoutineCreate from './routines/routineForm/routineCreate/RoutineCreate';
 import RoutineUpdate from './routines/routineForm/routineUpdate/RoutineUpdate';
 
 import WorkoutCreate from './workouts/workoutCreate/WorkoutCreate.tsx';
-
-import '@/App.scss';
+import Workout from '@/app/myTraining/workout/Workout';
 
 function App() {
   return (
@@ -28,6 +28,7 @@ function App() {
           <Route path={AppRoutes.ROUTINE_UPDATE} element={<RoutineUpdate />} />
           <Route path={AppRoutes.ROUTINE_CREATE} element={<RoutineCreate />} />
           <Route path={AppRoutes.MY_TRAINING} element={<MyTraining />} />
+          <Route path={AppRoutes.WORKOUT} element={<Workout />} />
           <Route path={AppRoutes.OPTIONS} element={<Options />} />
           <Route path={AppRoutes.MY_PROFILE} element={<MyProfile />} />
           <Route path='*' element={<ErrorPage />} />

@@ -1,84 +1,65 @@
-import React from 'react';
-import { WorkoutExercise } from '@/types/entities/Workout.ts';
-import { Typography, Divider, List, ListItem, ListItemText, TextField, InputAdornment } from '@mui/material';
+import React, { useState } from 'react';
+import { WorkoutExercise, WorkoutExerciseSet } from '@/types/entities/Workout.ts';
+import { Typography, Divider, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 import './ExerciseCard.scss';
-import Button from '@/app/components/buttons/Button/Button';
+import Notes from '@/app/workouts/exerciseCard/notes/Notes';
+import SetList from '@/app/workouts/exerciseCard/setList/SetList';
+import EditIcon from '@mui/icons-material/Edit';
 
 type ExerciseCardProps = {
   exercise: WorkoutExercise;
+  handleDeleteExercise: (orderNumber: number) => void;
+  handleDeleteSet: (exerciseId: string, setNumber: number) => void;
+  handleAddNewSet: (exerciseId: string, newSet: WorkoutExerciseSet) => void;
 };
 
-const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise }) => {
-  const handleDeleteExercise = () => {
-    alert('exercise deleted' + exercise.workoutExerciseId);
-  };
+const ExerciseCard: React.FC<ExerciseCardProps> = ({
+  exercise,
+  handleDeleteExercise,
+  handleDeleteSet,
+  handleAddNewSet,
+}) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const handleDeleteSet = (id: string | null) => {
-    alert('set deleted' + id);
-  };
-
-  const handleAddSet = () => {
-    alert('set added');
+  const handleEdit = () => {
+    setIsEditing(true);
   };
 
   return (
-    <div className='exercise-card'>
+    <div className='exercise-card' style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <Typography variant='h6' gutterBottom>
-          {exercise.exercise.name}{' '}
+          {`${exercise.orderNumber}. ${exercise.exercise.name}`}
         </Typography>
-        <CloseIcon onClick={handleDeleteExercise} style={{ cursor: 'pointer' }} />
+        <div>
+          {!isEditing && (
+            <Tooltip title='Edit'>
+              <EditIcon onClick={handleEdit} style={{ cursor: 'pointer', marginRight: '8px' }} />
+            </Tooltip>
+          )}
+          <Tooltip title='Delete'>
+            <CloseIcon onClick={() => handleDeleteExercise(exercise.orderNumber)} style={{ cursor: 'pointer' }} />
+          </Tooltip>
+        </div>
       </div>
-
       <Divider className='divider' />
-      <List>
-        {exercise.sets.map((set, setIndex) => (
-          <ListItem key={set.setNumber}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <div>set {setIndex + 1} </div>
-              <TextField sx={{ width: '75px' }} label='reps' defaultValue={set.reps} />
-              <TextField
-                sx={{ width: '75px' }}
-                label='weight'
-                defaultValue={set.weight}
-                slotProps={{
-                  input: {
-                    endAdornment: (
-                      <InputAdornment className='helper-text' position='end' style={{ color: '#6c757d' }}>
-                        <span className='helper-text'>kg</span>
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
-              <TextField
-                sx={{ width: '75px' }}
-                label='rest time'
-                defaultValue={set.restTime}
-                slotProps={{
-                  input: {
-                    endAdornment: (
-                      <InputAdornment position='end'>
-                        <span className='helper-text'>s</span>
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
-              {setIndex !== 0 && (
-                <CloseIcon style={{ cursor: 'pointer' }} onClick={() => handleDeleteSet(set.workoutExerciseSetId)} />
-              )}
-            </div>
-          </ListItem>
-        ))}
-      </List>
-      <Button onClick={handleAddSet}>Add new set</Button>
-      <Divider className='divider' />
-      <Typography variant='body2' className='notes'>
-        Notes: {exercise.notes || 'None'}
-      </Typography>
+      <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', flexGrow: '1' }}>
+        <div>
+          <SetList
+            handleDeleteSet={(setNumber) => handleDeleteSet(exercise.id, setNumber)}
+            handleAddNewSet={(newSet) => handleAddNewSet(exercise.id, newSet)}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            sets={exercise.sets}
+          />
+        </div>
+        <Typography variant='body2' className='notes'>
+          <Divider className='divider' />
+          <Notes notes={exercise.notes} />
+        </Typography>
+      </div>
     </div>
   );
 };

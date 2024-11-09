@@ -1,28 +1,26 @@
-import { SimpleExercise } from '@/types/entities/Routine.ts';
+import { SimpleExercise } from '@/types/entities/Routine';
 
 export interface Workout {
   id?: string;
   name: string;
   date: Date;
-  comment?: string;
+  comment: string;
   exercises: WorkoutExercise[];
-  routineId?: string;
-  basedOnWorkoutId?: string;
 }
 
 export interface WorkoutExercise {
-  workoutExerciseId: string | null;
+  id: string;
   exercise: SimpleExercise;
   orderNumber: number;
-  notes?: string;
+  notes: string;
   sets: WorkoutExerciseSet[];
 }
 
 export interface WorkoutExerciseSet {
-  workoutExerciseSetId: string | null;
+  id: string;
   setNumber: number;
-  reps?: number;
-  weight?: number;
-  restTime?: number;
-  comment?: string;
+  reps: number;
+  weight: number;
+  restTime: number;
+  comment: string;
 }

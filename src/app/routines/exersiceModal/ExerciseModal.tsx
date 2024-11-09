@@ -18,13 +18,19 @@ import {
 import { validationSchema } from './validationSchema';
 import { Controller, useForm } from 'react-hook-form';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { debounce } from '@/app/common/utils/debounce';
+import { timeUnits, weightUnits } from './measurementUnits';
 
 interface ExerciseModalProps {
   open: boolean;
   handleClose: () => void;
+  onSave: (exercise: CreateRoutineExercise, name?: string) => void;
 }
 
-const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
+const ExerciseModal = ({ open, handleClose, onSave }: ExerciseModalProps) => {
+  const [prefix, setPrefix] = useState('');
+
   const {
     register,
     control,
@@ -44,7 +50,9 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
   });
 
   const onSubmit = (data: CreateRoutineExercise) => {
-    console.log(data); // Handle form submission
+    console.log('onsubmit', data);
+    const exercise = exerciseOptions?.find((exercise) => (exercise.id = data.exerciseId));
+    onSave(data, exercise?.name); // Handle form submission
     reset();
     handleClose();
   };
@@ -54,13 +62,15 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
     handleClose();
   };
 
-  const { data: exerciseOptions } = useQuery({
-    queryFn: async () => fetchExerciseByName(),
-    queryKey: ['exerciseOptions'],
-  });
+  const handleInputChange = debounce((_, value: string) => {
+    setPrefix(value);
+  }, 250);
 
-  const weightUnits = ['kg', 'lbs'];
-  const timeUnits = ['seconds', 'minutes'];
+  const { data: exerciseOptions } = useQuery({
+    queryKey: ['exerciseOptions', prefix],
+    queryFn: () => fetchExerciseByName(prefix),
+    enabled: !!prefix,
+  });
 
   return (
     <Dialog onClose={handleClose} open={open} className='exercise-modal-dialog'>
@@ -78,6 +88,7 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
                   options={exerciseOptions || []}
                   getOptionLabel={(option) => option.name}
                   isOptionEqualToValue={(option, value) => option.id === value.id}
+                  onInputChange={handleInputChange}
                   onChange={(_, newValue) => {
                     field.onChange(newValue ? newValue.id : '');
                   }}

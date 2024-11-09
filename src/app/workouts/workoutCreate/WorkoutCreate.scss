@@ -34,8 +34,17 @@
 .exercise-list-wrapper {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
   gap: 16px;
   padding: 16px 0;
+
+  .add-exercise {
+    padding: 16px;
+    border: 1px solid $secondary-color;
+    border-radius: $border-radius-base;
+    box-sizing: border-box;
+  }
 }
 
 .MuiTypography-root .MuiTypography-caption .MuiDayCalendar-weekDayLabel {
