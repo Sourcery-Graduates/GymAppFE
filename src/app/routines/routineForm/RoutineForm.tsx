@@ -19,6 +19,7 @@ import React from 'react';
 import { useState } from 'react';
 import ExerciseModal from '../exersiceModal/ExerciseModal';
 import ExercisesTable from '../exercisesTable/ExercisesTable';
+import { RoutineExercisesProvider } from '@/app/common/context/RoutineExercisesContext';
 
 type FormFields = InferType<typeof routineValidationSchema>;
 
@@ -80,49 +81,51 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
   });
 
   return (
-    <div className='routine-form-container'>
-      <div className='routine-options-bar'>
-        <IconButton aria-label='go back' onClick={goBackHandler}>
-          <ArrowBackIosNewIcon sx={{ color: 'accent.main' }} />
-        </IconButton>
-        <div className='routine-options'>
-          <Button size='small' form='routine-form' isDisabled={isSubmitting}>
-            <SaveAsIcon fontSize='small' /> &nbsp; Save Routine
-          </Button>
+    <RoutineExercisesProvider>
+      <div className='routine-form-container'>
+        <div className='routine-options-bar'>
+          <IconButton aria-label='go back' onClick={goBackHandler}>
+            <ArrowBackIosNewIcon sx={{ color: 'accent.main' }} />
+          </IconButton>
+          <div className='routine-options'>
+            <Button size='small' form='routine-form' isDisabled={isSubmitting}>
+              <SaveAsIcon fontSize='small' /> &nbsp; Save Routine
+            </Button>
+          </div>
         </div>
+        <form id='routine-form' className='routine-form' onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            label='Routine name'
+            fullWidth
+            size='small'
+            className='form-field'
+            variant='filled'
+            {...register('name')}
+            error={!!errors.name}
+            helperText={errors.name?.message}
+          />
+          <TextField
+            label='Description'
+            fullWidth
+            multiline
+            size='small'
+            rows={4}
+            className='form-field'
+            variant='filled'
+            {...register('description')}
+            error={!!errors.description}
+            helperText={errors.description?.message}
+          />
+        </form>
+        <div className='routine-exercise-list'>LIST OF EXERCISES</div>
+        <Button onClick={handleClickOpen}>
+          <AddIcon />
+          &nbsp;ADD EXERCISE
+        </Button>
+        <ExerciseModal open={modalOpen} handleClose={handleClose} />
+        <ExercisesTable />
       </div>
-      <form id='routine-form' className='routine-form' onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          label='Routine name'
-          fullWidth
-          size='small'
-          className='form-field'
-          variant='filled'
-          {...register('name')}
-          error={!!errors.name}
-          helperText={errors.name?.message}
-        />
-        <TextField
-          label='Description'
-          fullWidth
-          multiline
-          size='small'
-          rows={4}
-          className='form-field'
-          variant='filled'
-          {...register('description')}
-          error={!!errors.description}
-          helperText={errors.description?.message}
-        />
-      </form>
-      <div className='routine-exercise-list'>LIST OF EXERCISES</div>
-      <Button onClick={handleClickOpen}>
-        <AddIcon />
-        &nbsp;ADD EXERCISE
-      </Button>
-      <ExerciseModal open={modalOpen} handleClose={handleClose} />
-      <ExercisesTable />
-    </div>
+    </RoutineExercisesProvider>
   );
 };
 

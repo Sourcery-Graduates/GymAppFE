@@ -1,8 +1,10 @@
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
-import { mockExercises } from '@/types/entities/Exercise';
 import ExercisesTableRow from './ExercisesTableRow';
+import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
 
 const ExercisesTable = () => {
+  const { exercises } = useRoutineExercises();
+
   return (
     <>
       <TableContainer>
@@ -19,7 +21,7 @@ const ExercisesTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {mockExercises.map((exercise, index) => (
+            {exercises.map((exercise, index) => (
               <ExercisesTableRow data={exercise} index={index} />
             ))}
           </TableBody>

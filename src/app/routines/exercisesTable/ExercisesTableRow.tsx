@@ -3,6 +3,7 @@ import { TableRow, TableCell, Button, IconButton, Box, Collapse, Typography } fr
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 
 import { useState } from 'react';
+import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
 export interface ExercisesTableRowProps {
   data: CreteRoutineExerciseJoined;
   index: number;
@@ -10,6 +11,13 @@ export interface ExercisesTableRowProps {
 
 const ExercisesTableRow = ({ data, index }: ExercisesTableRowProps) => {
   const [open, setOpen] = useState(false);
+
+  const { removeExercise } = useRoutineExercises();
+
+  const deleteRow = () => {
+    setOpen(false);
+    removeExercise(data.exerciseId);
+  };
 
   return (
     <>
@@ -27,7 +35,7 @@ const ExercisesTableRow = ({ data, index }: ExercisesTableRowProps) => {
         <TableCell>{data.defaultRestTime}</TableCell>
 
         <TableCell align='right'>
-          <Button variant='outlined' size='small' color='error'>
+          <Button variant='outlined' size='small' color='error' onClick={deleteRow}>
             delete
           </Button>
         </TableCell>
