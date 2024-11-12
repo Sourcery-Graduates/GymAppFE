@@ -101,7 +101,7 @@
 			grid-row-end: 1;
 			max-height: calc(100vh - 64px);
 			max-height: calc(100dvh - 64px);
-			overflow: scroll;
+			overflow: hidden;
 		}
 		&_footer {
 			display: none;

@@ -1,10 +1,14 @@
-@import '@/styles/base/variables';
+@import '../../../styles/base/variables';
 
 .routine-list-wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  padding: 8px 0;
+  gap: $small-gap;
+  padding: $small-gap $small-gap $small-gap 0;
+  height: 100dvh;
+  max-height: calc(100vh - 235px);
+  max-height: calc(100dvh - 235px);
+  overflow-y: auto;
 }
 
 @media (max-width: 1690px) {
@@ -26,6 +30,5 @@
     display: grid;
     grid-template-columns: 1fr;
     max-height: calc(100dvh - 64px - 181px);
-    overflow: scroll;
   }
 }

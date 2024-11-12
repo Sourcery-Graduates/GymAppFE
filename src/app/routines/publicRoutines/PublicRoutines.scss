@@ -4,11 +4,14 @@
   display: flex;
   flex-direction: column;
   height: 100dvh;
+  max-height: calc(100vh - 220px);
+  max-height: calc(100dvh - 220px);
+  overflow-y: auto;
 }
 .public-routine-list-wrapper .MuiList-root {
   display: flex;
   flex-direction: column;
-  gap: $small-gap;
+  padding: $small-gap $small-gap $small-gap 0;
 }
 .public-routine-list-wrapper {
   flex: 1 1 auto;
