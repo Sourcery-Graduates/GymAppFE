@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Workout } from '@/types/entities/Workout';
+import { CreateWorkout, WorkoutFormType } from '@/types/entities/Workout';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { createWorkout, deleteWorkout } from '@/api/workout';
+import { createWorkout, deleteWorkout, updateWorkout } from '@/api/workout';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Typography } from '@mui/material';
 import Button from '@/app/components/buttons/Button/Button.tsx';
@@ -14,19 +14,22 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TextField } from '@mui/material';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import ExerciseModal from '@/app/routines/exersiceModal/ExerciseModal.tsx';
-import { mapToRoutineExercise, mapToWorkoutExercise } from '@/types/mapper/exercise.ts';
+import {
+  mapRoutineExerciseToCreateWorkoutExercise,
+  mapToCreateWorkout,
+  mapToRoutineExercise,
+} from '@/types/mapper/exercise.ts';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { CreateRoutineExercise } from '@/types/entities/Exercise.ts';
 import { AppRoutes } from '@/types/routes.ts';
 import SaveIcon from '@mui/icons-material/Save';
-
 dayjs.extend(updateLocale);
 dayjs.updateLocale('en', {
   weekStart: 1,
 });
 
 interface WorkoutFormProps {
-  initialWorkout: Workout;
+  initialWorkout: CreateWorkout;
   typeOfWorkout: 'new_workout' | 'existing_workout';
 }
 
@@ -39,17 +42,32 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
     return typeOfWorkout === 'new_workout';
   }, []);
 
-  const { control, handleSubmit, register } = useForm<Workout>({
+  const { control, handleSubmit, register } = useForm<WorkoutFormType>({
     defaultValues: initialWorkout,
   });
 
-  const handleCreateWorkout = (data) => {
-    alert('created workout');
-    console.log(data);
+  const onSubmit = (data: CreateWorkout) => {
+    data.routineId = initialWorkout.routineId;
+    if (isNewWorkout) {
+      handleCreateWorkout(data);
+    } else handleUpdateWorkout(data);
+  };
+
+  const handleCreateWorkout = (data: CreateWorkout) => {
     createWorkout(data).then((response) => {
       if (isNewWorkout) {
-        navigate(AppRoutes.WORKOUT.replace(':workoutId', response?.id), { state: { workoutData: response } });
+        alert('created workout');
+        navigate(AppRoutes.WORKOUT.replace(':workoutId', response?.id), {
+          state: { workoutData: mapToCreateWorkout(response) },
+        });
       }
+    });
+  };
+
+  const handleUpdateWorkout = (data: CreateWorkout) => {
+    updateWorkout(data).then((response) => {
+      alert('saved workout');
+      console.log('updated workout response ', response);
     });
   };
 
@@ -62,8 +80,9 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
   };
 
   const AddNewExercise = (data: CreateRoutineExercise, name: string) => {
-    const routineExercise = mapToRoutineExercise(data, name);
-    const workoutExercise = mapToWorkoutExercise(routineExercise);
+    console.log('exercise add ', data);
+    const routineExercise = mapToRoutineExercise(data, name, exerciseFields.length + 1);
+    const workoutExercise = mapRoutineExerciseToCreateWorkoutExercise(routineExercise);
     appendExercise(workoutExercise);
   };
 
@@ -85,7 +104,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(handleCreateWorkout)}>
+      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
         <div className='workout-create'>
           <div className='workout-create-header'>
             <Typography variant='h4' gutterBottom>
@@ -176,7 +195,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
           <div className='exercise-list-wrapper'>
             {exerciseFields.map((exercise, exerciseIndex) => (
               <ExerciseCard
-                key={exercise.exercise.id}
+                key={exercise.exerciseId}
                 exerciseIndex={exerciseIndex}
                 control={control}
                 removeExercise={removeExercise}

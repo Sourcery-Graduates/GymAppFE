@@ -1,11 +1,12 @@
 // src/mocks/mockRoutineData.ts
 // TODO: to be removed
 import { RoutineWithExercises } from '@/types/entities/Routine';
+import { v4 as uuidv4 } from 'uuid';
 
 export const mockRoutineData: RoutineWithExercises = {
   routine: {
     userId: '1',
-    id: 'routine-1',
+    id: '75bab785-42ac-45fe-b49a-a48460534350',
     name: 'Full Body Routine',
     description: 'A well-rounded routine targeting all major muscle groups.',
     likes: 42,
@@ -16,7 +17,7 @@ export const mockRoutineData: RoutineWithExercises = {
     {
       routineExerciseId: 'routine-exercise-1',
       exercise: {
-        id: 'exercise-1',
+        id: '5a83dc6e-a0d5-467d-8057-e025b84c13f7',
         name: 'Squat',
       },
       orderNumber: 1,
@@ -30,7 +31,7 @@ export const mockRoutineData: RoutineWithExercises = {
     {
       routineExerciseId: 'routine-exercise-12',
       exercise: {
-        id: 'exercise-12',
+        id: '5231ad82-e69e-44cf-85a4-36db25c36aa6',
         name: 'Squat2',
       },
       orderNumber: 4,
@@ -43,7 +44,7 @@ export const mockRoutineData: RoutineWithExercises = {
     {
       routineExerciseId: 'routine-exercise-2',
       exercise: {
-        id: 'exercise-2',
+        id: '5b42e834-e6d6-4e70-aed7-0b86cb85e6fd',
         name: 'Bench Press',
       },
       orderNumber: 2,
@@ -56,7 +57,7 @@ export const mockRoutineData: RoutineWithExercises = {
     {
       routineExerciseId: 'routine-exercise-3',
       exercise: {
-        id: 'exercise-3',
+        id: '85cdec1e-b64b-4068-9cd7-92f2876e08a9',
         name: 'Deadlift',
       },
       orderNumber: 3,

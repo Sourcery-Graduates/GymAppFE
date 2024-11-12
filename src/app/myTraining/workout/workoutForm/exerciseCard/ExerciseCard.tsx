@@ -40,7 +40,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseIndex, control, rem
     <div className='exercise-card' style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <Controller
-          name={`exercises[${exerciseIndex}].exercise.name`}
+          name={`exercises[${exerciseIndex}].exerciseName`}
           control={control}
           render={({ field }) => (
             <Typography variant='h6' gutterBottom>

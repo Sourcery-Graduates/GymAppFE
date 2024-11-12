@@ -12,8 +12,8 @@ import MyProfile from '@/app/myProfile/MyProfile';
 import RoutineDetails from './routines/routineDetails/RoutineDetails';
 import RoutineCreate from './routines/routineForm/routineCreate/RoutineCreate';
 import RoutineUpdate from './routines/routineForm/routineUpdate/RoutineUpdate';
-import WorkoutCreate from '@/app/myTraining/workout/createWorkout/CreateWorkout.tsx';
 import WorkoutPage from '@/app/myTraining/workout/workout/WorkoutPage';
+import CreateWorkoutPage from '@/app/myTraining/workout/createWorkout/CreateWorkoutPage';
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
         <Route path={AppRoutes.HOME} element={<Layout />}>
           <Route path={AppRoutes.HOME} element={<Home />} />
           <Route path={AppRoutes.ROUTINES} element={<Routines />} />
-          <Route path={AppRoutes.WORKOUT_CREATE} element={<WorkoutCreate />} />
+          <Route path={AppRoutes.WORKOUT_CREATE} element={<CreateWorkoutPage />} />
           <Route path={AppRoutes.ROUTINE_DETAILS} element={<RoutineDetails />} />
           <Route path={AppRoutes.ROUTINE_UPDATE} element={<RoutineUpdate />} />
           <Route path={AppRoutes.ROUTINE_CREATE} element={<RoutineCreate />} />
