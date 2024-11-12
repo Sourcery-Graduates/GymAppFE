@@ -1,0 +1,67 @@
+@import '@/styles/base/variables';
+
+.workout-create {
+  width: 100%;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    .delete-workout-button {
+      color: $red-delete;
+      border-color: $red-delete;
+    }
+  }
+
+  &-info {
+    display: flex;
+    justify-content: space-between;
+
+    .name-and-date {
+      .calendar .MuiSvgIcon-root {
+        color: $text-color;
+      }
+      .calendar .MuiTypography-root {
+        color: $text-color;
+      }
+      .calendar .MuiDateCalendar-root {
+        color: $text-color;
+      }
+      .calendar .MuiDayCalendar-root {
+        color: $text-color !important;
+      }
+    }
+  }
+}
+
+.exercise-list-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 16px;
+  padding: 16px 0;
+
+  .add-exercise {
+    padding: 16px;
+    border: 1px solid $secondary-color;
+    border-radius: $border-radius-base;
+    box-sizing: border-box;
+  }
+}
+
+.MuiTypography-root .MuiTypography-caption .MuiDayCalendar-weekDayLabel {
+  color: $text-color;
+}
+
+.MuiDayCalendar-header span {
+  // trickery, not sure why this dont work without it :O
+  color: $text-color !important;
+}
+
+.MuiPickersDay-today {
+  // trickery, not sure why this dont work without it :O
+  border: 1px solid $text-color !important;
+}

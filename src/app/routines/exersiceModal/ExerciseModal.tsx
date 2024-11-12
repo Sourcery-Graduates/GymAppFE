@@ -25,9 +25,10 @@ import { timeUnits, weightUnits } from './measurementUnits';
 interface ExerciseModalProps {
   open: boolean;
   handleClose: () => void;
+  onSave: (exercise: CreateRoutineExercise, name?: string) => void;
 }
 
-const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
+const ExerciseModal = ({ open, handleClose, onSave }: ExerciseModalProps) => {
   const [prefix, setPrefix] = useState('');
 
   const {
@@ -49,7 +50,8 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
   });
 
   const onSubmit = (data: CreateRoutineExercise) => {
-    console.log(data); // Handle form submission
+    const exercise = exerciseOptions?.find((exercise) => (exercise.id = data.exerciseId));
+    onSave(data, exercise?.name); // Handle form submission
     reset();
     handleClose();
   };
