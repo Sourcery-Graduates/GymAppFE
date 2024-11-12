@@ -30,6 +30,7 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
   const handleClose = () => setModalOpen(false);
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
+    console.log('create');
     if (routine) {
       routine.name = data.name;
       routine.description = data.description;
@@ -85,7 +86,7 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
           <ArrowBackIosNewIcon sx={{ color: 'accent.main' }} />
         </IconButton>
         <div className='routine-options'>
-          <Button size='small' form='routine-form' isDisabled={isSubmitting}>
+          <Button type='submit' size='small' form='routine-form' isDisabled={isSubmitting}>
             <SaveAsIcon fontSize='small' /> &nbsp; Save Routine
           </Button>
         </div>

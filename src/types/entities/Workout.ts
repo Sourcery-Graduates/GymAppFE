@@ -1,15 +1,39 @@
 import { SimpleExercise } from '@/types/entities/Routine';
+import { Dayjs } from 'dayjs';
 
-export interface Workout {
-  id: string;
+export interface CreateWorkout {
+  id?: string;
+  routineId: string;
   name: string;
   date: Date;
   comment: string;
-  exercises: WorkoutExercise[];
+  exercises: CreateWorkoutExercise[];
 }
 
-export interface WorkoutExercise {
+export interface ResponseWorkout {
   id: string;
+  routineId: string;
+  name: string;
+  date: Date;
+  comment: string;
+  exercises: ResponseWorkoutExercise[];
+}
+
+export type WorkoutFormType = Omit<CreateWorkout, 'routineId' | 'date'> & {
+  date: Dayjs;
+};
+
+export interface CreateWorkoutExercise {
+  id?: string;
+  exerciseId: string;
+  exerciseName: string;
+  orderNumber: number;
+  notes: string;
+  sets: WorkoutExerciseSet[];
+}
+
+export interface ResponseWorkoutExercise {
+  id?: string;
   exercise: SimpleExercise;
   orderNumber: number;
   notes: string;

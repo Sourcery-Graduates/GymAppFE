@@ -1,0 +1,24 @@
+@import '@/styles/base/variables';
+
+.exercise-card {
+  width: 400px;
+  padding: 16px;
+  border: $border;
+  border-radius: $border-radius-base;
+  box-sizing: border-box;
+
+  .divider {
+    margin: 8px 0;
+    border-color: #6c757d;
+    width: auto;
+    max-width: 100%;
+  }
+
+  .notes {
+    margin-top: 8px;
+  }
+}
+
+.helper-text {
+  color: $text-color;
+}

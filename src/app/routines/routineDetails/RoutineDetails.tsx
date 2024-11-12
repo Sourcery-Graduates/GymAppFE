@@ -64,6 +64,10 @@ const RoutineDetails = () => {
     },
   });
 
+  const startWorkoutHandler = () => {
+    navigate(AppRoutes.WORKOUT_CREATE, { state: { routineData: data } });
+  };
+
   if (isLoading) {
     return (
       <div className='routine-details-container'>
@@ -85,6 +89,9 @@ const RoutineDetails = () => {
             </Button>
             <Button size='small' className='delete-routine-button' onClick={handleClickOpen}>
               <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Routine
+            </Button>
+            <Button size='small' className='start-workout-button' onClick={startWorkoutHandler}>
+              Start Workout
             </Button>
             <ConfirmationDialog
               description='Are you sure you want to delete this Routine?'

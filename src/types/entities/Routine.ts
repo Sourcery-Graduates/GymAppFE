@@ -14,10 +14,10 @@ export interface SimpleExercise {
 }
 
 export interface RoutineExercise {
-  routineExerciseId: string;
+  routineExerciseId?: string;
   exercise: SimpleExercise;
   orderNumber: number;
-  defaultsSets: number;
+  defaultSets: number;
   defaultReps: number;
   defaultWeight: number;
   defaultRestTime: number;
@@ -30,7 +30,7 @@ export interface RoutineWithExercises {
 }
 
 export interface PagedRoutine {
-    data: Routine[];
-    totalPages: number;
-    totalElements: number;
+  data: Routine[];
+  totalPages: number;
+  totalElements: number;
 }
