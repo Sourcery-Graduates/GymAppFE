@@ -1,9 +1,9 @@
 import { TextField } from '@mui/material';
 import { useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 
 interface NotesProps {
-  control: any;
+  control: Control<any>;
   isEditing: boolean;
   exerciseIndex: number;
 }

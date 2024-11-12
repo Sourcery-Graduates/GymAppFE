@@ -23,15 +23,16 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { CreateRoutineExercise } from '@/types/entities/Exercise.ts';
 import { AppRoutes } from '@/types/routes.ts';
 import SaveIcon from '@mui/icons-material/Save';
-dayjs.extend(updateLocale);
-dayjs.updateLocale('en', {
-  weekStart: 1,
-});
 
 interface WorkoutFormProps {
   initialWorkout: CreateWorkout;
   typeOfWorkout: 'new_workout' | 'existing_workout';
 }
+
+dayjs.extend(updateLocale);
+dayjs.updateLocale('en', {
+  weekStart: 1,
+});
 
 const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -47,7 +48,6 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
   });
 
   const onSubmit = (data: CreateWorkout) => {
-    data.routineId = initialWorkout.routineId;
     if (isNewWorkout) {
       handleCreateWorkout(data);
     } else handleUpdateWorkout(data);
@@ -80,7 +80,6 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
   };
 
   const AddNewExercise = (data: CreateRoutineExercise, name: string) => {
-    console.log('exercise add ', data);
     const routineExercise = mapToRoutineExercise(data, name, exerciseFields.length + 1);
     const workoutExercise = mapRoutineExerciseToCreateWorkoutExercise(routineExercise);
     appendExercise(workoutExercise);
@@ -141,6 +140,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
                       onChange={(date) => field.onChange(date)}
                       format='DD/MM/YYYY'
                       // TODO CHANGE IT FROM SLOT PROPS
+                      // Bugs on trying to attach that to css classes
                       slotProps={{
                         desktopPaper: {
                           sx: {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { WorkoutExercise, WorkoutExerciseSet } from '@/types/entities/Workout.ts';
 import { Typography, Divider, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -7,13 +6,13 @@ import './ExerciseCard.scss';
 import Notes from '@/app/myTraining/workout/workoutForm/exerciseCard/notes/Notes';
 import SetList from '@/app/myTraining/workout/workoutForm/exerciseCard/setList/SetList';
 import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import { Controller, useFieldArray } from 'react-hook-form';
+import EditOffIcon from '@mui/icons-material/EditOff';
+import { Control, Controller, useFieldArray, UseFieldArrayRemove } from 'react-hook-form';
 
 type ExerciseCardProps = {
   exerciseIndex: number;
-  control: any;
-  removeExercise: any;
+  control: Control<any>;
+  removeExercise: UseFieldArrayRemove;
 };
 
 const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseIndex, control, removeExercise }) => {
@@ -54,8 +53,8 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseIndex, control, rem
               <EditIcon onClick={handleEdit} style={{ cursor: 'pointer', marginRight: '8px' }} />
             </Tooltip>
           ) : (
-            <Tooltip title='Save'>
-              <SaveIcon onClick={handleStopEditing} style={{ cursor: 'pointer', marginRight: '8px' }} />
+            <Tooltip title='Stop editing'>
+              <EditOffIcon onClick={handleStopEditing} style={{ cursor: 'pointer', marginRight: '8px' }} />
             </Tooltip>
           )}
           <Tooltip title='Delete'>

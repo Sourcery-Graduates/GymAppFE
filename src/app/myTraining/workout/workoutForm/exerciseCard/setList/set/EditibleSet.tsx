@@ -1,13 +1,13 @@
 import { WorkoutExerciseSet } from '@/types/entities/Workout';
 import { InputAdornment, ListItem, TextField, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 
 interface EditibleSetProps {
   set: WorkoutExerciseSet;
   setIndex: number;
   exerciseIndex: number;
-  control: any;
+  control: Control<any>;
   removeSet: (index: number) => void;
 }
 
@@ -64,11 +64,6 @@ const EditibleSet = ({ set, setIndex, exerciseIndex, control, removeSet }: Editi
             />
           )}
         />
-        {/* <Controller
-        name={`exercises[${exerciseIndex}].sets[${setIndex}].comment`}
-        control={control}
-        render={({ field }) => <input {...field} placeholder="Set Comment" />}
-      /> */}
         {setIndex !== 0 && (
           <Tooltip title='Delete'>
             <CloseIcon style={{ cursor: 'pointer' }} onClick={() => removeSet(setIndex)} />

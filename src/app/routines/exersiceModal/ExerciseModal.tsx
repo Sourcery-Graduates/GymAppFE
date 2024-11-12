@@ -50,7 +50,6 @@ const ExerciseModal = ({ open, handleClose, onSave }: ExerciseModalProps) => {
   });
 
   const onSubmit = (data: CreateRoutineExercise) => {
-    console.log('onsubmit', data);
     const exercise = exerciseOptions?.find((exercise) => (exercise.id = data.exerciseId));
     onSave(data, exercise?.name); // Handle form submission
     reset();

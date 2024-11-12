@@ -11,8 +11,6 @@ interface TrainingCardProps {
 const TrainingCard = ({ workout }: TrainingCardProps) => {
   const navigate = useNavigate();
 
-  console.log('training card', mapToCreateWorkout(workout));
-
   const handleCardClick = () => {
     navigate(AppRoutes.WORKOUT.replace(':workoutId', workout.id), {
       state: { workoutData: mapToCreateWorkout(workout) },

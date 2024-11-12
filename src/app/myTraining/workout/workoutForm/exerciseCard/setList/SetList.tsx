@@ -1,16 +1,16 @@
 import { List } from '@mui/material';
 import Button from '@/app/components/buttons/Button/Button';
-import { WorkoutExerciseSet } from '@/types/entities/Workout';
 import Set from './set/Set';
 
 import EditibleSet from '@/app/myTraining/workout/workoutForm/exerciseCard/setList/set/EditibleSet';
+import { Control, UseFieldArrayAppend, UseFieldArrayRemove } from 'react-hook-form';
 
 interface setListProps {
-  setFields: any; // Fields for the sets, passed from `useFieldArray`
-  appendSet: any; // Function to append a new set
-  removeSet: any; // Function to remove a set
+  setFields: any;
+  appendSet: UseFieldArrayAppend<any, `exercises[${number}].sets`>;
+  removeSet: UseFieldArrayRemove;
   exerciseIndex: number;
-  control: any; // control object from `useForm` hook
+  control: Control<any>;
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }

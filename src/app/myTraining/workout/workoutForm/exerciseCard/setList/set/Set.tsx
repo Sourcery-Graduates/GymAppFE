@@ -1,12 +1,12 @@
 import { WorkoutExerciseSet } from '@/types/entities/Workout';
 import { ListItem } from '@mui/material';
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 
 interface SetProps {
   set: WorkoutExerciseSet;
   setIndex: number;
   exerciseIndex: number;
-  control: any;
+  control: Control<any>;
   removeSet: (index: number) => void;
 }
 
