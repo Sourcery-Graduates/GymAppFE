@@ -1,11 +1,10 @@
-import { CreteRoutineExerciseJoined } from '@/types/entities/Exercise';
-import { mockExercises } from '@/types/entities/Exercise';
+import { RoutineExercise } from '@/types/entities/Routine';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface RoutineExercisesContextType {
-  exercises: CreteRoutineExerciseJoined[];
-  setExercises: (exercises: CreteRoutineExerciseJoined[]) => void;
-  addExercise: (exercise: CreteRoutineExerciseJoined) => void;
+  exercises: RoutineExercise[];
+  setExercises: (exercises: RoutineExercise[]) => void;
+  addExercise: (exercise: RoutineExercise) => void;
   removeExercise: (id: string) => void;
 }
 
@@ -16,12 +15,12 @@ interface RoutineExercisesProviderProps {
 const RoutineExercisesContext = createContext<RoutineExercisesContextType | undefined>(undefined);
 
 export const RoutineExercisesProvider = ({ children }: RoutineExercisesProviderProps) => {
-  const [exercises, setExercises] = useState<CreteRoutineExerciseJoined[]>(mockExercises);
-  const addExercise = (exercise: CreteRoutineExerciseJoined) => {
+  const [exercises, setExercises] = useState<RoutineExercise[]>([]);
+  const addExercise = (exercise: RoutineExercise) => {
     setExercises((prev) => [...prev, exercise]);
   };
   const removeExercise = (id: string) => {
-    setExercises((prev) => prev.filter((item) => item.exerciseId != id));
+    setExercises((prev) => prev.filter((item) => item.routineExerciseId != id));
   };
 
   return (

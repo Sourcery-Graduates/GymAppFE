@@ -1,11 +1,12 @@
-import { CreteRoutineExerciseJoined } from '@/types/entities/Exercise';
 import { TableRow, TableCell, Button, IconButton, Box, Collapse, Typography } from '@mui/material';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
-
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
+import { RoutineExercise } from '@/types/entities/Routine';
+import { fetchExerciseByName } from '@/api/exerciseApi';
 export interface ExercisesTableRowProps {
-  data: CreteRoutineExerciseJoined;
+  data: RoutineExercise;
   index: number;
   editable: boolean;
 }
@@ -17,12 +18,18 @@ const ExercisesTableRow = ({ data, index, editable }: ExercisesTableRowProps) =>
 
   const deleteRow = () => {
     setOpen(false);
-    removeExercise(data.exerciseId);
+    removeExercise(data.routineExerciseId);
   };
+
+  const { data: exerciseDetails, isSuccess } = useQuery({
+    queryKey: ['exerciseDetails', data.exercise.id],
+    queryFn: () => fetchExerciseByName(data.exercise.name),
+    enabled: open,
+  });
 
   return (
     <>
-      <TableRow key={data.exerciseId}>
+      <TableRow key={data.routineExerciseId}>
         <TableCell>{index + 1}</TableCell>
         <TableCell>
           {data.exercise.name}{' '}
@@ -30,7 +37,7 @@ const ExercisesTableRow = ({ data, index, editable }: ExercisesTableRowProps) =>
             {open ? <KeyboardArrowUp color='info' /> : <KeyboardArrowDown color='info' />}
           </IconButton>
         </TableCell>
-        <TableCell>{data.defaultSets}</TableCell>
+        <TableCell>{data.defaultsSets}</TableCell>
         <TableCell>{data.defaultReps}</TableCell>
         <TableCell>{data.defaultWeight}</TableCell>
         <TableCell>{data.defaultRestTime}</TableCell>
@@ -50,28 +57,32 @@ const ExercisesTableRow = ({ data, index, editable }: ExercisesTableRowProps) =>
               <Typography variant='subtitle1' gutterBottom component='div'>
                 <b>Exercise Details</b>
               </Typography>
-              <Typography variant='body2' gutterBottom>
-                <strong>Force:</strong> {data.exercise.force}
-              </Typography>
-              <Typography variant='body2' gutterBottom>
-                <strong>Level:</strong> {data.exercise.level}
-              </Typography>
-              <Typography variant='body2' gutterBottom>
-                <strong>Mechanic:</strong> {data.exercise.mechanic}
-              </Typography>
-              <Typography variant='body2' gutterBottom>
-                <strong>Equipment:</strong> {data.exercise.equipment}
-              </Typography>
-              <Typography variant='body2' gutterBottom>
-                <strong>Primary Muscles:</strong> {data.exercise.primaryMuscles?.join(', ')}
-              </Typography>
-              {data.exercise.secondaryMuscles && data.exercise.secondaryMuscles.length > 0 && (
-                <Typography variant='body2' gutterBottom>
-                  <strong>Secondary Muscles:</strong> {data.exercise.secondaryMuscles?.join(', ')}
-                </Typography>
+              {isSuccess && (
+                <>
+                  <Typography variant='body2' gutterBottom>
+                    <strong>Force:</strong> {exerciseDetails[0].force}
+                  </Typography>
+                  <Typography variant='body2' gutterBottom>
+                    <strong>Level:</strong> {exerciseDetails[0].level}
+                  </Typography>
+                  <Typography variant='body2' gutterBottom>
+                    <strong>Mechanic:</strong> {exerciseDetails[0].mechanic}
+                  </Typography>
+                  <Typography variant='body2' gutterBottom>
+                    <strong>Equipment:</strong> {exerciseDetails[0].equipment}
+                  </Typography>
+                  <Typography variant='body2' gutterBottom>
+                    <strong>Primary Muscles:</strong> {exerciseDetails[0].primaryMuscles?.join(', ')}
+                  </Typography>
+                  {exerciseDetails[0].secondaryMuscles && exerciseDetails[0].secondaryMuscles.length > 0 && (
+                    <Typography variant='body2' gutterBottom>
+                      <strong>Secondary Muscles:</strong> {exerciseDetails[0].secondaryMuscles?.join(', ')}
+                    </Typography>
+                  )}
+                  <hr />
+                  <Typography variant='body2'>{exerciseDetails[0].description}</Typography>
+                </>
               )}
-              <hr />
-              <Typography variant='body2'>{data.exercise.description}</Typography>
             </Box>
           </Collapse>
         </TableCell>
