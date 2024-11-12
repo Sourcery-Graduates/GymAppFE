@@ -2,7 +2,11 @@ import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from
 import ExercisesTableRow from './ExercisesTableRow';
 import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
 
-const ExercisesTable = () => {
+interface ExerciseTableProps {
+  editable: boolean;
+}
+
+const ExercisesTable = ({ editable = true }: ExerciseTableProps) => {
   const { exercises } = useRoutineExercises();
 
   return (
@@ -17,12 +21,12 @@ const ExercisesTable = () => {
               <TableCell>Reps</TableCell>
               <TableCell>Weight&nbsp;(unit)</TableCell>
               <TableCell> Rest Time&nbsp;(unit)</TableCell>
-              <TableCell align='right'>Options</TableCell>
+              {editable && <TableCell align='right'>Options</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
             {exercises.map((exercise, index) => (
-              <ExercisesTableRow data={exercise} index={index} />
+              <ExercisesTableRow data={exercise} index={index} editable={editable} />
             ))}
           </TableBody>
         </Table>

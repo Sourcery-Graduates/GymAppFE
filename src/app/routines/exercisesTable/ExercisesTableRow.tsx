@@ -7,9 +7,10 @@ import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContex
 export interface ExercisesTableRowProps {
   data: CreteRoutineExerciseJoined;
   index: number;
+  editable: boolean;
 }
 
-const ExercisesTableRow = ({ data, index }: ExercisesTableRowProps) => {
+const ExercisesTableRow = ({ data, index, editable }: ExercisesTableRowProps) => {
   const [open, setOpen] = useState(false);
 
   const { removeExercise } = useRoutineExercises();
@@ -34,11 +35,13 @@ const ExercisesTableRow = ({ data, index }: ExercisesTableRowProps) => {
         <TableCell>{data.defaultWeight}</TableCell>
         <TableCell>{data.defaultRestTime}</TableCell>
 
-        <TableCell align='right'>
-          <Button variant='outlined' size='small' color='error' onClick={deleteRow}>
-            delete
-          </Button>
-        </TableCell>
+        {editable && (
+          <TableCell align='right'>
+            <Button variant='outlined' size='small' color='error' onClick={deleteRow}>
+              delete
+            </Button>
+          </TableCell>
+        )}
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>

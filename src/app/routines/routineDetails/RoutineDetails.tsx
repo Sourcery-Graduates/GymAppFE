@@ -13,6 +13,7 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import './RoutineDetails.scss';
+import ExercisesTable from '../exercisesTable/ExercisesTable';
 
 const RoutineDetails = () => {
   const { routineId } = useParams();
@@ -93,7 +94,7 @@ const RoutineDetails = () => {
       </div>
       <h2>{data?.routine.name}</h2>
       <div className='routine-description'>{data?.routine.description}</div>
-      <div className='routine-exercise-list'>SPACE FOR EXERCISES</div>
+      <ExercisesTable editable={false} />
     </div>
   );
 };
