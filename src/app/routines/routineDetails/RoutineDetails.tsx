@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import './RoutineDetails.scss';
 import ExercisesTable from '../exercisesTable/ExercisesTable';
 import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
+import { RoutineExercise } from '@/types/entities/Routine';
 const RoutineDetails = () => {
   const { routineId } = useParams();
   const navigate = useNavigate();
@@ -56,7 +57,11 @@ const RoutineDetails = () => {
 
   useEffect(() => {
     if (data && data.exercises) {
-      setExercises(data.exercises);
+      const newExersices: RoutineExercise[] = data.exercises.map(item => ({
+        ...item,
+        defaultsSets: (item as any).defaultSets,
+      }))
+      setExercises(newExersices);
     }
   }, [data, setExercises]);
 

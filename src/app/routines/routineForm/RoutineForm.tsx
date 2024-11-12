@@ -1,4 +1,4 @@
-import { createRoutine, updateRoutine } from '@/api/routineApi';
+import { createRoutine, updateRoutine, updateRoutineExercises } from '@/api/routineApi';
 import Button from '@/app/components/buttons/Button/Button';
 import { Routine } from '@/types/entities/Routine';
 import { AppRoutes } from '@/types/routes';
@@ -19,18 +19,21 @@ import React from 'react';
 import { useState } from 'react';
 import ExerciseModal from '../exersiceModal/ExerciseModal';
 import ExercisesTable from '../exercisesTable/ExercisesTable';
+import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
 
 type FormFields = InferType<typeof routineValidationSchema>;
 
 const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { exercises } = useRoutineExercises();
 
   const [modalOpen, setModalOpen] = useState(false);
   const handleClickOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
+    console.log(exercises);
     if (routine) {
       routine.name = data.name;
       routine.description = data.description;
@@ -48,9 +51,24 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
     navigate(-1);
   };
 
+  const { mutateAsync: updateRoutineExercisesMutation } = useMutation({
+    mutationFn: ({ routineId, exercises }: any) => updateRoutineExercises(routineId, exercises),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['routines'], exact: true });
+      navigate(AppRoutes.ROUTINES);
+    },
+    onError: () => {
+      alert('Failed to update exercises');
+    },
+  });
+
   const { mutateAsync: updateRoutineMutation } = useMutation({
     mutationFn: updateRoutine,
-    onSuccess: () => {
+    onSuccess: async (updatedRoutine) => {
+      await updateRoutineExercisesMutation({
+        routineId: updatedRoutine.id,
+        exercises,
+      });
       queryClient.invalidateQueries({ queryKey: ['routines'], exact: true });
       navigate(AppRoutes.ROUTINES);
     },
@@ -61,7 +79,11 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
 
   const { mutateAsync: createRoutineMutation } = useMutation({
     mutationFn: createRoutine,
-    onSuccess: () => {
+    onSuccess: async (createdRoutine) => {
+      await updateRoutineExercisesMutation({
+        routineId: createdRoutine.id,
+        exercises,
+      });
       queryClient.invalidateQueries({ queryKey: ['routines'], exact: true });
       navigate(AppRoutes.ROUTINES);
     },

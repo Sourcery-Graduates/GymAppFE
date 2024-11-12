@@ -1,6 +1,6 @@
 import './ExerciseModal.scss';
 import { fetchExerciseByName } from '@/api/exerciseApi';
-import { CreateRoutineExercise, CreteRoutineExerciseJoined, ExerciseDetails } from '@/types/entities/Exercise';
+import { CreateRoutineExercise, ExerciseDetails } from '@/types/entities/Exercise';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Autocomplete,
@@ -22,6 +22,7 @@ import { useState } from 'react';
 import { debounce } from '@/app/common/utils/debounce';
 import { timeUnits, weightUnits } from './measurementUnits';
 import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
+import { RoutineExercise } from '@/types/entities/Routine';
 
 interface ExerciseModalProps {
   open: boolean;
@@ -54,10 +55,14 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
 
   const onSubmit = (data: CreateRoutineExercise) => {
     if (selectedExercise) {
-      const exerciseData: CreteRoutineExerciseJoined = {
+      const exerciseData: RoutineExercise = {
         ...data,
-        exerciseId: selectedExercise.id,
-        exercise: selectedExercise,
+        defaultsSets: data.defaultSets,
+        routineExerciseId: selectedExercise.id,
+        exercise: {
+          id: selectedExercise.id,
+          name: selectedExercise.name,
+        }
       };
       addExercise(exerciseData);
       reset();
