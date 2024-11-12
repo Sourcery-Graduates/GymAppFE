@@ -6,7 +6,6 @@
   gap: $small-gap;
   padding: $small-gap $small-gap $small-gap 0;
   height: 100dvh;
-  max-height: calc(100vh - 232px);
   max-height: calc(100dvh - 232px);
   overflow-y: auto;
 }
