@@ -8,6 +8,11 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 16px;
+
+    .delete-workout-button {
+      color: $red-delete;
+      border-color: $red-delete;
+    }
   }
 
   &-info {

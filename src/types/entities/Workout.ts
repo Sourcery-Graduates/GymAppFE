@@ -1,9 +1,10 @@
 import { SimpleExercise } from '@/types/entities/Routine';
+import { Dayjs } from 'dayjs';
 
 export interface Workout {
   id?: string;
   name: string;
-  date: Date;
+  date: Dayjs;
   comment: string;
   exercises: WorkoutExercise[];
 }

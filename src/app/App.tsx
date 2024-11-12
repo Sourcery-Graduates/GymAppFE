@@ -12,9 +12,8 @@ import MyProfile from '@/app/myProfile/MyProfile';
 import RoutineDetails from './routines/routineDetails/RoutineDetails';
 import RoutineCreate from './routines/routineForm/routineCreate/RoutineCreate';
 import RoutineUpdate from './routines/routineForm/routineUpdate/RoutineUpdate';
-
-import WorkoutCreate from './workouts/workoutCreate/WorkoutCreate.tsx';
-import Workout from '@/app/myTraining/workout/Workout';
+import WorkoutCreate from '@/app/myTraining/workout/createWorkout/CreateWorkout.tsx';
+import WorkoutPage from '@/app/myTraining/workout/workout/WorkoutPage';
 
 function App() {
   return (
@@ -28,7 +27,7 @@ function App() {
           <Route path={AppRoutes.ROUTINE_UPDATE} element={<RoutineUpdate />} />
           <Route path={AppRoutes.ROUTINE_CREATE} element={<RoutineCreate />} />
           <Route path={AppRoutes.MY_TRAINING} element={<MyTraining />} />
-          <Route path={AppRoutes.WORKOUT} element={<Workout />} />
+          <Route path={AppRoutes.WORKOUT} element={<WorkoutPage />} />
           <Route path={AppRoutes.OPTIONS} element={<Options />} />
           <Route path={AppRoutes.MY_PROFILE} element={<MyProfile />} />
           <Route path='*' element={<ErrorPage />} />
