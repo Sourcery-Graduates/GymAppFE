@@ -40,7 +40,7 @@
 		grid-row-end: 2;
 		max-height: calc(100vh - 64px);
 		max-height: calc(100dvh - 64px);
-		overflow: auto;
+		overflow: hidden;
 	}
 	&_footer {
 		display: flex;
@@ -60,7 +60,6 @@
 		&_outlet {
 			max-height: calc(100vh - 48px);
 			max-height: calc(100dvh - 48px);
-			overflow: scroll;
 		}
 	}
 }
@@ -101,7 +100,6 @@
 			grid-row-end: 1;
 			max-height: calc(100vh - 64px);
 			max-height: calc(100dvh - 64px);
-			overflow: hidden;
 		}
 		&_footer {
 			display: none;
