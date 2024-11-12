@@ -12,6 +12,7 @@
   display: flex;
   flex-direction: column;
   padding: $small-gap $small-gap $small-gap 0;
+  gap: $small-gap;
 }
 .public-routine-list-wrapper {
   flex: 1 1 auto;
