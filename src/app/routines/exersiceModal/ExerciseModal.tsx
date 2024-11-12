@@ -62,7 +62,7 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
         exercise: {
           id: selectedExercise.id,
           name: selectedExercise.name,
-        }
+        },
       };
       addExercise(exerciseData);
       reset();

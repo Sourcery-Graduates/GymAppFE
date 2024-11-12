@@ -57,10 +57,10 @@ const RoutineDetails = () => {
 
   useEffect(() => {
     if (data && data.exercises) {
-      const newExersices: RoutineExercise[] = data.exercises.map(item => ({
+      const newExersices: RoutineExercise[] = data.exercises.map((item) => ({
         ...item,
         defaultsSets: (item as any).defaultSets,
-      }))
+      }));
       setExercises(newExersices);
     }
   }, [data, setExercises]);
