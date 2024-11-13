@@ -6,7 +6,6 @@
 	display: inline-grid;
 	grid-template-columns: 72px auto;
 	grid-template-rows: 64px auto 24px;
-
 	&_logo {
 		grid-column-start: 1;
 		grid-column-end: 1;

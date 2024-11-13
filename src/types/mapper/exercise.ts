@@ -6,8 +6,6 @@ import {
   ResponseWorkout,
   ResponseWorkoutExercise,
 } from '@/types/entities/Workout';
-import dayjs from 'dayjs';
-import { create } from 'domain';
 
 export const mapRoutineExerciseToCreateWorkoutExercise = (routineExercise: RoutineExercise): CreateWorkoutExercise => {
   const workoutExercise: CreateWorkoutExercise = {
