@@ -18,7 +18,7 @@ const ExercisesTableRow = ({ data, index, editable }: ExercisesTableRowProps) =>
 
   const deleteRow = () => {
     setOpen(false);
-    removeExercise(data.routineExerciseId);
+    removeExercise(data.routineExerciseId!);
   };
 
   const { data: exerciseDetails, isSuccess } = useQuery({
@@ -37,7 +37,7 @@ const ExercisesTableRow = ({ data, index, editable }: ExercisesTableRowProps) =>
             {open ? <KeyboardArrowUp color='info' /> : <KeyboardArrowDown color='info' />}
           </IconButton>
         </TableCell>
-        <TableCell>{data.defaultsSets}</TableCell>
+        <TableCell>{data.defaultSets}</TableCell>
         <TableCell>{data.defaultReps}</TableCell>
         <TableCell>{data.defaultWeight}</TableCell>
         <TableCell>{data.defaultRestTime}</TableCell>

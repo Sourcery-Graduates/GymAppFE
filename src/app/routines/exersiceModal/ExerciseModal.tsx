@@ -21,8 +21,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { debounce } from '@/app/common/utils/debounce';
 import { timeUnits, weightUnits } from './measurementUnits';
-import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
-import { RoutineExercise } from '@/types/entities/Routine';
 
 interface ExerciseModalProps {
   open: boolean;
@@ -32,9 +30,6 @@ interface ExerciseModalProps {
 
 const ExerciseModal = ({ open, handleClose, onSave }: ExerciseModalProps) => {
   const [prefix, setPrefix] = useState('');
-  const [selectedExercise, setSelectedExercise] = useState<ExerciseDetails | null>(null);
-
-  const { addExercise } = useRoutineExercises();
 
   const {
     register,
@@ -95,7 +90,6 @@ const ExerciseModal = ({ open, handleClose, onSave }: ExerciseModalProps) => {
                   onInputChange={handleInputChange}
                   onChange={(_, newValue) => {
                     field.onChange(newValue ? newValue.id : '');
-                    setSelectedExercise(newValue || null);
                   }}
                   renderInput={(params) => (
                     <TextField

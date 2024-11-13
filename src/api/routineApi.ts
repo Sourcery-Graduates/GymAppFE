@@ -60,7 +60,6 @@ export const updateRoutineExercises = async (
   const exerciseList: CreateRoutineExercise[] = data.map((item, index) => ({
     ...item,
     exerciseId: item.exercise.id,
-    defaultSets: item.defaultsSets,
     orderNumber: index + 1,
   }));
 

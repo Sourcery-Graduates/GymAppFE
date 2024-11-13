@@ -1,6 +1,6 @@
 import { createRoutine, updateRoutine, updateRoutineExercises } from '@/api/routineApi';
 import Button from '@/app/components/buttons/Button/Button';
-import { Routine } from '@/types/entities/Routine';
+import { Routine, RoutineExercise } from '@/types/entities/Routine';
 import { AppRoutes } from '@/types/routes';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AddIcon from '@mui/icons-material/Add';
@@ -20,13 +20,14 @@ import { useState } from 'react';
 import ExerciseModal from '../exersiceModal/ExerciseModal';
 import ExercisesTable from '../exercisesTable/ExercisesTable';
 import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
+import { CreateRoutineExercise } from '@/types/entities/Exercise';
 
 type FormFields = InferType<typeof routineValidationSchema>;
 
 const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { exercises } = useRoutineExercises();
+  const { exercises, addExercise } = useRoutineExercises();
 
   const [modalOpen, setModalOpen] = useState(false);
   const handleClickOpen = () => setModalOpen(true);
@@ -45,6 +46,18 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
     } else {
       createRoutineMutation({ name: data.name, description: data.description });
     }
+  };
+
+  const exerciseModalOnSaveHandler = (data: CreateRoutineExercise, name?: string) => {
+    const exerciseData: RoutineExercise = {
+      ...data,
+      routineExerciseId: data.exerciseId,
+      exercise: {
+        id: data.exerciseId,
+        name: name || '',
+      },
+    };
+    addExercise(exerciseData);
   };
 
   const goBackHandler = () => {
@@ -142,7 +155,7 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
         <AddIcon />
         &nbsp;ADD EXERCISE
       </Button>
-      <ExerciseModal open={modalOpen} handleClose={handleClose} />
+      <ExerciseModal open={modalOpen} handleClose={handleClose} onSave={exerciseModalOnSaveHandler} />
       <ExercisesTable editable={true} />
     </div>
   );
