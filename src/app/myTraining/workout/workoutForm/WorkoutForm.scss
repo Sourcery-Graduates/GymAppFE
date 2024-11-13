@@ -2,6 +2,7 @@
 
 .workout-form {
   width: 100%;
+  max-height: calc(100dvh - 350px);
 }
 
 .workout-create {
@@ -35,7 +36,7 @@
 
   &-info {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
 
     .name-and-date {
       .calendar .MuiSvgIcon-root {
@@ -49,6 +50,18 @@
       }
       .calendar .MuiDayCalendar-root {
         color: $text-color !important;
+      }
+    }
+
+    .comment {
+      margin-top: 0.5rem;
+
+      &-field {
+        width: 100%;
+      }
+
+      .MuiInputLabel-root {
+        color: $text-color;
       }
     }
   }

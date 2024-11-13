@@ -2,6 +2,7 @@ import WorkoutForm from '@/app/myTraining/workout/workoutForm/WorkoutForm';
 import { useLocation } from 'react-router-dom';
 import { CreateWorkout } from '@/types/entities/Workout';
 import dayjs from 'dayjs';
+import './WorkoutPage.scss';
 
 const WorkoutPage = () => {
   const location = useLocation();
@@ -12,7 +13,7 @@ const WorkoutPage = () => {
   initialWorkout.date = dayjs(workoutData.date);
 
   return (
-    <div style={{ width: '100%' }}>
+    <div className='workout-form-container'>
       <WorkoutForm initialWorkout={workoutData} typeOfWorkout={'existing_workout'} />
     </div>
   );

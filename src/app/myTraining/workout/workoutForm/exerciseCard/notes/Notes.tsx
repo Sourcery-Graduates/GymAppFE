@@ -1,6 +1,7 @@
 import { TextField } from '@mui/material';
 import { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
+import './Notes.scss';
 
 interface NotesProps {
   control: Control<any>;
@@ -24,7 +25,7 @@ const Notes = ({ isEditing, control, exerciseIndex }: NotesProps) => {
           isEditing ? (
             <TextField fullWidth multiline maxRows={6} {...field} label='Notes' />
           ) : (
-            <div style={{ cursor: 'pointer' }} onClick={onNotesClick}>
+            <div className='notes' onClick={onNotesClick}>
               {visibleNotes ? <div>- Notes: {field.value}</div> : <div>+ Notes</div>}
             </div>
           )

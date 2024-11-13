@@ -186,10 +186,10 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
               <TextField {...register('name')} label='Workout name' />
             </div>
             <div className='comment'>
-              <TextField {...register('comment')} multiline maxRows={10} label='Comment' />
+              <TextField className='comment-field' {...register('comment')} multiline maxRows={10} label='Comment' />
             </div>
           </div>
-          <Typography variant='h6' style={{ marginTop: '16px' }}>
+          <Typography variant='h6' sx={{ marginTop: '16px' }}>
             Exercises:
           </Typography>
           <div className='exercise-list-wrapper'>

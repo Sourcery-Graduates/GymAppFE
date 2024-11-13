@@ -13,7 +13,7 @@ interface SetProps {
 const Set = ({ set, setIndex, exerciseIndex, control }: SetProps) => {
   return (
     <ListItem
-      style={{
+      sx={{
         width: '100%',
         display: 'flex',
         flexDirection: 'row',
