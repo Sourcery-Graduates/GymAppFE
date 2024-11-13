@@ -2,6 +2,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CreateWorkout, WorkoutFormType } from '@/types/entities/Workout';
+import ConfirmationDialog from '@/app/components/dialogs/ConfirmationDialog';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { createWorkout, deleteWorkout, updateWorkout } from '@/api/workout';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -38,7 +39,21 @@ dayjs.updateLocale('en', {
 const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const handleClose = () => setModalOpen(false);
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const navigate = useNavigate();
+
+  const handleOpenConfirmationDialog = () => {
+    setOpenConfirmationDialog(true);
+  };
+
+  const handleCloseConfirmationDialog = () => {
+    setOpenConfirmationDialog(false);
+  };
+
+  const handleConfirm = async () => {
+    handleDeleteWorkout();
+    setOpenConfirmationDialog(false);
+  };
 
   const isNewWorkout: boolean = useMemo(() => {
     return typeOfWorkout === 'new_workout';
@@ -111,7 +126,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
             </Typography>
             <div className='workout-options'>
               {!isNewWorkout && (
-                <Button className='delete-workout-button' size='small' onClick={handleDeleteWorkout}>
+                <Button className='delete-workout-button' size='small' onClick={handleOpenConfirmationDialog}>
                   <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Workout
                 </Button>
               )}
@@ -213,6 +228,12 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
         onSave={(data, name) => {
           AddNewExercise(data, name);
         }}
+      />
+      <ConfirmationDialog
+        description='Are you sure you want to delete this Routine?'
+        open={openConfirmationDialog}
+        onConfirm={handleConfirm}
+        onClose={handleCloseConfirmationDialog}
       />
     </>
   );
