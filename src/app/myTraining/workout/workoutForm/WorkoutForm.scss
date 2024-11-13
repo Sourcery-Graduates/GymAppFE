@@ -2,7 +2,8 @@
 
 .workout-create {
   width: 100%;
-
+  height: 100%;
+  overflow-y: auto;
   &-header {
     display: flex;
     align-items: center;
@@ -40,9 +41,11 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 100%;
   gap: 16px;
   padding: 16px 0;
+  max-height: calc(100dvh - 482px);
+  overflow-y: auto;
+  margin-bottom: 8px;
 
   .add-exercise {
     padding: 16px;
