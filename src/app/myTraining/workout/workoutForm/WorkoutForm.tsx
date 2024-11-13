@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CreateWorkout, WorkoutFormType } from '@/types/entities/Workout';
@@ -102,24 +103,24 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
 
   return (
     <>
-      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
+      <form className='workout-form' onSubmit={handleSubmit(onSubmit)}>
         <div className='workout-create'>
           <div className='workout-create-header'>
             <Typography variant='h4' gutterBottom>
               {isNewWorkout ? 'New Workout' : 'Workout'}
             </Typography>
-            <div>
+            <div className='workout-options'>
               {!isNewWorkout && (
-                <Button className='delete-workout-button' onClick={handleDeleteWorkout}>
+                <Button className='delete-workout-button' size='small' onClick={handleDeleteWorkout}>
                   <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Workout
                 </Button>
               )}
-              <Button type='submit' className='create-workout-button' size='big'>
+              <Button type='submit' className='create-workout-button' size='small'>
                 {isNewWorkout ? (
                   'Create Workout'
                 ) : (
                   <>
-                    <SaveIcon /> &nbsp; Save Workout
+                    <SaveIcon fontSize='small' /> &nbsp; Save Workout
                   </>
                 )}
               </Button>
@@ -201,8 +202,8 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
               />
             ))}
           </div>
-          <Button type='button' onClick={addNewExerciseModal} style={{ height: '50px' }}>
-            Add new exercise
+          <Button type='button' onClick={addNewExerciseModal}>
+            <AddIcon fontSize='small' /> &nbsp;NEW EXERCISE
           </Button>
         </div>
       </form>
