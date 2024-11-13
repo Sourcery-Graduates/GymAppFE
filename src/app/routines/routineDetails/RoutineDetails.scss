@@ -4,6 +4,15 @@
   width: 100%;
 }
 
+.routine-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
 .routine-options-bar {
   display: flex;
   align-items: center;

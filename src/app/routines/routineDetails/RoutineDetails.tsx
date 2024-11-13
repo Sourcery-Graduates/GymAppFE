@@ -16,7 +16,10 @@ import './RoutineDetails.scss';
 import ExercisesTable from '../exercisesTable/ExercisesTable';
 import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
 import { RoutineExercise } from '@/types/entities/Routine';
+import useAuth from '@/app/common/hooks/useAuth';
+
 const RoutineDetails = () => {
+  const { userId } = useAuth();
   const { routineId } = useParams();
   const navigate = useNavigate();
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
@@ -75,6 +78,10 @@ const RoutineDetails = () => {
     },
   });
 
+  const startWorkoutHandler = () => {
+    navigate(AppRoutes.WORKOUT_CREATE, { state: { routineData: data } });
+  };
+
   if (isLoading) {
     return (
       <div className='routine-details-container'>
@@ -89,22 +96,38 @@ const RoutineDetails = () => {
         <IconButton aria-label='go back' onClick={goBackHandler}>
           <ArrowBackIosNewIcon sx={{ color: 'accent.main' }} />
         </IconButton>
-        <div className='routine-options'>
-          <Button size='small' onClick={openRoutineUpdate}>
-            <EditIcon fontSize='small' /> &nbsp; Edit Routine
-          </Button>
-          <Button size='small' className='delete-routine-button' onClick={handleClickOpen}>
-            <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Routine
-          </Button>
-          <ConfirmationDialog
-            description='Are you sure you want to delete this Routine?'
-            open={openConfirmationDialog}
-            onConfirm={handleConfirm}
-            onClose={handleClose}
-          />
-        </div>
+        {data?.routine.userId === userId && (
+          <div className='routine-options'>
+            <Button size='small' onClick={openRoutineUpdate}>
+              <EditIcon fontSize='small' /> &nbsp; Edit Routine
+            </Button>
+            <Button size='small' className='delete-routine-button' onClick={handleClickOpen}>
+              <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Routine
+            </Button>
+            <Button size='small' className='start-workout-button' onClick={startWorkoutHandler}>
+              Start Workout
+            </Button>
+            <ConfirmationDialog
+              description='Are you sure you want to delete this Routine?'
+              open={openConfirmationDialog}
+              onConfirm={handleConfirm}
+              onClose={handleClose}
+            />
+          </div>
+        )}
+        {}
       </div>
-      <h2>{data?.routine.name}</h2>
+      <div className='routine-header'>
+        <h2>{data?.routine.name}</h2>
+        {data?.routine.createdAt ? (
+          <div>
+            <p>Created at:</p>
+            <p> {data?.routine.createdAt ? new Date(data.routine.createdAt).toLocaleDateString() : ''}</p>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
       <div className='routine-description'>{data?.routine.description}</div>
       <ExercisesTable editable={false} />
     </div>

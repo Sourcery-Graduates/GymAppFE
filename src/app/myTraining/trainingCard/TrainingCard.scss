@@ -1,0 +1,42 @@
+@import '@/styles/base/variables';
+
+.workout-card {
+  padding: 8px;
+  width: 500px;
+  height: 5rem;
+  border-radius: $border-radius-base;
+  border: $border;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px); // Lift on hover for interactivity
+  }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+
+    &--name {
+      font-size: $font-size-base;
+      font-weight: 600;
+      color: $text-color;
+    }
+
+    &--date {
+      font-size: $font-size-small;
+      color: $text-color;
+    }
+
+    &--exercises {
+      font-size: $font-size-small;
+      color: $text-color;
+    }
+  }
+}
+@media (max-width: 1690px) {
+  .workout-card {
+    width: auto;
+    min-width: 180px;
+    max-width: 500px;
+  }
+}

@@ -1,3 +1,48 @@
-.my_training {
-	width: 100%;
+@import '@/styles/base/variables';
+
+.my-training {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  .title {
+    // styled to match Routines tabs (MUI component)
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-size: $font-size-medium;
+    font-weight: 500;
+    color: $text-color;
+    text-transform: uppercase;
+    min-width: 90px;
+    min-height: 48px;
+    border-bottom: 2px solid transparent;
+  }
+
+  .workout-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: $small-gap $small-gap 0 0;
+  }
+  @media (max-width: 1690px) {
+    .workout-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    .workout-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: $breakpoint-phone) {
+    .workout-container {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+  }
 }

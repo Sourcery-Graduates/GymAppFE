@@ -5,7 +5,7 @@ import './Button.scss';
 const Button: React.FC<Props> = ({
   children,
   className,
-  type,
+  type = 'button',
   onClick,
   isDisabled = false,
   style,

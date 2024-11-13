@@ -5,6 +5,7 @@ export interface Routine {
   likes?: number;
   userLikes?: boolean;
   createdAt: string;
+  userId: string;
 }
 
 export interface SimpleExercise {
@@ -13,10 +14,10 @@ export interface SimpleExercise {
 }
 
 export interface RoutineExercise {
-  routineExerciseId: string;
+  routineExerciseId?: string;
   exercise: SimpleExercise;
   orderNumber: number;
-  defaultsSets: number;
+  defaultSets: number;
   defaultReps: number;
   defaultWeight: number;
   defaultRestTime: number;

@@ -14,8 +14,19 @@ export const fetchUserRoutines = async (): Promise<Routine[]> => {
   return response.data;
 };
 
-export const fetchAllPublicRoutines = async (page: number, size: number): Promise<PagedRoutine> => {
-  const response = await api.get(`${Routine_Endpoint.ROUTINE}?page=${page}&size=${size}&sort=name%2CASC`);
+export const fetchAllPublicRoutines = async (
+  page: number,
+  size: number,
+  searchValue: string,
+): Promise<PagedRoutine> => {
+  let response;
+  if (searchValue) {
+    response = await api.get(
+      `${Routine_Endpoint.ROUTINE}?page=${page}&size=${size}&sort=name%2CASC&name=${searchValue}`,
+    );
+  } else {
+    response = await api.get(`${Routine_Endpoint.ROUTINE}?page=${page}&size=${size}&sort=name%2CASC`);
+  }
 
   return response.data;
 };

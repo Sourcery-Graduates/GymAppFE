@@ -27,9 +27,10 @@ import { RoutineExercise } from '@/types/entities/Routine';
 interface ExerciseModalProps {
   open: boolean;
   handleClose: () => void;
+  onSave: (exercise: CreateRoutineExercise, name?: string) => void;
 }
 
-const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
+const ExerciseModal = ({ open, handleClose, onSave }: ExerciseModalProps) => {
   const [prefix, setPrefix] = useState('');
   const [selectedExercise, setSelectedExercise] = useState<ExerciseDetails | null>(null);
 
@@ -54,20 +55,10 @@ const ExerciseModal = ({ open, handleClose }: ExerciseModalProps) => {
   });
 
   const onSubmit = (data: CreateRoutineExercise) => {
-    if (selectedExercise) {
-      const exerciseData: RoutineExercise = {
-        ...data,
-        defaultsSets: data.defaultSets,
-        routineExerciseId: selectedExercise.id,
-        exercise: {
-          id: selectedExercise.id,
-          name: selectedExercise.name,
-        },
-      };
-      addExercise(exerciseData);
-      reset();
-      handleClose();
-    }
+    const exercise = exerciseOptions?.find((exercise) => (exercise.id = data.exerciseId));
+    onSave(data, exercise?.name); // Handle form submission
+    reset();
+    handleClose();
   };
 
   const onClose = () => {
