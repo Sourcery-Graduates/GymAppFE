@@ -7,7 +7,7 @@
   padding: $small-gap $small-gap $small-gap 0;
   max-height: calc(100dvh - 232px);
   overflow-y: auto;
-  // overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 @media (max-width: 1690px) {
