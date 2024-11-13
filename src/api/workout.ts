@@ -24,7 +24,6 @@ export const updateWorkout = async (workout: CreateWorkout): Promise<ResponseWor
       set.id && (set.id = set.id.startsWith("temporary-id-") ? undefined : set.id);
     })
   })
-  console.log('updatedWorkout ', workout);
   const response = await api.put(route, workout);
   return response.data;
 };

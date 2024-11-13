@@ -41,7 +41,7 @@ export interface ResponseWorkoutExercise {
 }
 
 export interface WorkoutExerciseSet {
-  id: string;
+  id?: string;
   setNumber: number;
   reps: number;
   weight: number;
