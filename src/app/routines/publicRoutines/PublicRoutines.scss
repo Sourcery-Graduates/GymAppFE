@@ -4,10 +4,13 @@
   display: flex;
   flex-direction: column;
   height: 100dvh;
+  max-height: calc(100dvh - 216px);
+  overflow-y: auto;
 }
 .public-routine-list-wrapper .MuiList-root {
   display: flex;
   flex-direction: column;
+  padding: $small-gap $small-gap $small-gap 0;
   gap: $small-gap;
 }
 .public-routine-list-wrapper {
@@ -52,4 +55,17 @@
 
 .MuiMenuItem-root {
   font-size: $font-size-small !important;
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .public-routine-container {
+    max-height: calc(100dvh - 200px);
+  }
+}
+
+
+@media (max-width: $breakpoint-phone) {
+  .public-routine-container {
+    max-height: calc(100dvh - 230px);
+  }
 }
