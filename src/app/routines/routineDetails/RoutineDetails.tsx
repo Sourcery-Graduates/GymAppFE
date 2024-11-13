@@ -103,7 +103,13 @@ const RoutineDetails = () => {
         )}
         {}
       </div>
-      <h2>{data?.routine.name}</h2>
+      <div className='routine-header'>
+        <h2>{data?.routine.name}</h2>
+        <div>
+          <p>Created at:</p>
+          <p> {data?.routine.createdAt ? new Date(data.routine.createdAt).toLocaleDateString() : ''}</p>
+        </div>
+      </div>
       <div className='routine-description'>{data?.routine.description}</div>
       <div className='routine-exercise-list'>SPACE FOR EXERCISES</div>
     </div>
