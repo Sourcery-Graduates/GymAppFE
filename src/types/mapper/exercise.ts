@@ -6,16 +6,18 @@ import {
   ResponseWorkout,
   ResponseWorkoutExercise,
 } from '@/types/entities/Workout';
+import { temporaryUUID } from '@/types/uuid';
+
 
 export const mapRoutineExerciseToCreateWorkoutExercise = (routineExercise: RoutineExercise): CreateWorkoutExercise => {
   const workoutExercise: CreateWorkoutExercise = {
-    id: undefined,
+    id: temporaryUUID(),
     exerciseId: routineExercise.exercise.id,
     exerciseName: routineExercise.exercise.name,
     orderNumber: routineExercise.orderNumber,
     notes: routineExercise.notes || '',
     sets: Array.from({ length: routineExercise.defaultSets || 1 }, (_, index) => ({
-      id: 'testID',
+      id: temporaryUUID(),
       setNumber: index + 1,
       reps: routineExercise.defaultReps,
       weight: routineExercise.defaultWeight,

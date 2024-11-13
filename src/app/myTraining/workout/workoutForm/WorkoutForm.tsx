@@ -65,9 +65,8 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
   };
 
   const handleUpdateWorkout = (data: CreateWorkout) => {
-    updateWorkout(data).then((response) => {
+    updateWorkout(data).then(() => {
       alert('saved workout');
-      console.log('updated workout response ', response);
     });
   };
 
@@ -195,7 +194,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
           <div className='exercise-list-wrapper'>
             {exerciseFields.map((exercise, exerciseIndex) => (
               <ExerciseCard
-                key={exercise.exerciseId}
+                key={exercise.id}
                 exerciseIndex={exerciseIndex}
                 control={control}
                 removeExercise={removeExercise}

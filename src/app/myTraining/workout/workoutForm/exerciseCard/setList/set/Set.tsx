@@ -19,7 +19,7 @@ const Set = ({ set, setIndex, exerciseIndex, control }: SetProps) => {
         flexDirection: 'row',
         justifyContent: 'space-between',
       }}
-      key={set.setNumber}
+      key={set.id}
     >
       <span>{`${setIndex + 1}. `}</span>
       <Controller

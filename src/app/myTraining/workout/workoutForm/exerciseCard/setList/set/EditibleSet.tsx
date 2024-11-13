@@ -13,7 +13,7 @@ interface EditibleSetProps {
 
 const EditibleSet = ({ set, setIndex, exerciseIndex, control, removeSet }: EditibleSetProps) => {
   return (
-    <ListItem key={set.setNumber}>
+    <ListItem key={set.id}>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
         <div>{`${setIndex + 1}. `}</div>
 

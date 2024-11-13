@@ -4,6 +4,7 @@ import Set from './set/Set';
 
 import EditibleSet from '@/app/myTraining/workout/workoutForm/exerciseCard/setList/set/EditibleSet';
 import { Control, UseFieldArrayAppend, UseFieldArrayRemove } from 'react-hook-form';
+import { temporaryUUID } from '@/types/uuid';
 
 interface setListProps {
   setFields: any;
@@ -21,7 +22,7 @@ const setList = ({ isEditing, setFields, appendSet, removeSet, exerciseIndex, co
 
     appendSet({
       comment: '',
-      id: '',
+      id: temporaryUUID(),
       reps: lastSet.reps,
       restTime: lastSet.restTime,
       setNumber: lastSet.setNumber + 1,
