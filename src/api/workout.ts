@@ -17,8 +17,14 @@ export const getUserWorkoutGrid = async (): Promise<ResponseWorkout[]> => {
 };
 
 export const updateWorkout = async (workout: CreateWorkout): Promise<ResponseWorkout> => {
-  console.log('updatedWorkout ', workout);
   const route = WORKOUT_Endpoint.UPDATE_WORKOUT.replace('id', workout?.id);
+  workout.exercises?.forEach(exercise => {
+    exercise.id && (exercise.id = exercise.id.startsWith("temporary-id-") ? undefined : exercise.id)
+    exercise.sets?.forEach(set => {
+      set.id && (set.id = set.id.startsWith("temporary-id-") ? undefined : set.id);
+    })
+  })
+  console.log('updatedWorkout ', workout);
   const response = await api.put(route, workout);
   return response.data;
 };
