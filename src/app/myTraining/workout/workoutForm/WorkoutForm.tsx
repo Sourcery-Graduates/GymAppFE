@@ -21,7 +21,7 @@ import {
   mapToCreateWorkout,
   mapToRoutineExercise,
 } from '@/types/mapper/exercise.ts';
-import { Controller, set, useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { CreateRoutineExercise } from '@/types/entities/Exercise.ts';
 import { AppRoutes } from '@/types/routes.ts';
 import SaveIcon from '@mui/icons-material/Save';
