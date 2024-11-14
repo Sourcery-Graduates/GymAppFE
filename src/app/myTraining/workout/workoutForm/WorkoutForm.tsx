@@ -230,7 +230,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
         }}
       />
       <ConfirmationDialog
-        description='Are you sure you want to delete this Routine?'
+        description='Are you sure you want to delete this Workout?'
         open={openConfirmationDialog}
         onConfirm={handleConfirm}
         onClose={handleCloseConfirmationDialog}
