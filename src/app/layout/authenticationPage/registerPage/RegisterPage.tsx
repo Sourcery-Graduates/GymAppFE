@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import './RegisterPage.scss';
 import { useMemo, useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { AxiosError } from 'axios';
 
 interface RegisterPageProps {
   setIsLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,7 +38,7 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
     resolver: yupResolver(registerValidationSchema),
   });
 
-  const { mutate, error } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async (data: Register) => {
       await registerUser(data);
     },
@@ -46,9 +47,14 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
       setIsLoginForm(true);
       reset();
     },
-    onError: () => {
+    onError: (error: AxiosError) => {
       // #TODO proper error handling
-      alert('An error occured: ' + error?.message);
+
+      if (error.status === 409) {
+        alert('That username is already taken');
+      } else {
+        alert('An error occured: ' + error?.message);
+      }
     },
   });
 
