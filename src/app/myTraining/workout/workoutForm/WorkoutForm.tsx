@@ -1,6 +1,8 @@
+import AddIcon from '@mui/icons-material/Add';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CreateWorkout, WorkoutFormType } from '@/types/entities/Workout';
+import ConfirmationDialog from '@/app/components/dialogs/ConfirmationDialog';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { createWorkout, deleteWorkout, updateWorkout } from '@/api/workout';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -38,8 +40,22 @@ dayjs.updateLocale('en', {
 const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const handleClose = () => setModalOpen(false);
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const navigate = useNavigate();
+
+  const handleOpenConfirmationDialog = () => {
+    setOpenConfirmationDialog(true);
+  };
+
+  const handleCloseConfirmationDialog = () => {
+    setOpenConfirmationDialog(false);
+  };
+
+  const handleConfirm = async () => {
+    handleDeleteWorkout();
+    setOpenConfirmationDialog(false);
+  };
 
   const isNewWorkout: boolean = useMemo(() => {
     return typeOfWorkout === 'new_workout';
@@ -109,24 +125,24 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
 
   return (
     <>
-      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
+      <form className='workout-form' onSubmit={handleSubmit(onSubmit)}>
         <div className='workout-create'>
           <div className='workout-create-header'>
             <Typography variant='h4' gutterBottom>
               {isNewWorkout ? 'New Workout' : 'Workout'}
             </Typography>
-            <div>
+            <div className='workout-options'>
               {!isNewWorkout && (
-                <Button className='delete-workout-button' onClick={handleDeleteWorkout}>
+                <Button className='delete-workout-button' size='small' onClick={handleOpenConfirmationDialog}>
                   <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Workout
                 </Button>
               )}
-              <Button type='submit' className='create-workout-button' size='big'>
+              <Button type='submit' className='create-workout-button' size='small'>
                 {isNewWorkout ? (
                   'Create Workout'
                 ) : (
                   <>
-                    <SaveIcon /> &nbsp; Save Workout
+                    <SaveIcon fontSize='small' /> &nbsp; Save Workout
                   </>
                 )}
               </Button>
@@ -192,10 +208,10 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
               <TextField {...register('name')} label='Workout name' />
             </div>
             <div className='comment'>
-              <TextField {...register('comment')} multiline maxRows={10} label='Comment' />
+              <TextField className='comment-field' {...register('comment')} multiline maxRows={10} label='Comment' />
             </div>
           </div>
-          <Typography variant='h6' style={{ marginTop: '16px' }}>
+          <Typography variant='h6' sx={{ marginTop: '16px' }}>
             Exercises:
           </Typography>
           <div className='exercise-list-wrapper'>
@@ -208,8 +224,8 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
               />
             ))}
           </div>
-          <Button type='button' onClick={addNewExerciseModal} style={{ height: '50px' }}>
-            Add new exercise
+          <Button type='button' onClick={addNewExerciseModal}>
+            <AddIcon fontSize='small' /> &nbsp;NEW EXERCISE
           </Button>
         </div>
       </form>
@@ -219,6 +235,12 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
         onSave={(data, name) => {
           AddNewExercise(data, name);
         }}
+      />
+      <ConfirmationDialog
+        description='Are you sure you want to delete this Workout?'
+        open={openConfirmationDialog}
+        onConfirm={handleConfirm}
+        onClose={handleCloseConfirmationDialog}
       />
       <AppAlert
         open={snackbarOpen}

@@ -2,6 +2,7 @@ import { WorkoutExerciseSet } from '@/types/entities/Workout';
 import { InputAdornment, ListItem, TextField, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Control, Controller } from 'react-hook-form';
+import './EditibleSet.scss';
 
 interface EditibleSetProps {
   set: WorkoutExerciseSet;
@@ -14,7 +15,7 @@ interface EditibleSetProps {
 const EditibleSet = ({ set, setIndex, exerciseIndex, control, removeSet }: EditibleSetProps) => {
   return (
     <ListItem key={set.id}>
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
+      <div className='workout-set-form'>
         <div>{`${setIndex + 1}. `}</div>
 
         <Controller
