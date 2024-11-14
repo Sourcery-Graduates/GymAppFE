@@ -1,4 +1,5 @@
-import { PagedRoutine, Routine, RoutineWithExercises } from '../types/entities/Routine';
+import { CreateRoutineExercise } from '@/types/entities/Exercise';
+import { PagedRoutine, Routine, RoutineExercise, RoutineWithExercises } from '../types/entities/Routine';
 import api from '@/config/axios/config.ts';
 
 export enum Routine_Endpoint {
@@ -42,7 +43,6 @@ export const createRoutine = async (data: { name: string; description?: string }
   return response.data;
 };
 
-// todo: update with exercises, for now only the name and description is updated
 export const updateRoutine = async (data: {
   name: string;
   description?: string;
@@ -50,6 +50,20 @@ export const updateRoutine = async (data: {
 }): Promise<Routine> => {
   const response = await api.put(`${Routine_Endpoint.ROUTINE}/${data.routineId}`, data);
 
+  return response.data;
+};
+
+export const updateRoutineExercises = async (
+  routineId: string,
+  data: RoutineExercise[],
+): Promise<RoutineWithExercises> => {
+  const exerciseList: CreateRoutineExercise[] = data.map((item, index) => ({
+    ...item,
+    exerciseId: item.exercise.id,
+    orderNumber: index + 1,
+  }));
+
+  const response = await api.put(`${Routine_Endpoint.ROUTINE_EXERCISE}?routineId=${routineId}`, exerciseList);
   return response.data;
 };
 

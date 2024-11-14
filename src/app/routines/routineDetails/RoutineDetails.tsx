@@ -8,11 +8,13 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import './RoutineDetails.scss';
+import ExercisesTable from '../exercisesTable/ExercisesTable';
+import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
 import useAuth from '@/app/common/hooks/useAuth';
 
 const RoutineDetails = () => {
@@ -21,6 +23,7 @@ const RoutineDetails = () => {
   const navigate = useNavigate();
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const queryClient = useQueryClient();
+  const { setExercises } = useRoutineExercises();
 
   const openRoutineUpdate = () => {
     const url = AppRoutes.ROUTINE_UPDATE.replace(':routineId', routineId!);
@@ -53,6 +56,12 @@ const RoutineDetails = () => {
     queryFn: () => fetchRoutineWithExercises(routineId!),
     queryKey: ['routines', routineId],
   });
+
+  useEffect(() => {
+    if (data && data.exercises) {
+      setExercises(data.exercises);
+    }
+  }, [data, setExercises]);
 
   const { mutateAsync: deleteRoutineMutation } = useMutation({
     mutationFn: deleteRoutine,
@@ -115,7 +124,7 @@ const RoutineDetails = () => {
         )}
       </div>
       <div className='routine-description'>{data?.routine.description}</div>
-      <div className='routine-exercise-list'>SPACE FOR EXERCISES</div>
+      <ExercisesTable editable={false} />
     </div>
   );
 };

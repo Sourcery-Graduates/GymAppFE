@@ -1,6 +1,6 @@
 import './ExerciseModal.scss';
 import { fetchExerciseByName } from '@/api/exerciseApi';
-import { CreateRoutineExercise } from '@/types/entities/Exercise';
+import { CreateRoutineExercise, ExerciseDetails } from '@/types/entities/Exercise';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Autocomplete,

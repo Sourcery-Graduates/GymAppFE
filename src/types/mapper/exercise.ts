@@ -8,7 +8,6 @@ import {
 } from '@/types/entities/Workout';
 import { temporaryUUID } from '@/types/uuid';
 
-
 export const mapRoutineExerciseToCreateWorkoutExercise = (routineExercise: RoutineExercise): CreateWorkoutExercise => {
   const workoutExercise: CreateWorkoutExercise = {
     id: temporaryUUID(),
