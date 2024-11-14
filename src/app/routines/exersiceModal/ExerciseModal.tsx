@@ -1,6 +1,6 @@
 import './ExerciseModal.scss';
 import { fetchExerciseByName } from '@/api/exerciseApi';
-import { CreateRoutineExercise, ExerciseDetails } from '@/types/entities/Exercise';
+import { CreateRoutineExercise } from '@/types/entities/Exercise';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Autocomplete,
@@ -41,11 +41,13 @@ const ExerciseModal = ({ open, handleClose, onSave }: ExerciseModalProps) => {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       exerciseId: '',
-      defaultSets: undefined,
-      defaultReps: undefined,
-      defaultWeight: undefined,
-      defaultRestTime: undefined,
+      defaultSets: 3,
+      defaultReps: 12,
+      defaultWeight: 40,
+      defaultRestTime: 90,
       notes: '',
+      restTimeUnit: timeUnits[0],
+      weightUnit: weightUnits[0],
     },
   });
 

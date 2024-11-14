@@ -25,6 +25,7 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { CreateRoutineExercise } from '@/types/entities/Exercise.ts';
 import { AppRoutes } from '@/types/routes.ts';
 import SaveIcon from '@mui/icons-material/Save';
+import AppAlert from '@/app/components/alerts/AppAlert.tsx';
 
 interface WorkoutFormProps {
   initialWorkout: CreateWorkout;
@@ -38,8 +39,10 @@ dayjs.updateLocale('en', {
 
 const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const handleClose = () => setModalOpen(false);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleClose = () => setModalOpen(false);
   const navigate = useNavigate();
 
   const handleOpenConfirmationDialog = () => {
@@ -68,11 +71,16 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
       handleCreateWorkout(data);
     } else handleUpdateWorkout(data);
   };
+  const handleSnackbarClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason && reason !== 'timeout') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   const handleCreateWorkout = (data: CreateWorkout) => {
     createWorkout(data).then((response) => {
       if (isNewWorkout) {
-        alert('created workout');
         navigate(AppRoutes.WORKOUT.replace(':workoutId', response?.id), {
           state: { workoutData: mapToCreateWorkout(response) },
         });
@@ -82,7 +90,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
 
   const handleUpdateWorkout = (data: CreateWorkout) => {
     updateWorkout(data).then(() => {
-      alert('saved workout');
+      setSnackbarOpen(true);
     });
   };
 
@@ -234,6 +242,12 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
         open={openConfirmationDialog}
         onConfirm={handleConfirm}
         onClose={handleCloseConfirmationDialog}
+      />
+      <AppAlert
+        open={snackbarOpen}
+        onClose={handleSnackbarClose}
+        text='Workout saved successfully'
+        severity='success'
       />
     </>
   );

@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 
 import './LoginPage.scss';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import AppAlert from '@/app/components/alerts/AppAlert';
 
 interface LoginPageProps {
   setIsLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +19,14 @@ const LoginPage = ({ setIsLoginForm }: LoginPageProps) => {
   const { setIsLoggedIn } = useAuth();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
+  const handleClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason && reason !== 'timeout') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const currentYear: number = useMemo(() => {
@@ -31,8 +39,9 @@ const LoginPage = ({ setIsLoginForm }: LoginPageProps) => {
         setIsLoggedIn(true);
         reset();
       })
-      // #TODO proper error handling
-      .catch(() => alert('an error occured'));
+      .catch(() => {
+        setSnackbarOpen(true);
+      });
   };
 
   const {
@@ -51,62 +60,73 @@ const LoginPage = ({ setIsLoginForm }: LoginPageProps) => {
   });
 
   return (
-    <div className='login_container'>
-      <form className='login_form' onSubmit={handleSubmit(onLogIn)}>
-        <h1 className='title'>Sign In</h1>
-        <TextField
-          label='Username'
-          size='small'
-          className='form-field'
-          variant='filled'
-          {...register('username')}
-          error={!!errors.username}
-          helperText={errors.username?.message}
-          onBlur={() => clearErrors('username')}
-        />
-        <TextField
-          label='Password'
-          size='small'
-          className='form-field'
-          variant='filled'
-          {...register('password')}
-          error={!!errors.password}
-          helperText={errors.password?.message}
-          onBlur={() => clearErrors('password')}
-          type={showPassword ? 'text' : 'password'}
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton
-                    className={'show-password-button'}
-                    aria-label={showPassword ? 'hide the password' : 'display the password'}
-                    onClick={handleClickShowPassword}
-                    edge='end'
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
-        <div className='form-field remember-me-box'>
-          <label htmlFor='checkbox'>Remember me</label>
-          <input id='checkbox' type='checkbox' className='remember-me' {...register('stayLoggedIn')} />
+    <>
+      <div className='login_container'>
+        <form className='login_form' onSubmit={handleSubmit(onLogIn)}>
+          <h1 className='title'>Sign In</h1>
+          <TextField
+            label='Username'
+            size='small'
+            className='form-field'
+            variant='filled'
+            {...register('username')}
+            error={!!errors.username}
+            helperText={errors.username?.message}
+            onBlur={() => clearErrors('username')}
+          />
+          <TextField
+            label='Password'
+            size='small'
+            className='form-field'
+            variant='filled'
+            {...register('password')}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            onBlur={() => clearErrors('password')}
+            type={showPassword ? 'text' : 'password'}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton
+                      className={'show-password-button'}
+                      aria-label={showPassword ? 'hide the password' : 'display the password'}
+                      onClick={handleClickShowPassword}
+                      edge='end'
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+          <div className='form-field remember-me-box'>
+            <label htmlFor='checkbox'>Remember me</label>
+            <input id='checkbox' type='checkbox' className='remember-me' {...register('stayLoggedIn')} />
+          </div>
+          <Button type='submit'>Login</Button>
+        </form>
+        <div className='login_form_text'>
+          <p
+            className='login_form_text_swap_form'
+            onClick={() => setIsLoginForm((isLoginForm: boolean) => !isLoginForm)}
+          >
+            Don't have an account? Register here!
+          </p>
+          <footer>
+            <p className='login_form_text_footer'>To be able to access application you need an account</p>
+            <p className='login_form_text_footer'>Copyright © {currentYear} Sourcery graduates</p>
+          </footer>
         </div>
-        <Button type='submit'>Login</Button>
-      </form>
-      <div className='login_form_text'>
-        <p className='login_form_text_swap_form' onClick={() => setIsLoginForm((isLoginForm: boolean) => !isLoginForm)}>
-          Don't have an account? Register here!
-        </p>
-        <footer>
-          <p className='login_form_text_footer'>To be able to access application you need an account</p>
-          <p className='login_form_text_footer'>Copyright © {currentYear} Sourcery graduates</p>
-        </footer>
       </div>
-    </div>
+      <AppAlert
+        open={snackbarOpen}
+        onClose={handleClose}
+        text='You have entered an invalid username or password'
+        severity='error'
+      />
+    </>
   );
 };
 
