@@ -20,6 +20,12 @@
       font-size: $font-size-base;
       font-weight: 600;
       color: $text-color;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      line-clamp: 2;
+      -webkit-line-clamp: 2;
     }
 
     &--date {
