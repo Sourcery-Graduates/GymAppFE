@@ -39,9 +39,10 @@ dayjs.updateLocale('en', {
 
 const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const handleClose = () => setModalOpen(false);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleClose = () => setModalOpen(false);
   const navigate = useNavigate();
 
   const handleOpenConfirmationDialog = () => {
