@@ -99,3 +99,9 @@
   // trickery, not sure why this dont work without it :O
   border: 1px solid $text-color !important;
 }
+
+@media (max-width: $breakpoint-phone) {
+  .exercise-list-wrapper {
+    max-height: calc(100dvh - 490px);
+  }
+}
