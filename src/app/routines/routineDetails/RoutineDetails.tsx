@@ -123,8 +123,10 @@ const RoutineDetails = () => {
           <></>
         )}
       </div>
-      <div className='routine-description'>{data?.routine.description}</div>
-      <ExercisesTable editable={false} />
+      <div className='routine-body'>
+        <div className='routine-description'>{data?.routine.description}</div>
+        <ExercisesTable editable={false} />
+      </div>
     </div>
   );
 };

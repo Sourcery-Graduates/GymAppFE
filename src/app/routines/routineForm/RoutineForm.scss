@@ -29,3 +29,16 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+.routine-exercise-list {
+  overflow-y: auto;
+  max-height: calc(100vh - 345px);
+  max-height: calc(100dvh - 345px);
+}
+
+@media (max-width: $breakpoint-phone) {
+  .routine-exercise-list {
+    max-height: calc(100vh - 320px);
+    max-height: calc(100dvh - 320px);
+  }
+}

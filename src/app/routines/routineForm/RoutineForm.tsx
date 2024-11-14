@@ -150,13 +150,14 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
           helperText={errors.description?.message}
         />
       </form>
-      <div className='routine-exercise-list'>LIST OF EXERCISES</div>
-      <Button onClick={handleClickOpen}>
-        <AddIcon />
-        &nbsp;ADD EXERCISE
-      </Button>
-      <ExerciseModal open={modalOpen} handleClose={handleClose} onSave={exerciseModalOnSaveHandler} />
-      <ExercisesTable editable={true} />
+      <div className='routine-exercise-list'>
+        <Button onClick={handleClickOpen}>
+          <AddIcon />
+          &nbsp;ADD EXERCISE
+        </Button>
+        <ExerciseModal open={modalOpen} handleClose={handleClose} onSave={exerciseModalOnSaveHandler} />
+        <ExercisesTable editable={true} />
+      </div>
     </div>
   );
 };
