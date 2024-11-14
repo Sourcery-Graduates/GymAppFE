@@ -12,15 +12,15 @@ const ExercisesTable = ({ editable = true }: ExerciseTableProps) => {
   return (
     <>
       <TableContainer>
-        <Table aria-label='collapsible table'>
+        <Table aria-label='exercise table'>
           <TableHead>
             <TableRow>
               <TableCell>No</TableCell>
               <TableCell>Exercise Name</TableCell>
               <TableCell>Sets</TableCell>
               <TableCell>Reps</TableCell>
-              <TableCell>Weight&nbsp;(unit)</TableCell>
-              <TableCell> Rest Time&nbsp;(unit)</TableCell>
+              <TableCell>Weight&nbsp;(kg)</TableCell>
+              <TableCell> Rest Time&nbsp;(min)</TableCell>
               {editable && <TableCell align='right'>Options</TableCell>}
             </TableRow>
           </TableHead>
