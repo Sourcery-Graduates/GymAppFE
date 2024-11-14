@@ -36,8 +36,8 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseIndex, control, rem
   });
 
   return (
-    <div className='exercise-card' style={{ display: 'flex', flexDirection: 'column' }}>
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+    <div className='exercise-card'>
+      <div className='exercise-card-header'>
         <Controller
           name={`exercises[${exerciseIndex}].exerciseName`}
           control={control}
@@ -50,11 +50,11 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseIndex, control, rem
         <div>
           {!isEditing ? (
             <Tooltip title='Edit'>
-              <EditIcon onClick={handleEdit} style={{ cursor: 'pointer', marginRight: '8px' }} />
+              <EditIcon onClick={handleEdit} sx={{ cursor: 'pointer', marginRight: '8px' }} />
             </Tooltip>
           ) : (
             <Tooltip title='Stop editing'>
-              <EditOffIcon onClick={handleStopEditing} style={{ cursor: 'pointer', marginRight: '8px' }} />
+              <EditOffIcon onClick={handleStopEditing} sx={{ cursor: 'pointer', marginRight: '8px' }} />
             </Tooltip>
           )}
           <Tooltip title='Delete'>
@@ -62,13 +62,13 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseIndex, control, rem
               onClick={() => {
                 removeExercise(exerciseIndex);
               }}
-              style={{ cursor: 'pointer' }}
+              sx={{ cursor: 'pointer' }}
             />
           </Tooltip>
         </div>
       </div>
       <Divider className='divider' />
-      <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', flexGrow: '1' }}>
+      <div className='exercise-card-body'>
         <div>
           <SetList
             isEditing={isEditing}

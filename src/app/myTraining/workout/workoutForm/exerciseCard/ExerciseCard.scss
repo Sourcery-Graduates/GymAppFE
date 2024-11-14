@@ -1,11 +1,26 @@
 @import '@/styles/base/variables';
 
 .exercise-card {
+  display: flex;
+  flex-direction: column;
   width: 400px;
   padding: 16px;
   border: $border;
   border-radius: $border-radius-base;
   box-sizing: border-box;
+
+  &-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &-body {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    flex-grow: 1;
+  }
 
   .divider {
     margin: 8px 0;

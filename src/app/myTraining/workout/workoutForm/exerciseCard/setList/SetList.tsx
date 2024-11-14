@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add';
 import { List } from '@mui/material';
 import Button from '@/app/components/buttons/Button/Button';
 import Set from './set/Set';
@@ -49,7 +50,9 @@ const setList = ({ isEditing, setFields, appendSet, removeSet, exerciseIndex, co
       </List>
       {isEditing && (
         <>
-          <Button onClick={handleAddSet}>Add new set</Button>
+          <Button size='small' onClick={handleAddSet}>
+            <AddIcon fontSize='small' /> NEW SET
+          </Button>
         </>
       )}
     </>
