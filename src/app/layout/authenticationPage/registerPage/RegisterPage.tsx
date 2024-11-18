@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import './RegisterPage.scss';
 import { useMemo, useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { AxiosError } from 'axios';
 import AppAlert from '@/app/components/alerts/AppAlert';
 
 interface RegisterPageProps {
