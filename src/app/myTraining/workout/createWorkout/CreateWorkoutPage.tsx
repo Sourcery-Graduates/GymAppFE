@@ -11,7 +11,7 @@ const CreateWorkoutPage = () => {
   const initialWorkout: CreateWorkout = {
     name: routineData.routine.name,
     routineId: routineData.routine.id,
-    date: dayjs(),
+    date: dayjs().toDate(),
     comment: '',
     exercises: routineData.exercises.map((routineExercise: RoutineExercise) =>
       mapRoutineExerciseToCreateWorkoutExercise(routineExercise),
