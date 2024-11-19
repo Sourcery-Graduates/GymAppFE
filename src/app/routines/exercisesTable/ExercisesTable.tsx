@@ -3,7 +3,6 @@ import ExercisesTableRow from './ExercisesTableRow';
 import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
 import { timeUnits, weightUnits } from '../exersiceModal/measurementUnits';
 
-
 interface ExerciseTableProps {
   editable: boolean;
 }
