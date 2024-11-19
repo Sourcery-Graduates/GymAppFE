@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch:
+      - feature/GYM-118-FE-add-CD-to-github-pages
+  workflow_dispatch:      
     branches:
       - feature/*
 
