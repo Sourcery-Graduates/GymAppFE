@@ -29,12 +29,12 @@ export const updateWorkout = async (workout: CreateWorkout): Promise<ResponseWor
 };
 
 export const createWorkout = async (workout: CreateWorkout): Promise<ResponseWorkout> => {
-  workout.exercises?.forEach(exercise => {
-    exercise.id && (exercise.id = exercise.id.startsWith("temporary-id-") ? undefined : exercise.id)
-    exercise.sets?.forEach(set => {
-      set.id && (set.id = set.id.startsWith("temporary-id-") ? undefined : set.id);
-    })
-  })
+  workout.exercises?.forEach((exercise) => {
+    exercise.id && (exercise.id = exercise.id.startsWith('temporary-id-') ? undefined : exercise.id);
+    exercise.sets?.forEach((set) => {
+      set.id && (set.id = set.id.startsWith('temporary-id-') ? undefined : set.id);
+    });
+  });
   const response = await api.post(WORKOUT_Endpoint.CREATE_WORKOUT, workout);
   const responseWorkout = response.data;
   return responseWorkout;
