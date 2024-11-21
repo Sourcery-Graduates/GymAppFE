@@ -3,7 +3,8 @@ import { createTheme } from '@mui/material';
 import variables from '../styles/base/export.module.scss';
 import { grey } from '@mui/material/colors';
 
-const { textColor, primaryColor, secondaryColor, accentColor, fontFamilyPrimary, redDelete } = variables;
+const { textColor, primaryColor, secondaryColor, accentColor, fontFamilyPrimary, redDelete, backgroundColor } =
+  variables;
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -60,7 +61,14 @@ const GymTheme = createTheme({
         },
       },
     },
-
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          backgroundColor: backgroundColor,
+          color: textColor,
+        },
+      },
+    },
     MuiInputLabel: {
       styleOverrides: {
         root: {
