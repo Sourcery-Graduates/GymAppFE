@@ -3,6 +3,7 @@ import { ListItem, ListItemText, Typography } from '@mui/material';
 import './RoutineListItem.scss';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '@/types/routes';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 
 const RoutineListItem = ({ routine }: { routine: Routine }) => {
   const { id = '', name = 'No name', description = 'No description' } = routine;
@@ -14,8 +15,8 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
   };
 
   return (
-    <div className='public-routine-list-item'>
-      <ListItem alignItems='flex-start' key={id}>
+    <div>
+      <ListItem alignItems='flex-start' key={id} className='public-routine-list-item'>
         <ListItemText
           onClick={() => openRoutineDetails(id)}
           primary={name}
@@ -29,6 +30,14 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
             </Typography>
           }
         />
+        <div className='public-routine-list-item__likes'>
+          <div className='public-routine-list-item__likes-number'>
+            <p>0</p>
+          </div>
+          <div className='likes-icon'>
+            <ThumbUpOffAltIcon fontSize='small' />
+          </div>
+        </div>
       </ListItem>
     </div>
   );
