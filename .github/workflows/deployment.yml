@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - 'feature/*'
   workflow_dispatch:
 
 jobs:
@@ -25,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Set environment for production
-        run: echo "VITE_BASE_URL=/GymAppFE/" >> $GITHUB_ENV
+        run: echo "VITE_BASE_URL=${{ secrets.BACKEND_URL }}" >> $GITHUB_ENV
 
       - name: Build project
         run: npm run build
