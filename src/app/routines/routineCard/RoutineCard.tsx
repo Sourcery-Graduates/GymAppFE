@@ -6,9 +6,32 @@ import { useNavigate } from 'react-router-dom';
 import RoutineOptionsButton from './routineOptionsButton/RoutineOptionsButton';
 
 import './RoutineCard.scss';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/config/tanstack_query/config';
+import { like } from '@/api/routineLikeApi';
 
 const RoutineCard: React.FC<RoutineProps> = (props) => {
   const navigate = useNavigate();
+
+  const { mutate: likeRoutine } = useMutation({
+    mutationFn: (id: string) => like(id, 'POST'),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['routines'] });
+    },
+    onError: (error) => {
+      console.error('Error liking routine:', error);
+    },
+  });
+
+  const { mutate: deleteRoutine } = useMutation({
+    mutationFn: (id: string) => like(id, 'DELETE'),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['routines'] });
+    },
+    onError: (error) => {
+      console.error('Error disliking routine:', error);
+    },
+  });
 
   const openRoutineDetails = (routineId: string) => {
     const url = AppRoutes.ROUTINE_DETAILS.replace(':routineId', routineId);
@@ -16,8 +39,16 @@ const RoutineCard: React.FC<RoutineProps> = (props) => {
   };
 
   const likes = useMemo(() => {
-    return props.likes > 999 ? `${(props.likes / 1000).toFixed(0)}k` : props.likes;
-  }, [props.likes]);
+    return props.likesCount > 999 ? `${(props.likesCount / 1000).toFixed(0)}k` : props.likesCount;
+  }, [props.likesCount]);
+
+  const handleLikeClick = () => {
+    if (props.isLikedByCurrentUser) {
+      deleteRoutine(props.id);
+    } else {
+      likeRoutine(props.id);
+    }
+  };
 
   return (
     <div className='routine-list-item'>
@@ -33,11 +64,11 @@ const RoutineCard: React.FC<RoutineProps> = (props) => {
       <div className='routine-list-item_options'>
         <RoutineOptionsButton routineId={props.id} />
       </div>
-      <div className='likes-container'>
+      <div className='likes-container' onClick={handleLikeClick}>
         <div className='likes-number'>
           <p>{likes}</p>
         </div>
-        <div className={`likes-icon ${props.userLikes ? 'active' : ''}`}>
+        <div className={`likes-icon ${props.isLikedByCurrentUser ? 'active' : ''}`}>
           <ThumbUpOffAltIcon fontSize='small' />
         </div>
       </div>
@@ -49,9 +80,10 @@ type RoutineProps = {
   id: string;
   name: string;
   description?: string;
-  likes: number;
-  userLikes: boolean;
+  likesCount: number;
+  isLikedByCurrentUser: boolean;
   createdAt: string;
+  userId: string;
 };
 
 export default RoutineCard;

@@ -32,6 +32,9 @@
     & .active {
       color: $accent-color;
     }
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &__likes-number {
@@ -52,9 +55,5 @@
   & .likes-icon {
     padding: 0.15rem 0.25rem 0.15rem 0.15rem;
     border-left: 1px solid $secondary-color;
-
-    &:hover {
-      cursor: pointer;
-    }
   }
 }

@@ -6,7 +6,6 @@ import { fetchUserRoutines } from '@/api/routineApi.ts';
 import RoutineCard from '../routineCard/RoutineCard';
 
 import './MyRoutines.scss';
-
 const MyRoutines: () => ReactNode = () => {
   const {
     data: routines,
@@ -24,7 +23,6 @@ const MyRoutines: () => ReactNode = () => {
     //TODO: add app alerts
   }
 
-  //TODO: change mock likes to real likes
   return (
     <div className='routine-list-wrapper'>
       {routines &&
@@ -34,9 +32,10 @@ const MyRoutines: () => ReactNode = () => {
             key={routine.id}
             name={routine.name}
             description={routine.description}
-            likes={routine.likes || 0}
-            userLikes={routine.userLikes || false}
+            likesCount={routine.likesCount}
+            isLikedByCurrentUser={routine.isLikedByCurrentUser}
             createdAt={routine.createdAt}
+            userId={routine.userId}
           />
         ))}
     </div>
