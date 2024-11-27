@@ -1,6 +1,5 @@
 import { AppRoutes } from '@/types/routes';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import RoutineOptionsButton from './routineOptionsButton/RoutineOptionsButton';
@@ -11,6 +10,7 @@ import { queryClient } from '@/config/tanstack_query/config';
 import { dislike, like } from '@/api/routineLikeApi';
 import AppAlert from '@/app/components/alerts/AppAlert';
 import { Routine } from '@/types/entities/Routine';
+import LikeWithCount from '@/app/components/likeWithCount/LikeWithCount';
 
 const RoutineCard = ({ routine }: { routine: Routine }) => {
   const navigate = useNavigate();
@@ -40,10 +40,6 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
     const url = AppRoutes.ROUTINE_DETAILS.replace(':routineId', routineId);
     navigate(url);
   };
-
-  const likes = useMemo(() => {
-    return routine.likesCount > 999 ? `${(routine.likesCount / 1000).toFixed(0)}k` : routine.likesCount;
-  }, [routine.likesCount]);
 
   const handleLikeClick = () => {
     if (routine.isLikedByCurrentUser) {
@@ -75,13 +71,12 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
         <div className='routine-list-item_options'>
           <RoutineOptionsButton routineId={routine.id} />
         </div>
-        <div className='likes-container' onClick={handleLikeClick}>
-          <div className='likes-number'>
-            <p>{likes}</p>
-          </div>
-          <div className={`likes-icon ${routine.isLikedByCurrentUser ? 'active' : ''}`}>
-            <ThumbUpOffAltIcon fontSize='small' />
-          </div>
+        <div className='routine-list-item_like-container'>
+          <LikeWithCount
+            likesCount={routine.likesCount}
+            isLikedByCurrentUser={routine.isLikedByCurrentUser}
+            handleClick={handleLikeClick}
+          />
         </div>
       </div>
       <AppAlert

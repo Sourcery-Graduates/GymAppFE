@@ -3,12 +3,12 @@ import { ListItem, ListItemText, Typography } from '@mui/material';
 import './RoutineListItem.scss';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '@/types/routes';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { queryClient } from '@/config/tanstack_query/config';
 import { useMutation } from '@tanstack/react-query';
 import { dislike, like } from '@/api/routineLikeApi';
 import { useState } from 'react';
 import AppAlert from '@/app/components/alerts/AppAlert';
+import LikeWithCount from '@/app/components/likeWithCount/LikeWithCount';
 
 const RoutineListItem = ({ routine }: { routine: Routine }) => {
   const {
@@ -63,27 +63,28 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
 
   return (
     <>
-      <div>
-        <ListItem alignItems='flex-start' key={id} className='public-routine-list-item'>
-          <ListItemText
-            onClick={() => openRoutineDetails(id)}
-            primary={name}
-            primaryTypographyProps={{
-              fontWeight: 'bold',
-            }}
-            className='public-routine-list-item__name'
-            secondary={
-              <Typography component='span' variant='body2' className='public-routine-list-item__description'>
-                {description}
-              </Typography>
-            }
-          />
-          <div className='public-routine-list-item__likes' onClick={handleLikeClick}>
-            <div className='public-routine-list-item__likes-number'>
-              <p>{likesCount}</p>
-            </div>
-            <div className={`likes-icon ${isLikedByCurrentUser ? 'active' : ''}`}>
-              <ThumbUpOffAltIcon fontSize='small' />
+      <div className='public-routine-list-item'>
+        <ListItem key={id}>
+          <div className='public-routine-list-item__content'>
+            <ListItemText
+              onClick={() => openRoutineDetails(id)}
+              primary={name}
+              primaryTypographyProps={{
+                fontWeight: 'bold',
+              }}
+              className='public-routine-list-item__name'
+              secondary={
+                <Typography component='span' variant='body2' className='public-routine-list-item__description'>
+                  {description}
+                </Typography>
+              }
+            />
+            <div className='public-routine-list-item_like-container'>
+              <LikeWithCount
+                likesCount={likesCount}
+                isLikedByCurrentUser={isLikedByCurrentUser}
+                handleClick={handleLikeClick}
+              />
             </div>
           </div>
         </ListItem>

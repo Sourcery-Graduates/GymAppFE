@@ -1,0 +1,36 @@
+@import '../../../styles/base/variables';
+
+.likes {
+  width: 4.5rem;
+  height: 1.5rem;
+  display: flex;
+  border-radius: $border-radius-medium;
+  border: $border;
+  overflow: hidden;
+
+  & .active {
+    color: $accent-color;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__count {
+    width: 100%;
+    max-width: 2.25rem;
+    padding-left: 0.35rem;
+    padding-right: 0.2rem;
+    background-color: $secondary-color;
+    overflow: hidden;
+
+    & p {
+      height: 100%;
+      text-align: end;
+      vertical-align: middle;
+    }
+  }
+  &__icon {
+    padding: 0.15rem 0.25rem 0.15rem 0.15rem;
+    border-left: $border;
+  }
+}
