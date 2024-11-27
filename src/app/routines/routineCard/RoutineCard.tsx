@@ -11,10 +11,13 @@ import { dislike, like } from '@/api/routineLikeApi';
 import AppAlert from '@/app/components/alerts/AppAlert';
 import { Routine } from '@/types/entities/Routine';
 import LikeWithCount from '@/app/components/likeWithCount/LikeWithCount';
+import { AlertColor } from '@mui/material/Alert';
 
 const RoutineCard = ({ routine }: { routine: Routine }) => {
   const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarText, setSnackbarText] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<AlertColor>('error');
 
   const { mutate: likeRoutine } = useMutation({
     mutationFn: (id: string) => like(id),
@@ -22,6 +25,8 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
       queryClient.invalidateQueries({ queryKey: ['routines'] });
     },
     onError: () => {
+      setSnackbarText('Error while liking routine');
+      setSnackbarSeverity('error');
       setSnackbarOpen(true);
     },
   });
@@ -32,6 +37,8 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
       queryClient.invalidateQueries({ queryKey: ['routines'] });
     },
     onError: () => {
+      setSnackbarText('Error while disliking routine');
+      setSnackbarSeverity('error');
       setSnackbarOpen(true);
     },
   });
@@ -79,12 +86,7 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
           />
         </div>
       </div>
-      <AppAlert
-        open={snackbarOpen}
-        onClose={handleSnackbarClose}
-        text='An error occurred while updating your like'
-        severity='error'
-      />
+      <AppAlert open={snackbarOpen} onClose={handleSnackbarClose} text={snackbarText} severity={snackbarSeverity} />
     </>
   );
 };
