@@ -15,7 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider/L
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TextField } from '@mui/material';
 import updateLocale from 'dayjs/plugin/updateLocale';
-import ExerciseModal from '@/app/routines/exersiceModal/ExerciseModal.tsx';
+import ExerciseModal from '@/app/components/exerciseModal/ExerciseModal.tsx';
 import {
   mapRoutineExerciseToCreateWorkoutExercise,
   mapToCreateWorkout,

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
 import { fetchUserRoutines } from '@/api/routineApi.ts';
-import RoutineCard from '../routineCard/RoutineCard';
+import RoutineCard from './routineCard/RoutineCard';
 
 import './MyRoutines.scss';
 const MyRoutines: () => ReactNode = () => {

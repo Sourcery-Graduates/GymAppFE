@@ -13,7 +13,7 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import './RoutineDetails.scss';
-import ExercisesTable from '../exercisesTable/ExercisesTable';
+import ExercisesTable from '../../components/exercisesTable/ExercisesTable';
 import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
 import useAuth from '@/app/common/hooks/useAuth';
 
