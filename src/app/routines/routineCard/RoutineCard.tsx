@@ -8,7 +8,7 @@ import RoutineOptionsButton from './routineOptionsButton/RoutineOptionsButton';
 import './RoutineCard.scss';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/config/tanstack_query/config';
-import { like } from '@/api/routineLikeApi';
+import { dislike, like } from '@/api/routineLikeApi';
 import AppAlert from '@/app/components/alerts/AppAlert';
 import { Routine } from '@/types/entities/Routine';
 
@@ -17,7 +17,7 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const { mutate: likeRoutine } = useMutation({
-    mutationFn: (id: string) => like(id, 'POST'),
+    mutationFn: (id: string) => like(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['routines'] });
     },
@@ -26,8 +26,8 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
     },
   });
 
-  const { mutate: deleteRoutine } = useMutation({
-    mutationFn: (id: string) => like(id, 'DELETE'),
+  const { mutate: dislikeRoutine } = useMutation({
+    mutationFn: (id: string) => dislike(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['routines'] });
     },
@@ -47,7 +47,7 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
 
   const handleLikeClick = () => {
     if (routine.isLikedByCurrentUser) {
-      deleteRoutine(routine.id);
+      dislikeRoutine(routine.id);
     } else {
       likeRoutine(routine.id);
     }

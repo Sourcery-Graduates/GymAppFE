@@ -6,7 +6,7 @@ import { AppRoutes } from '@/types/routes';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { queryClient } from '@/config/tanstack_query/config';
 import { useMutation } from '@tanstack/react-query';
-import { like } from '@/api/routineLikeApi';
+import { dislike, like } from '@/api/routineLikeApi';
 import { useState } from 'react';
 import AppAlert from '@/app/components/alerts/AppAlert';
 
@@ -22,7 +22,7 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const { mutate: likeRoutine } = useMutation({
-    mutationFn: (id: string) => like(id, 'POST'),
+    mutationFn: (id: string) => like(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['public-routines'] });
     },
@@ -31,8 +31,8 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
     },
   });
 
-  const { mutate: deleteRoutine } = useMutation({
-    mutationFn: (id: string) => like(id, 'DELETE'),
+  const { mutate: dislikeRoutine } = useMutation({
+    mutationFn: (id: string) => dislike(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['public-routines'] });
     },
@@ -43,7 +43,7 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
 
   const handleLikeClick = () => {
     if (isLikedByCurrentUser) {
-      deleteRoutine(id);
+      dislikeRoutine(id);
     } else {
       likeRoutine(id);
     }
