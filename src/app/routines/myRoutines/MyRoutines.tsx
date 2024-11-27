@@ -3,10 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
 import { fetchUserRoutines } from '@/api/routineApi.ts';
-import RoutineCard from '../routineCard/RoutineCard';
+import RoutineCard from './routineCard/RoutineCard';
 
 import './MyRoutines.scss';
-
 const MyRoutines: () => ReactNode = () => {
   const {
     data: routines,
@@ -24,19 +23,11 @@ const MyRoutines: () => ReactNode = () => {
     //TODO: add app alerts
   }
 
-  //TODO: change mock likes to real likes
   return (
     <div className='routine-list-wrapper'>
       {routines &&
         routines.map((routine) => (
-          <RoutineCard
-            id={routine.id!}
-            key={routine.id}
-            name={routine.name}
-            description={routine.description}
-            likes={routine.likes || 0}
-            userLikes={routine.userLikes || false}
-            createdAt={routine.createdAt}
+          <RoutineCard key={routine.id} routine={routine}
           />
         ))}
     </div>

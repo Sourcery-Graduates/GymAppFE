@@ -3,14 +3,18 @@
 .public-routine-list-item {
   min-width: 180px;
   max-width: 100%;
-  height: 6rem;
   border-radius: $border-radius-base;
-  border: 1px solid $secondary-color;
+  border: $border;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
 
   &__name {
     cursor: pointer;
   }
-  
+
   &__description {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -18,5 +22,9 @@
     -webkit-box-orient: vertical;
     line-clamp: 2;
     -webkit-line-clamp: 2;
+  }
+
+  &_like-container {
+    padding: 0.5rem 0;
   }
 }
