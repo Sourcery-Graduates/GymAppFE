@@ -10,8 +10,9 @@ import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/config/tanstack_query/config';
 import { like } from '@/api/routineLikeApi';
 import AppAlert from '@/app/components/alerts/AppAlert';
+import { Routine } from '@/types/entities/Routine';
 
-const RoutineCard: React.FC<RoutineProps> = (props) => {
+const RoutineCard = ({ routine }: { routine: Routine }) => {
   const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
@@ -41,14 +42,14 @@ const RoutineCard: React.FC<RoutineProps> = (props) => {
   };
 
   const likes = useMemo(() => {
-    return props.likesCount > 999 ? `${(props.likesCount / 1000).toFixed(0)}k` : props.likesCount;
-  }, [props.likesCount]);
+    return routine.likesCount > 999 ? `${(routine.likesCount / 1000).toFixed(0)}k` : routine.likesCount;
+  }, [routine.likesCount]);
 
   const handleLikeClick = () => {
-    if (props.isLikedByCurrentUser) {
-      deleteRoutine(props.id);
+    if (routine.isLikedByCurrentUser) {
+      deleteRoutine(routine.id);
     } else {
-      likeRoutine(props.id);
+      likeRoutine(routine.id);
     }
   };
 
@@ -62,23 +63,23 @@ const RoutineCard: React.FC<RoutineProps> = (props) => {
   return (
     <>
       <div className='routine-list-item'>
-        <div className='routine-list-item_name' onClick={() => openRoutineDetails(props.id)}>
+        <div className='routine-list-item_name' onClick={() => openRoutineDetails(routine.id)}>
           <h3>
-            <title>{props.name}</title>
-            {props.name}
+            <title>{routine.name}</title>
+            {routine.name}
           </h3>
         </div>
         <div className='routine-list-item_description'>
-          <p>{props.description}</p>
+          <p>{routine.description}</p>
         </div>
         <div className='routine-list-item_options'>
-          <RoutineOptionsButton routineId={props.id} />
+          <RoutineOptionsButton routineId={routine.id} />
         </div>
         <div className='likes-container' onClick={handleLikeClick}>
           <div className='likes-number'>
             <p>{likes}</p>
           </div>
-          <div className={`likes-icon ${props.isLikedByCurrentUser ? 'active' : ''}`}>
+          <div className={`likes-icon ${routine.isLikedByCurrentUser ? 'active' : ''}`}>
             <ThumbUpOffAltIcon fontSize='small' />
           </div>
         </div>
@@ -91,16 +92,6 @@ const RoutineCard: React.FC<RoutineProps> = (props) => {
       />
     </>
   );
-};
-
-type RoutineProps = {
-  id: string;
-  name: string;
-  description?: string;
-  likesCount: number;
-  isLikedByCurrentUser: boolean;
-  createdAt: string;
-  userId: string;
 };
 
 export default RoutineCard;

@@ -17,7 +17,7 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
     description = 'No description',
     likesCount = 0,
     isLikedByCurrentUser = false,
-  } = routine;
+  } = routine || {};
   const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
