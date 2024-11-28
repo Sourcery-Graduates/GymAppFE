@@ -18,11 +18,12 @@ export const fetchAllPublicRoutines = async (
   page: number,
   size: number,
   searchValue: string,
+  sort: string,
 ): Promise<PagedRoutine> => {
   let response;
   if (searchValue) {
     response = await api.get(
-      `${Routine_Endpoint.ROUTINE}?page=${page}&size=${size}&sort=name%2CASC&name=${searchValue}`,
+      `${Routine_Endpoint.ROUTINE}?page=${page}&size=${size}&sort=${sort}%2CASC&name=${searchValue}`,
     );
   } else {
     response = await api.get(`${Routine_Endpoint.ROUTINE}?page=${page}&size=${size}&sort=name%2CASC`);
