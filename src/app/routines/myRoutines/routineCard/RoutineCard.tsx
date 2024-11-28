@@ -6,40 +6,50 @@ import RoutineOptionsButton from './routineOptionsButton/RoutineOptionsButton';
 
 import './RoutineCard.scss';
 import { useMutation } from '@tanstack/react-query';
-import { queryClient } from '@/config/tanstack_query/config';
 import { dislike, like } from '@/api/routineLikeApi';
 import AppAlert from '@/app/components/alerts/AppAlert';
 import { Routine } from '@/types/entities/Routine';
 import LikeWithCount from '@/app/components/likeWithCount/LikeWithCount';
-import { AlertColor } from '@mui/material/Alert';
+import { AppAlertState } from '@/types/entities/AppAlert';
 
 const RoutineCard = ({ routine }: { routine: Routine }) => {
   const navigate = useNavigate();
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarText, setSnackbarText] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState<AlertColor>('error');
+  const [alertState, setAlertState] = useState<AppAlertState>({
+    open: false,
+    text: '',
+    severity: 'error',
+  });
 
-  const { mutate: likeRoutine } = useMutation({
+  const [likes, setLikes] = useState(routine.likesCount);
+  const [isLiked, setIsLiked] = useState(routine.isLikedByCurrentUser);
+
+  const { mutate: likeRoutine, isPending: likeRoutinePending } = useMutation({
     mutationFn: (id: string) => like(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['routines'] });
+      setLikes((prev) => prev + 1);
+      setIsLiked(true);
     },
     onError: () => {
-      setSnackbarText('Error while liking routine');
-      setSnackbarSeverity('error');
-      setSnackbarOpen(true);
+      setAlertState({
+        open: true,
+        text: 'Error while liking routine',
+        severity: 'error',
+      });
     },
   });
 
-  const { mutate: dislikeRoutine } = useMutation({
+  const { mutate: dislikeRoutine, isPending: dislikeRoutinePending } = useMutation({
     mutationFn: (id: string) => dislike(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['routines'] });
+      setLikes((prev) => prev - 1);
+      setIsLiked(false);
     },
     onError: () => {
-      setSnackbarText('Error while disliking routine');
-      setSnackbarSeverity('error');
-      setSnackbarOpen(true);
+      setAlertState({
+        open: true,
+        text: 'Error while disliking routine',
+        severity: 'error',
+      });
     },
   });
 
@@ -49,10 +59,16 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
   };
 
   const handleLikeClick = () => {
-    if (routine.isLikedByCurrentUser) {
-      dislikeRoutine(routine.id);
+    if (isLiked) {
+      if (!dislikeRoutinePending) {
+        setIsLiked(false);
+        dislikeRoutine(routine.id);
+      }
     } else {
-      likeRoutine(routine.id);
+      if (!likeRoutinePending) {
+        setIsLiked(true);
+        likeRoutine(routine.id);
+      }
     }
   };
 
@@ -60,7 +76,11 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
     if (reason && reason !== 'timeout') {
       return;
     }
-    setSnackbarOpen(false);
+    setAlertState({
+      open: false,
+      text: '',
+      severity: 'error',
+    });
   };
 
   return (
@@ -79,14 +99,15 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
           <RoutineOptionsButton routineId={routine.id} />
         </div>
         <div className='routine-list-item_like-container'>
-          <LikeWithCount
-            likesCount={routine.likesCount}
-            isLikedByCurrentUser={routine.isLikedByCurrentUser}
-            handleClick={handleLikeClick}
-          />
+          <LikeWithCount likesCount={likes} isLikedByCurrentUser={isLiked} handleClick={handleLikeClick} />
         </div>
       </div>
-      <AppAlert open={snackbarOpen} onClose={handleSnackbarClose} text={snackbarText} severity={snackbarSeverity} />
+      <AppAlert
+        open={alertState.open}
+        onClose={handleSnackbarClose}
+        text={alertState.text}
+        severity={alertState.severity}
+      />
     </>
   );
 };
