@@ -29,6 +29,10 @@ const PublicRoutines = ({ scrollTop, searchValue }: PublicRoutinesProps) => {
     scrollTop();
   }, [currentPage, rowsPerPage, scrollTop]);
 
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [searchValue]);
+
   if (isLoading) {
     return <BasicSpinner />;
   }
