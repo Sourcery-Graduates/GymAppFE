@@ -99,9 +99,6 @@ const RoutineDetails = () => {
             <Button size='small' className='delete-routine-button' onClick={handleClickOpen}>
               <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Routine
             </Button>
-            <Button size='small' className='start-workout-button' onClick={startWorkoutHandler}>
-              Start Workout
-            </Button>
             <ConfirmationDialog
               description='Are you sure you want to delete this Routine?'
               open={openConfirmationDialog}
@@ -110,7 +107,9 @@ const RoutineDetails = () => {
             />
           </div>
         )}
-        {}
+        <Button size='small' className='start-workout-button' onClick={startWorkoutHandler}>
+          Start Workout
+        </Button>
       </div>
       <div className='routine-header'>
         <h2>{data?.routine.name}</h2>
