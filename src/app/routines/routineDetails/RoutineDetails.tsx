@@ -6,6 +6,7 @@ import { AppRoutes } from '@/types/routes';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import { IconButton } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -91,26 +92,27 @@ const RoutineDetails = () => {
         <IconButton aria-label='go back' onClick={goBackHandler}>
           <ArrowBackIosNewIcon sx={{ color: 'accent.main' }} />
         </IconButton>
-        {data?.routine.userId === userId && (
-          <div className='routine-options'>
-            <Button size='small' onClick={openRoutineUpdate}>
-              <EditIcon fontSize='small' /> &nbsp; Edit Routine
-            </Button>
-            <Button size='small' className='delete-routine-button' onClick={handleClickOpen}>
-              <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Routine
-            </Button>
-            <Button size='small' className='start-workout-button' onClick={startWorkoutHandler}>
-              Start Workout
-            </Button>
-            <ConfirmationDialog
-              description='Are you sure you want to delete this Routine?'
-              open={openConfirmationDialog}
-              onConfirm={handleConfirm}
-              onClose={handleClose}
-            />
-          </div>
-        )}
-        {}
+        <div className='routine-options'>
+          {data?.routine.userId === userId && (
+            <>
+              <Button size='small' onClick={openRoutineUpdate}>
+                <EditIcon fontSize='small' /> &nbsp; Edit Routine
+              </Button>
+              <Button size='small' className='delete-routine-button' onClick={handleClickOpen}>
+                <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Routine
+              </Button>
+              <ConfirmationDialog
+                description='Are you sure you want to delete this Routine?'
+                open={openConfirmationDialog}
+                onConfirm={handleConfirm}
+                onClose={handleClose}
+              />
+            </>
+          )}
+          <Button size='small' className='start-workout-button' onClick={startWorkoutHandler}>
+            <PlayCircleFilledIcon fontSize='small' /> &nbsp; Start Workout
+          </Button>
+        </div>
       </div>
       <div className='routine-header'>
         <h2>{data?.routine.name}</h2>
