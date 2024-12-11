@@ -1,9 +1,9 @@
 export interface Routine {
-  id?: string;
+  id: string;
   name: string;
   description?: string;
-  likes?: number;
-  userLikes?: boolean;
+  likesCount: number;
+  isLikedByCurrentUser: boolean;
   createdAt: string;
   userId: string;
 }

@@ -17,8 +17,8 @@ import { routineValidationSchema } from './routineValidationSchema';
 import './RoutineForm.scss';
 import React from 'react';
 import { useState } from 'react';
-import ExerciseModal from '../exersiceModal/ExerciseModal';
-import ExercisesTable from '../exercisesTable/ExercisesTable';
+import ExerciseModal from '../../components/exerciseModal/ExerciseModal';
+import ExercisesTable from '../../components/exercisesTable/ExercisesTable';
 import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
 import { CreateRoutineExercise } from '@/types/entities/Exercise';
 

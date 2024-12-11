@@ -1,7 +1,7 @@
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import ExercisesTableRow from './ExercisesTableRow';
 import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
-import { timeUnits, weightUnits } from '../exersiceModal/measurementUnits';
+import { timeUnits, weightUnits } from '../exerciseModal/measurementUnits';
 
 interface ExerciseTableProps {
   editable: boolean;
@@ -9,6 +9,7 @@ interface ExerciseTableProps {
 
 const ExercisesTable = ({ editable = true }: ExerciseTableProps) => {
   const { exercises } = useRoutineExercises();
+  console.log(exercises);
   return (
     <>
       <TableContainer>

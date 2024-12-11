@@ -1,33 +1,27 @@
-import { Routine } from '@/types/entities/Routine';
-import { ListItem, ListItemText, Typography } from '@mui/material';
-import './RoutineListItem.scss';
-import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '@/types/routes';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import RoutineOptionsButton from './routineOptionsButton/RoutineOptionsButton';
+
+import './RoutineCard.scss';
 import { useMutation } from '@tanstack/react-query';
 import { dislike, like } from '@/api/routineLikeApi';
-import { useState } from 'react';
 import AppAlert from '@/app/components/alerts/AppAlert';
+import { Routine } from '@/types/entities/Routine';
 import LikeWithCount from '@/app/components/likeWithCount/LikeWithCount';
 import { AppAlertState } from '@/types/entities/AppAlert';
 
-const RoutineListItem = ({ routine }: { routine: Routine }) => {
-  const {
-    id = '',
-    name = 'No name',
-    description = 'No description',
-    likesCount = 0,
-    isLikedByCurrentUser = false,
-  } = routine || {};
+const RoutineCard = ({ routine }: { routine: Routine }) => {
   const navigate = useNavigate();
-
   const [alertState, setAlertState] = useState<AppAlertState>({
     open: false,
     text: '',
     severity: 'error',
   });
 
-  const [likes, setLikes] = useState(likesCount);
-  const [isLiked, setIsLiked] = useState(isLikedByCurrentUser);
+  const [likes, setLikes] = useState(routine.likesCount);
+  const [isLiked, setIsLiked] = useState(routine.isLikedByCurrentUser);
 
   const { mutate: likeRoutine, isPending: likeRoutinePending } = useMutation({
     mutationFn: (id: string) => like(id),
@@ -59,16 +53,21 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
     },
   });
 
+  const openRoutineDetails = (routineId: string) => {
+    const url = AppRoutes.ROUTINE_DETAILS.replace(':routineId', routineId);
+    navigate(url);
+  };
+
   const handleLikeClick = () => {
     if (isLiked) {
       if (!dislikeRoutinePending) {
         setIsLiked(false);
-        dislikeRoutine(id);
+        dislikeRoutine(routine.id);
       }
     } else {
       if (!likeRoutinePending) {
         setIsLiked(true);
-        likeRoutine(id);
+        likeRoutine(routine.id);
       }
     }
   };
@@ -84,34 +83,24 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
     });
   };
 
-  const openRoutineDetails = (routineId: string) => {
-    const url = AppRoutes.ROUTINE_DETAILS.replace(':routineId', routineId);
-    navigate(url);
-  };
-
   return (
     <>
-      <div className='public-routine-list-item'>
-        <ListItem key={id}>
-          <div className='public-routine-list-item__content'>
-            <ListItemText
-              onClick={() => openRoutineDetails(id)}
-              primary={name}
-              primaryTypographyProps={{
-                fontWeight: 'bold',
-              }}
-              className='public-routine-list-item__name'
-              secondary={
-                <Typography component='span' variant='body2' className='public-routine-list-item__description'>
-                  {description}
-                </Typography>
-              }
-            />
-            <div className='public-routine-list-item_like-container'>
-              <LikeWithCount likesCount={likes} isLikedByCurrentUser={isLiked} handleClick={handleLikeClick} />
-            </div>
-          </div>
-        </ListItem>
+      <div className='routine-list-item'>
+        <div className='routine-list-item_name' onClick={() => openRoutineDetails(routine.id)}>
+          <h3>
+            <title>{routine.name}</title>
+            {routine.name}
+          </h3>
+        </div>
+        <div className='routine-list-item_description'>
+          <p>{routine.description}</p>
+        </div>
+        <div className='routine-list-item_options'>
+          <RoutineOptionsButton routineId={routine.id} />
+        </div>
+        <div className='routine-list-item_like-container'>
+          <LikeWithCount likesCount={likes} isLikedByCurrentUser={isLiked} handleClick={handleLikeClick} />
+        </div>
       </div>
       <AppAlert
         open={alertState.open}
@@ -123,4 +112,4 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
   );
 };
 
-export default RoutineListItem;
+export default RoutineCard;
