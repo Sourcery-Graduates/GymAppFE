@@ -6,6 +6,7 @@ import { AppRoutes } from '@/types/routes';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import { IconButton } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -109,7 +110,7 @@ const RoutineDetails = () => {
             </>
           )}
           <Button size='small' className='start-workout-button' onClick={startWorkoutHandler}>
-            Start Workout
+            <PlayCircleFilledIcon fontSize='small' /> &nbsp; Start Workout
           </Button>
         </div>
       </div>

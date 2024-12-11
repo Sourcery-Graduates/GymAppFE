@@ -29,10 +29,11 @@
     display: flex;
     justify-content: end;
     flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
 
     & button {
-      margin-left: 0.5rem;
-      margin-bottom: 1px;
+      min-width: 140px;
     }
   }
 }
