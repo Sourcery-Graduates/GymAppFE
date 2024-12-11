@@ -26,6 +26,7 @@ import { CreateRoutineExercise } from '@/types/entities/Exercise.ts';
 import { AppRoutes } from '@/types/routes.ts';
 import SaveIcon from '@mui/icons-material/Save';
 import AppAlert from '@/app/components/alerts/AppAlert.tsx';
+import { dateToUTCStartOfDay } from '@/app/util/date.ts';
 
 interface WorkoutFormProps {
   initialWorkout: CreateWorkout;
@@ -160,7 +161,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
                       className='calendar'
                       label='Workout Date'
                       {...field}
-                      onChange={(date) => field.onChange(date)}
+                      onChange={(date) => field.onChange(dateToUTCStartOfDay(date))}
                       format='DD/MM/YYYY'
                       // TODO CHANGE IT FROM SLOT PROPS
                       // Bugs on trying to attach that to css classes

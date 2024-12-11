@@ -42,7 +42,7 @@ const RoutineDetails = () => {
     try {
       await deleteRoutineMutation(routineId!);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
     setOpenConfirmationDialog(false);
     navigate(AppRoutes.ROUTINES);

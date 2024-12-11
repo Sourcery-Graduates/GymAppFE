@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import './Select.scss';
 
 interface SelectProps {
+  className?: string | undefined;
   sx?: SxProps<Theme>;
   style?: React.CSSProperties;
   label?: string;
@@ -17,7 +18,7 @@ interface SelectProps {
   setOptionValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Select = ({ style, sx, label, values, optionValue, setOptionValue }: SelectProps) => {
+const Select = ({ className, style, sx, label, values, optionValue, setOptionValue }: SelectProps) => {
   const labelUuid: string = useMemo(() => {
     return uuid();
   }, []);
@@ -27,7 +28,7 @@ const Select = ({ style, sx, label, values, optionValue, setOptionValue }: Selec
   };
 
   return (
-    <Box style={style} sx={{ ...sx, minWidth: 120 }}>
+    <Box className={className} style={style} sx={{ ...sx, minWidth: 120 }}>
       <FormControl>
         {label && (
           <InputLabel variant='standard' htmlFor={`select-label-${labelUuid}`}>

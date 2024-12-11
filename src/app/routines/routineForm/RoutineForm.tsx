@@ -34,7 +34,6 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
   const handleClose = () => setModalOpen(false);
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log('create');
     if (routine) {
       routine.name = data.name;
       routine.description = data.description;

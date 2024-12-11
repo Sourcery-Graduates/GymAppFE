@@ -3,14 +3,12 @@ import ExercisesTableRow from './ExercisesTableRow';
 import { useRoutineExercises } from '@/app/common/context/RoutineExercisesContext';
 import { timeUnits, weightUnits } from '../exersiceModal/measurementUnits';
 
-
 interface ExerciseTableProps {
   editable: boolean;
 }
 
 const ExercisesTable = ({ editable = true }: ExerciseTableProps) => {
   const { exercises } = useRoutineExercises();
-  console.log(exercises);
   return (
     <>
       <TableContainer>

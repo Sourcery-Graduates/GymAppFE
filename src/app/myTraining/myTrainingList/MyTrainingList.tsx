@@ -1,5 +1,6 @@
 import TrainingCard from '@/app/myTraining/myTrainingList/trainingCard/TrainingCard';
 import { ResponseWorkout } from '@/types/entities/Workout';
+import './MyTrainingList.scss';
 
 interface MyTrainingListProps {
   data: ResponseWorkout[] | undefined;
@@ -7,11 +8,13 @@ interface MyTrainingListProps {
 
 const MyTrainingList = ({ data }: MyTrainingListProps) => {
   return (
-    <>
-      {data?.map((workout) => {
-        return <TrainingCard key={workout.id} workout={workout} />;
-      })}
-    </>
+    <div className='workout-container-list'>
+      <div className='workout-list'>
+        {data?.map((workout) => {
+          return <TrainingCard key={workout.id} workout={workout} />;
+        })}
+      </div>
+    </div>
   );
 };
 

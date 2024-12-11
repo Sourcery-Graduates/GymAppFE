@@ -1,20 +1,37 @@
 import WorkoutForm from '@/app/myTraining/workout/workoutForm/WorkoutForm';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CreateWorkout } from '@/types/entities/Workout';
-import dayjs from 'dayjs';
 import './WorkoutPage.scss';
+import { useEffect, useState } from 'react';
+import BasicSpinner from '@/app/components/loaders/BasicSpinner';
+import { getWorkoutById } from '@/api/workout';
+import { mapToCreateWorkout } from '@/types/mapper/exercise';
+import { AppRoutes } from '@/types/routes';
 
 const WorkoutPage = () => {
-  const location = useLocation();
-  const workoutData: CreateWorkout = location.state?.workoutData;
+  const { workoutId } = useParams<{ workoutId: string }>();
+  const navigate = useNavigate();
+  const [workout, setWorkout] = useState<CreateWorkout | null>(null);
 
-  // idk whats goin on here, location.state is cutting it's functions
-  const initialWorkout = workoutData;
-  initialWorkout.date = dayjs(workoutData.date);
+  useEffect(() => {
+    if (workoutId !== undefined) {
+      getWorkoutById(workoutId)
+        .then((responseWorkout) => {
+          setWorkout(mapToCreateWorkout(responseWorkout));
+        })
+        .catch();
+    } else {
+      navigate(AppRoutes.MY_TRAINING);
+    }
+  }, [workoutId, navigate]);
+
+  if (workout === null) {
+    return <BasicSpinner />;
+  }
 
   return (
     <div className='workout-form-container'>
-      <WorkoutForm initialWorkout={workoutData} typeOfWorkout={'existing_workout'} />
+      <WorkoutForm initialWorkout={workout} typeOfWorkout={'existing_workout'} />
     </div>
   );
 };

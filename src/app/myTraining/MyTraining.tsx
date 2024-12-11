@@ -17,14 +17,17 @@ const MyTraining = () => {
   return (
     <div className='my-training'>
       <header className='my-training-header'>
-        <div className='title'> MY TRAININGS</div>
-        <Select values={viewOptions} optionValue={optionValue} setOptionValue={setOptionValue} />
+        <div className='my-training-title'> MY TRAININGS</div>
+        <Select
+          className='my-training-select'
+          values={viewOptions}
+          optionValue={optionValue}
+          setOptionValue={setOptionValue}
+        />
       </header>
       <div className='workout-container'>
-        <div className='workout-container-list'>
-          {optionValue == viewOptions[0] && <MyTrainingList data={workoutGrid} />}
-        </div>
-        <div className='workout-container-calendar'>{optionValue == viewOptions[1] && <MyTrainingCalendar />}</div>
+        {optionValue == viewOptions[0] && <MyTrainingList data={workoutGrid} />}
+        {optionValue == viewOptions[1] && <MyTrainingCalendar />}
       </div>
     </div>
   );

@@ -1,27 +1,52 @@
 @import '@/styles/base/variables';
 
+.my-training-calendar-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 .my-training-calendar {
   display: grid;
-  grid-column: 7;
-  grid-row: 6;
   border: $border;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(80px, 1fr));
+  overflow-y: auto;
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
 .my-training-calendar-navigation {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+
+  &-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    margin-right: 12px;
+
+    .calendar-nav-icon {
+      font-size: $font-size-base;
+    }
+  }
 }
 
 .my-training-calendar-date {
   display: flex;
-  margin-left: 20px;
-  flex-direction: column;
-  width: 100px;
+  flex-direction: row;
+  font-size: $font-size-large;
+  gap: 8px;
 }
 
 .item-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   height: 20px;
   background-color: $gray-900;
   border: $border;
@@ -34,6 +59,12 @@
   border: $border;
   overflow: hidden;
 
+  .date-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   &.not-displayed-month {
     background-color: $background-color;
   }
@@ -42,6 +73,7 @@
 
     &:hover {
       overflow: auto;
+      scrollbar-width: thin;
     }
 
     .item-workout {
@@ -52,23 +84,45 @@
       overflow: hidden;
       text-wrap: nowrap;
       text-overflow: ellipsis;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 
       &:nth-child(3n + 1) {
-        background-color: #5d6d7e;
+        // background-color: #5d6d7e;
+        // background-color: #20c997;
+        // background-color: #546a92;
+        // background-color: #3c4a63;
+        background-color: #455572;
       }
 
       &:nth-child(3n + 2) {
-        background-color: #e57373;
+        // background-color: #e57373;
+        // background-color: #dc3545;
+        // background-color: #a94d4d;
+        // background-color: #5a2e2e;
+        background-color: #843a3a;
       }
 
       &:nth-child(3n + 3) {
-        background-color: #f39c12;
+        // background-color: #f39c12;
+        // background-color: #fd7e14;
+        // background-color: #b3743b;
+        // background-color: #6b4b2f;
+        background-color: #8d5d38;
       }
     }
   }
 }
 
-/* Explicit grid positions for each item */
+@media (max-width: $breakpoint-tablet) {
+  .my-training-calendar-navigation {
+    justify-content: space-between;
+    .calendar-nav-icon {
+      font-size: $font-size-base;
+    }
+  }
+}
+
+// Explicit grid positions for each item
 .item1 {
   grid-row-start: 1;
   grid-row-end: 2;
