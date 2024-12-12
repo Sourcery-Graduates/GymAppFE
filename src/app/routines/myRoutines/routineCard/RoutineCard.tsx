@@ -5,29 +5,44 @@ import { useNavigate } from 'react-router-dom';
 import RoutineOptionsButton from './routineOptionsButton/RoutineOptionsButton';
 
 import './RoutineCard.scss';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { dislike, like } from '@/api/routineLikeApi';
 import AppAlert from '@/app/components/alerts/AppAlert';
-import { Routine } from '@/types/entities/Routine';
+import { PagedRoutine, Routine } from '@/types/entities/Routine';
 import LikeWithCount from '@/app/components/likeWithCount/LikeWithCount';
 import { AppAlertState } from '@/types/entities/AppAlert';
 
 const RoutineCard = ({ routine }: { routine: Routine }) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [alertState, setAlertState] = useState<AppAlertState>({
     open: false,
     text: '',
     severity: 'error',
   });
 
-  const [likes, setLikes] = useState(routine.likesCount);
-  const [isLiked, setIsLiked] = useState(routine.isLikedByCurrentUser);
-
   const { mutate: likeRoutine, isPending: likeRoutinePending } = useMutation({
     mutationFn: (id: string) => like(id),
     onSuccess: () => {
-      setLikes((prev) => prev + 1);
-      setIsLiked(true);
+      queryClient.setQueryData(['routines'], (oldData: Routine[]) => {
+        return oldData.map((oldRoutine) =>
+          oldRoutine.id === routine.id
+            ? { ...oldRoutine, likesCount: oldRoutine.likesCount + 1, isLikedByCurrentUser: true }
+            : oldRoutine,
+        );
+      });
+      queryClient.setQueriesData<PagedRoutine>({ queryKey: ['public-routines'] }, (oldData) => {
+        if (!oldData) return oldData;
+
+        return {
+          ...oldData,
+          data: oldData.data.map((oldRoutine) =>
+            oldRoutine.id === routine.id
+              ? { ...oldRoutine, likesCount: oldRoutine.likesCount + 1, isLikedByCurrentUser: true }
+              : oldRoutine,
+          ),
+        };
+      });
     },
     onError: () => {
       setAlertState({
@@ -41,8 +56,25 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
   const { mutate: dislikeRoutine, isPending: dislikeRoutinePending } = useMutation({
     mutationFn: (id: string) => dislike(id),
     onSuccess: () => {
-      setLikes((prev) => prev - 1);
-      setIsLiked(false);
+      queryClient.setQueryData(['routines'], (oldData: Routine[]) => {
+        return oldData.map((oldRoutine) =>
+          oldRoutine.id === routine.id
+            ? { ...oldRoutine, likesCount: oldRoutine.likesCount - 1, isLikedByCurrentUser: false }
+            : oldRoutine,
+        );
+      });
+      queryClient.setQueriesData<PagedRoutine>({ queryKey: ['public-routines'] }, (oldData) => {
+        if (!oldData) return oldData;
+
+        return {
+          ...oldData,
+          data: oldData.data.map((oldRoutine) =>
+            oldRoutine.id === routine.id
+              ? { ...oldRoutine, likesCount: oldRoutine.likesCount - 1, isLikedByCurrentUser: false }
+              : oldRoutine,
+          ),
+        };
+      });
     },
     onError: () => {
       setAlertState({
@@ -59,14 +91,12 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
   };
 
   const handleLikeClick = () => {
-    if (isLiked) {
+    if (routine.isLikedByCurrentUser) {
       if (!dislikeRoutinePending) {
-        setIsLiked(false);
         dislikeRoutine(routine.id);
       }
     } else {
       if (!likeRoutinePending) {
-        setIsLiked(true);
         likeRoutine(routine.id);
       }
     }
@@ -99,7 +129,11 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
           <RoutineOptionsButton routineId={routine.id} />
         </div>
         <div className='routine-list-item_like-container'>
-          <LikeWithCount likesCount={likes} isLikedByCurrentUser={isLiked} handleClick={handleLikeClick} />
+          <LikeWithCount
+            likesCount={routine.likesCount}
+            isLikedByCurrentUser={routine.isLikedByCurrentUser}
+            handleClick={handleLikeClick}
+          />
         </div>
       </div>
       <AppAlert

@@ -1,4 +1,4 @@
-import { Routine } from '@/types/entities/Routine';
+import { PagedRoutine, Routine } from '@/types/entities/Routine';
 import { ListItem, ListItemText, Typography } from '@mui/material';
 import './RoutineListItem.scss';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { useState } from 'react';
 import AppAlert from '@/app/components/alerts/AppAlert';
 import LikeWithCount from '@/app/components/likeWithCount/LikeWithCount';
 import { AppAlertState } from '@/types/entities/AppAlert';
+import { queryClient } from '@/config/tanstack_query/config';
 
 const RoutineListItem = ({ routine }: { routine: Routine }) => {
   const {
@@ -26,14 +27,28 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
     severity: 'error',
   });
 
-  const [likes, setLikes] = useState(likesCount);
-  const [isLiked, setIsLiked] = useState(isLikedByCurrentUser);
-
   const { mutate: likeRoutine, isPending: likeRoutinePending } = useMutation({
     mutationFn: (id: string) => like(id),
     onSuccess: () => {
-      setLikes((prev) => prev + 1);
-      setIsLiked(true);
+      queryClient.setQueriesData<PagedRoutine>({ queryKey: ['public-routines'] }, (oldData) => {
+        if (!oldData) return oldData;
+
+        return {
+          ...oldData,
+          data: oldData.data.map((oldRoutine) =>
+            oldRoutine.id === id
+              ? { ...oldRoutine, likesCount: oldRoutine.likesCount + 1, isLikedByCurrentUser: true }
+              : oldRoutine,
+          ),
+        };
+      });
+      queryClient.setQueryData(['routines'], (oldData: Routine[]) => {
+        return oldData.map((oldRoutine) =>
+          oldRoutine.id === id
+            ? { ...oldRoutine, likesCount: oldRoutine.likesCount + 1, isLikedByCurrentUser: true }
+            : oldRoutine,
+        );
+      });
     },
     onError: () => {
       setAlertState({
@@ -47,8 +62,25 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
   const { mutate: dislikeRoutine, isPending: dislikeRoutinePending } = useMutation({
     mutationFn: (id: string) => dislike(id),
     onSuccess: () => {
-      setLikes((prev) => prev - 1);
-      setIsLiked(false);
+      queryClient.setQueriesData<PagedRoutine>({ queryKey: ['public-routines'] }, (oldData) => {
+        if (!oldData) return oldData;
+
+        return {
+          ...oldData,
+          data: oldData.data.map((oldRoutine) =>
+            oldRoutine.id === id
+              ? { ...oldRoutine, likesCount: oldRoutine.likesCount - 1, isLikedByCurrentUser: false }
+              : oldRoutine,
+          ),
+        };
+      });
+      queryClient.setQueryData(['routines'], (oldData: Routine[]) => {
+        return oldData.map((oldRoutine) =>
+          oldRoutine.id === id
+            ? { ...oldRoutine, likesCount: oldRoutine.likesCount - 1, isLikedByCurrentUser: false }
+            : oldRoutine,
+        );
+      });
     },
     onError: () => {
       setAlertState({
@@ -60,14 +92,12 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
   });
 
   const handleLikeClick = () => {
-    if (isLiked) {
+    if (isLikedByCurrentUser) {
       if (!dislikeRoutinePending) {
-        setIsLiked(false);
         dislikeRoutine(id);
       }
     } else {
       if (!likeRoutinePending) {
-        setIsLiked(true);
         likeRoutine(id);
       }
     }
@@ -108,7 +138,11 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
               }
             />
             <div className='public-routine-list-item_like-container'>
-              <LikeWithCount likesCount={likes} isLikedByCurrentUser={isLiked} handleClick={handleLikeClick} />
+              <LikeWithCount
+                likesCount={likesCount}
+                isLikedByCurrentUser={isLikedByCurrentUser}
+                handleClick={handleLikeClick}
+              />
             </div>
           </div>
         </ListItem>
