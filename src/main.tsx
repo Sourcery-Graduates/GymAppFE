@@ -7,6 +7,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/config/tanstack_query/config.ts';
 import { AuthContextProvider } from '@/app/common/context/AuthContext.tsx';
 import { RoutineExercisesProvider } from './app/common/context/RoutineExercisesContext.tsx';
+import '@/config/dayjs/config.ts';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

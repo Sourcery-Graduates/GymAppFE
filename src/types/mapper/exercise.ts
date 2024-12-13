@@ -7,6 +7,7 @@ import {
   ResponseWorkoutExercise,
 } from '@/types/entities/Workout';
 import { temporaryUUID } from '@/types/uuid';
+import dayjs from 'dayjs';
 
 export const mapRoutineExerciseToCreateWorkoutExercise = (routineExercise: RoutineExercise): CreateWorkoutExercise => {
   const workoutExercise: CreateWorkoutExercise = {
@@ -53,13 +54,10 @@ export const mapToCreateWorkout = (responseWorkout: ResponseWorkout) => {
     id: responseWorkout.id,
     routineId: responseWorkout.routineId,
     name: responseWorkout.name,
-    // mapping it to dayjs here produces errors
-    date: responseWorkout.date,
+    date: dayjs(responseWorkout.date),
     comment: responseWorkout.comment,
     exercises: mapResponseToCreateWorkoutExercise(responseWorkout.exercises),
   };
-
-  console.log('dayjs w mapperze', createWorkout.date);
 
   return createWorkout;
 };

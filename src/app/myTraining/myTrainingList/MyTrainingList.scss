@@ -1,0 +1,39 @@
+@import '@/styles/base/variables';
+
+.workout-container-list {
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+
+  .workout-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: $small-gap $small-gap 0 0;
+
+    align-items: flex-start;
+  }
+
+  @media (max-width: 1690px) {
+    .workout-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-auto-rows: calc(5rem + 16px);
+    }
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    .workout-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: $breakpoint-phone) {
+    .workout-list {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+  }
+}

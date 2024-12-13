@@ -5,7 +5,7 @@ export interface CreateWorkout {
   id?: string;
   routineId: string;
   name: string;
-  date: Date;
+  date: Dayjs;
   comment: string;
   exercises: CreateWorkoutExercise[];
 }
@@ -33,7 +33,7 @@ export interface CreateWorkoutExercise {
 }
 
 export interface ResponseWorkoutExercise {
-  id?: string;
+  id: string;
   exercise: SimpleExercise;
   orderNumber: number;
   notes: string;
@@ -48,3 +48,4 @@ export interface WorkoutExerciseSet {
   restTime: number;
   comment: string;
 }
+export type CalendarWorkoutHashMap = Record<string, ResponseWorkout[]>;

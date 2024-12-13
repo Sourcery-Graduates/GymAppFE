@@ -1,0 +1,25 @@
+@import '@/styles/base/variables';
+
+.app-select {
+  color: $text-color;
+  background-color: $background-color;
+
+  .MuiSvgIcon-root {
+    color: $text-color;
+  }
+
+  &-option {
+    background-color: $background-color !important;
+    border-color: $background-color !important;
+    cursor: pointer;
+
+    &:focus {
+      background-color: $gray-800 !important; // Background when focused
+    }
+  }
+
+  &::after {
+    color: $text-color !important; // Custom arrow color
+    background-color: $gray-800 !important;
+  }
+}
