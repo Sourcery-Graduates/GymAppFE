@@ -8,9 +8,11 @@ import './RoutineCard.scss';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { dislike, like } from '@/api/routineLikeApi';
 import AppAlert from '@/app/components/alerts/AppAlert';
-import { PagedRoutine, Routine } from '@/types/entities/Routine';
+import { Routine } from '@/types/entities/Routine';
 import LikeWithCount from '@/app/components/likeWithCount/LikeWithCount';
 import { AppAlertState } from '@/types/entities/AppAlert';
+import { addRoutineLike } from '@/app/common/utils/addRoutineLike';
+import { removeRoutineLike } from '@/app/common/utils/removeRoutineLike';
 
 const RoutineCard = ({ routine }: { routine: Routine }) => {
   const navigate = useNavigate();
@@ -24,25 +26,7 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
   const { mutate: likeRoutine, isPending: likeRoutinePending } = useMutation({
     mutationFn: (id: string) => like(id),
     onSuccess: () => {
-      queryClient.setQueryData(['routines'], (oldData: Routine[]) => {
-        return oldData.map((oldRoutine) =>
-          oldRoutine.id === routine.id
-            ? { ...oldRoutine, likesCount: oldRoutine.likesCount + 1, isLikedByCurrentUser: true }
-            : oldRoutine,
-        );
-      });
-      queryClient.setQueriesData<PagedRoutine>({ queryKey: ['public-routines'] }, (oldData) => {
-        if (!oldData) return oldData;
-
-        return {
-          ...oldData,
-          data: oldData.data.map((oldRoutine) =>
-            oldRoutine.id === routine.id
-              ? { ...oldRoutine, likesCount: oldRoutine.likesCount + 1, isLikedByCurrentUser: true }
-              : oldRoutine,
-          ),
-        };
-      });
+      addRoutineLike(queryClient, routine.id);
     },
     onError: () => {
       setAlertState({
@@ -56,25 +40,7 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
   const { mutate: dislikeRoutine, isPending: dislikeRoutinePending } = useMutation({
     mutationFn: (id: string) => dislike(id),
     onSuccess: () => {
-      queryClient.setQueryData(['routines'], (oldData: Routine[]) => {
-        return oldData.map((oldRoutine) =>
-          oldRoutine.id === routine.id
-            ? { ...oldRoutine, likesCount: oldRoutine.likesCount - 1, isLikedByCurrentUser: false }
-            : oldRoutine,
-        );
-      });
-      queryClient.setQueriesData<PagedRoutine>({ queryKey: ['public-routines'] }, (oldData) => {
-        if (!oldData) return oldData;
-
-        return {
-          ...oldData,
-          data: oldData.data.map((oldRoutine) =>
-            oldRoutine.id === routine.id
-              ? { ...oldRoutine, likesCount: oldRoutine.likesCount - 1, isLikedByCurrentUser: false }
-              : oldRoutine,
-          ),
-        };
-      });
+      removeRoutineLike(queryClient, routine.id);
     },
     onError: () => {
       setAlertState({

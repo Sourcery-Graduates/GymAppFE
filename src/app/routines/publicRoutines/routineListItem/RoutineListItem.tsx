@@ -1,15 +1,16 @@
-import { PagedRoutine, Routine } from '@/types/entities/Routine';
+import { Routine } from '@/types/entities/Routine';
 import { ListItem, ListItemText, Typography } from '@mui/material';
 import './RoutineListItem.scss';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '@/types/routes';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { dislike, like } from '@/api/routineLikeApi';
 import { useState } from 'react';
 import AppAlert from '@/app/components/alerts/AppAlert';
 import LikeWithCount from '@/app/components/likeWithCount/LikeWithCount';
 import { AppAlertState } from '@/types/entities/AppAlert';
-import { queryClient } from '@/config/tanstack_query/config';
+import { addRoutineLike } from '@/app/common/utils/addRoutineLike';
+import { removeRoutineLike } from '@/app/common/utils/removeRoutineLike';
 
 const RoutineListItem = ({ routine }: { routine: Routine }) => {
   const {
@@ -20,6 +21,7 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
     isLikedByCurrentUser = false,
   } = routine || {};
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [alertState, setAlertState] = useState<AppAlertState>({
     open: false,
@@ -30,25 +32,7 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
   const { mutate: likeRoutine, isPending: likeRoutinePending } = useMutation({
     mutationFn: (id: string) => like(id),
     onSuccess: () => {
-      queryClient.setQueriesData<PagedRoutine>({ queryKey: ['public-routines'] }, (oldData) => {
-        if (!oldData) return oldData;
-
-        return {
-          ...oldData,
-          data: oldData.data.map((oldRoutine) =>
-            oldRoutine.id === id
-              ? { ...oldRoutine, likesCount: oldRoutine.likesCount + 1, isLikedByCurrentUser: true }
-              : oldRoutine,
-          ),
-        };
-      });
-      queryClient.setQueryData(['routines'], (oldData: Routine[]) => {
-        return oldData.map((oldRoutine) =>
-          oldRoutine.id === id
-            ? { ...oldRoutine, likesCount: oldRoutine.likesCount + 1, isLikedByCurrentUser: true }
-            : oldRoutine,
-        );
-      });
+      addRoutineLike(queryClient, id);
     },
     onError: () => {
       setAlertState({
@@ -62,25 +46,7 @@ const RoutineListItem = ({ routine }: { routine: Routine }) => {
   const { mutate: dislikeRoutine, isPending: dislikeRoutinePending } = useMutation({
     mutationFn: (id: string) => dislike(id),
     onSuccess: () => {
-      queryClient.setQueriesData<PagedRoutine>({ queryKey: ['public-routines'] }, (oldData) => {
-        if (!oldData) return oldData;
-
-        return {
-          ...oldData,
-          data: oldData.data.map((oldRoutine) =>
-            oldRoutine.id === id
-              ? { ...oldRoutine, likesCount: oldRoutine.likesCount - 1, isLikedByCurrentUser: false }
-              : oldRoutine,
-          ),
-        };
-      });
-      queryClient.setQueryData(['routines'], (oldData: Routine[]) => {
-        return oldData.map((oldRoutine) =>
-          oldRoutine.id === id
-            ? { ...oldRoutine, likesCount: oldRoutine.likesCount - 1, isLikedByCurrentUser: false }
-            : oldRoutine,
-        );
-      });
+      removeRoutineLike(queryClient, routine.id);
     },
     onError: () => {
       setAlertState({
