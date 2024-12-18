@@ -11,6 +11,7 @@ export enum WORKOUT_Endpoint {
   DELETE_WORKOUT = workoutApi + '/id',
   UPDATE_WORKOUT = workoutApi + '/id',
   GET_WORKOUT_BY_ID = workoutApi + '/id',
+  COUNT_WORKOUT = workoutApi + '/count',
 }
 
 export const getUserWorkoutGrid = async (): Promise<ResponseWorkout[]> => {
@@ -63,5 +64,10 @@ export const deleteWorkout = async (workoutId: string): Promise<void> => {
 
 export const getWorkoutById = async (workoutId: string): Promise<ResponseWorkout> => {
   const response = await api.get(WORKOUT_Endpoint.GET_WORKOUT_BY_ID.replace('id', workoutId));
+  return response.data;
+}
+
+export const getWorkoutCount = async (): Promise<number> => {
+  const response = await api.get(WORKOUT_Endpoint.COUNT_WORKOUT);
   return response.data;
 };

@@ -1,0 +1,10 @@
+@import '@/styles/base/variables';
+
+.home {
+}
+.home__analysis {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: $gray-900;
+  border-radius: 8px;
+}
