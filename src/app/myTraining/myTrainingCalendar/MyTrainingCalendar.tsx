@@ -2,7 +2,7 @@ import Button from '@/app/components/buttons/Button/Button';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import './MyTrainingCalendar.scss';
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { currentMonthCalendarDates, firstDayOfCurrentMonth, weekDaysShortNames } from '@/app/util/date';
 import { getUserWorkoutGridByDateRange } from '@/api/workout';
 import dayjs, { Dayjs } from 'dayjs';
@@ -98,31 +98,33 @@ const MyTrainingCalendar = () => {
                 <div className={'item-workout-container'}>
                   {workouts[`${date.format('YYYY-MM-DD')}`] &&
                     workouts[`${date.format('YYYY-MM-DD')}`].map((workout) => (
-                      <Tooltip
-                        disableInteractive
-                        title={
-                          <>
-                            {workout.name} <br /> {workout.exercises.length}
-                            {workout.exercises.length === 1 ? ' exercise' : ' exercises'}
-                          </>
-                        }
-                        slotProps={{
-                          popper: {
-                            modifiers: [
-                              {
-                                name: 'offset',
-                                options: {
-                                  offset: [0, -8],
+                      <Fragment key={workout.id}>
+                        <Tooltip
+                          disableInteractive
+                          title={
+                            <>
+                              {workout.name} <br /> {workout.exercises.length}
+                              {workout.exercises.length === 1 ? ' exercise' : ' exercises'}
+                            </>
+                          }
+                          slotProps={{
+                            popper: {
+                              modifiers: [
+                                {
+                                  name: 'offset',
+                                  options: {
+                                    offset: [0, -8],
+                                  },
                                 },
-                              },
-                            ],
-                          },
-                        }}
-                      >
-                        <div onClick={() => navigateToWorkout(workout.id)} key={workout.id} className={'item-workout'}>
-                          {workout.name}
-                        </div>
-                      </Tooltip>
+                              ],
+                            },
+                          }}
+                        >
+                          <div onClick={() => navigateToWorkout(workout.id)} className={'item-workout'}>
+                            {workout.name}
+                          </div>
+                        </Tooltip>
+                      </Fragment>
                     ))}
                 </div>
               )}
