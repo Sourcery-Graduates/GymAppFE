@@ -1,0 +1,13 @@
+@import '/src/styles/base/variables';
+
+.user-message-card {
+  border-radius: $border-radius-base;
+  padding: 2rem;
+  background-color: $secondary-color;
+
+  &__content {
+    border-radius: $border-radius-base;
+    color: $text-color;
+    font-size: $font-size-medium;
+  }
+}
