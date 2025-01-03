@@ -1,0 +1,10 @@
+@import '/src/styles/base/variables';
+
+.user-message-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: $primary-color;
+  gap: $large-gap;
+}

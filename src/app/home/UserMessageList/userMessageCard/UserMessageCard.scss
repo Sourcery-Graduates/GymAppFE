@@ -1,9 +1,17 @@
 @import '/src/styles/base/variables';
 
 .user-message-card {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 300px;
   border-radius: $border-radius-base;
   padding: 2rem;
   background-color: $secondary-color;
+  box-shadow: $box-shadow-base;
+
+  &:hover {
+    transform: translateY(-4px); // Lift on hover for interactivity
+  }
 
   &__content {
     border-radius: $border-radius-base;

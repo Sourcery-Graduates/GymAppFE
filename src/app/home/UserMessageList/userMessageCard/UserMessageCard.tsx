@@ -1,5 +1,5 @@
 import './UserMessageCard.scss';
-import BasicSpinner from '../loaders/BasicSpinner';
+import BasicSpinner from '@/app/components/loaders/BasicSpinner';
 
 interface UserMessageProps<T> {
   isLoading: boolean;

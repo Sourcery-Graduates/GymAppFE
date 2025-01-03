@@ -5,7 +5,6 @@ const useWorkoutCount = (minusMonth: number) => {
   return useQuery<number>({
     queryKey: ['workout-count', minusMonth],
     queryFn: getWorkoutCount,
-    retry: false,
   });
 };
 

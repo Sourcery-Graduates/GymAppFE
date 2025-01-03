@@ -2,13 +2,4 @@
 
 .home {
   height: 100dvh;
-
-  &__cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    background-color: $primary-color;
-    gap: $large-gap;
-  }
 }

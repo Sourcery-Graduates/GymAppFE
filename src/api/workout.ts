@@ -13,6 +13,7 @@ export enum WORKOUT_Endpoint {
   UPDATE_WORKOUT = workoutApi + '/id',
   GET_WORKOUT_BY_ID = workoutApi + '/id',
   COUNT_WORKOUT = workoutApi + '/count',
+  TOTAL_WEIGHT = workoutApi + '/totalWeight',
 }
 
 export const getUserWorkoutGrid = async (): Promise<ResponseWorkout[]> => {
@@ -78,5 +79,17 @@ export const getWorkoutCount = async ({ queryKey }: { queryKey: QueryKey }): Pro
   }
 
   const response = await api.get(WORKOUT_Endpoint.COUNT_WORKOUT);
+  return response.data;
+};
+
+export const getTotalWeight = async ({ queryKey }: { queryKey: QueryKey }): Promise<number> => {
+  const [, minusMonth] = queryKey as [string, number];
+
+  if (minusMonth) {
+    const response = await api.get(`${WORKOUT_Endpoint.TOTAL_WEIGHT}?minusMonth=${minusMonth}`);
+
+    return response.data;
+  }
+  const response = await api.get(WORKOUT_Endpoint.TOTAL_WEIGHT);
   return response.data;
 };
