@@ -5,16 +5,18 @@
   flex-wrap: wrap;
   max-width: 300px;
   border-radius: $border-radius-base;
+  border: $border;
   padding: 2rem;
   background-color: $secondary-color;
-  box-shadow: $box-shadow-base;
+  -webkit-box-shadow: 0px 0px 24px 0px rgba(56, 103, 197, 1);
+  -moz-box-shadow: 0px 0px 24px 0px rgba(56, 103, 197, 1);
+  box-shadow: 0px 0px 12px 0px rgba(56, 103, 197, 1);
 
   &:hover {
-    transform: translateY(-4px); // Lift on hover for interactivity
+    transform: translateY(-4px);
   }
 
   &__content {
-    border-radius: $border-radius-base;
     color: $text-color;
     font-size: $font-size-medium;
   }

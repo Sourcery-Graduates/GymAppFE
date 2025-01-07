@@ -23,7 +23,6 @@ const UserMessageList = () => {
   const { data: totalWeight } = useQuery<number>({
     queryKey: ['totalWeight', 0],
     queryFn: getTotalWeight,
-    retry: false,
   });
 
   const workoutDifference = currentMonthCount - previousMonthCount;
