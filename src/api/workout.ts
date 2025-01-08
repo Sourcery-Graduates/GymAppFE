@@ -1,7 +1,6 @@
-import { CalendarWorkoutHashMap, CreateWorkout, ResponseWorkout } from '@/types/entities/Workout';
+import { CalendarWorkoutHashMap, CreateWorkout, ResponseWorkout, WorkoutStats } from '@/types/entities/Workout';
 import api from '@/config/axios/config';
 import { Dayjs } from 'dayjs';
-import { QueryKey } from '@tanstack/react-query';
 
 const workoutApi = '/api/workout/workout';
 
@@ -12,8 +11,7 @@ export enum WORKOUT_Endpoint {
   DELETE_WORKOUT = workoutApi + '/id',
   UPDATE_WORKOUT = workoutApi + '/id',
   GET_WORKOUT_BY_ID = workoutApi + '/id',
-  COUNT_WORKOUT = workoutApi + '/count',
-  TOTAL_WEIGHT = workoutApi + '/totalWeight',
+  WORKOUT_STATS = workoutApi + '/stats',
 }
 
 export const getUserWorkoutGrid = async (): Promise<ResponseWorkout[]> => {
@@ -69,27 +67,8 @@ export const getWorkoutById = async (workoutId: string): Promise<ResponseWorkout
   return response.data;
 };
 
-export const getWorkoutCount = async ({ queryKey }: { queryKey: QueryKey }): Promise<number> => {
-  const [, minusMonth] = queryKey as [string, number];
+export const getWorkoutStats = async (): Promise<WorkoutStats[]> => {
+  const response = await api.get(`${WORKOUT_Endpoint.WORKOUT_STATS}`);
 
-  if (minusMonth) {
-    const response = await api.get(`${WORKOUT_Endpoint.COUNT_WORKOUT}?minusMonth=${minusMonth}`);
-
-    return response.data;
-  }
-
-  const response = await api.get(WORKOUT_Endpoint.COUNT_WORKOUT);
-  return response.data;
-};
-
-export const getTotalWeight = async ({ queryKey }: { queryKey: QueryKey }): Promise<number> => {
-  const [, minusMonth] = queryKey as [string, number];
-
-  if (minusMonth) {
-    const response = await api.get(`${WORKOUT_Endpoint.TOTAL_WEIGHT}?minusMonth=${minusMonth}`);
-
-    return response.data;
-  }
-  const response = await api.get(WORKOUT_Endpoint.TOTAL_WEIGHT);
   return response.data;
 };

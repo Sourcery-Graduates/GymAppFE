@@ -1,20 +1,19 @@
 import './UserMessageCard.scss';
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
 
-interface UserMessageProps<T> {
+interface UserMessageProps {
   isLoading: boolean;
-  data: T;
-  successText?: (data: T) => string;
+  data: string;
 }
 
-const UserMessageCard = <T,>({ isLoading, data, successText }: UserMessageProps<T>) => {
+const UserMessageCard = ({ isLoading, data }: UserMessageProps) => {
   if (isLoading) {
     return <BasicSpinner />;
   }
 
   return (
     <div className='user-message-card'>
-      <div className='user-message-card__content'>{data && successText && <p>{successText(data)}</p>}</div>
+      <div className='user-message-card__content'>{<p>{data}</p>}</div>
     </div>
   );
 };

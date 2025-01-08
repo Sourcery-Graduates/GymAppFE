@@ -1,5 +1,16 @@
 @import '/src/styles/base/variables';
 
 .home {
-  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  &__title {
+    font-size: $font-size-large;
+    color: $gray-700;
+  }
+  &__date {
+    font-size: $font-size-medium;
+    color: $accent-color;
+  }
 }
