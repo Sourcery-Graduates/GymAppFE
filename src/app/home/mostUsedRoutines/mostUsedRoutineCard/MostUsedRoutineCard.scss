@@ -1,0 +1,52 @@
+@import '@/styles/base/variables';
+
+.most-used-routine-card {
+  padding: $padding-base;
+  width: 150px;
+  height: 50px;
+  position: relative;
+  border-radius: $border-radius-base;
+  border: $border;
+
+  &__name {
+    display: block;
+
+    & h3 {
+      margin: 0.5rem 0;
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+@media (max-width: $breakpoint-phone) {
+  .most-used-routine-card {
+    padding: $padding-base;
+    position: relative;
+    height: 50px;
+    width: 290px;
+    margin: 0 auto;
+    border-radius: $border-radius-base;
+    border: $border;
+
+    &__name {
+      display: block;
+
+      & h3 {
+        margin: 0.5rem 0;
+        white-space: nowrap;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

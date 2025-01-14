@@ -5,8 +5,12 @@ import { useQuery } from '@tanstack/react-query';
 import './UserMessageList.scss';
 import { getWorkoutStats } from '@/api/workout';
 import { WorkoutStats } from '@/types/entities/Workout';
+import WelcomeMessage from '@/app/components/welcomeMessage/WelcomeMessage';
+import { useEffect, useState } from 'react';
+import Carousel from 'react-material-ui-carousel';
 
 const UserMessageList = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const {
     data: workoutStats,
     error: errorQuery,
@@ -16,6 +20,15 @@ const UserMessageList = () => {
     queryFn: getWorkoutStats,
   });
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   if (isLoading) {
     return <BasicSpinner />;
   }
@@ -23,18 +36,35 @@ const UserMessageList = () => {
   if (errorQuery) {
     <ErrorPage />;
   }
-  if (!workoutStats || workoutStats.length === 0) {
-    return 'Hello, welcome to your dashboard!';
+
+  if (!workoutStats) {
+    return null;
+  }
+  if (workoutStats[0].content === 'newUser') {
+    return <WelcomeMessage />;
   }
 
-  console.log(workoutStats[0].content);
-  return (
-    <div className='user-message-list'>
-      {workoutStats.map((workoutStat) => {
-        return <UserMessageCard key={workoutStat.id} data={workoutStat.content} isLoading={isLoading} />;
-      })}
-    </div>
-  );
+  if (isMobile) {
+    return (
+      <div className='user-message-list'>
+        <Carousel animation='slide' navButtonsAlwaysInvisible >
+          {workoutStats.map((workoutStat) => {
+            return <UserMessageCard key={workoutStat.id} data={workoutStat.content} isLoading={isLoading} />;
+          })}
+        </Carousel>
+      </div>
+    );
+  }
+
+  if (!isMobile) {
+    return (
+      <div className='user-message-list'>
+        {workoutStats.map((workoutStat) => {
+          return <UserMessageCard key={workoutStat.id} data={workoutStat.content} isLoading={isLoading} />;
+        })}
+      </div>
+    );
+  }
 };
 
 export default UserMessageList;

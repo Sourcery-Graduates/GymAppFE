@@ -1,0 +1,7 @@
+@import '/src/styles/base/variables';
+
+.welcome-message {
+  &__app-name {
+    color: $accent-color;
+  }
+}

@@ -3,6 +3,14 @@
 .user-message-list {
   display: flex;
   flex-wrap: wrap;
-  background-color: $primary-color;
-  gap: $large-gap;
+  gap: $medium-gap;
+  margin: 0 auto;
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .user-message-list {
+    display: grid;
+    justify-self: center;
+    width: 320px;
+  }
 }

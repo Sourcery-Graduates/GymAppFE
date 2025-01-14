@@ -1,7 +1,9 @@
 import useAuth from '../common/hooks/useAuth';
-import UserMessageList from './UserMessageList/UserMessageList';
-import './Home.scss';
+import UserMessageList from './userMessageList/UserMessageList';
+import MostUsedRoutines from './mostUsedRoutines/MostUsedRoutines';
 import dayjs from 'dayjs';
+import './Home.scss';
+import Charts from './charts/Charts';
 
 const Home = () => {
   const { username } = useAuth();
@@ -10,10 +12,14 @@ const Home = () => {
     <>
       <div className='home'>
         <h2 className='home__title'>
-          Hi, {username}<br />
+          Hi, {username}
           <p className='home__date'>Today, {dayjs().format('DD MMM')}</p>
         </h2>
-        <UserMessageList />
+        <div className='home__content'>
+          <UserMessageList />
+          <MostUsedRoutines />
+          <Charts />
+        </div>
       </div>
     </>
   );
