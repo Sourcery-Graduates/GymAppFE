@@ -5,9 +5,9 @@
   flex-wrap: wrap;
   align-items: center;
   max-width: 255px;
+  min-height: 140px;
   border-radius: $border-radius-base;
   border: 3px inset $accent-color;
-  padding: 1.5rem;
   background-color: $secondary-color;
   justify-content: center;
   text-align: center;
