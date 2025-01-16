@@ -2,5 +2,18 @@
 
 .muscle-group-chart {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  &__content {
+    height: 300px;
+    padding: $padding-base;
+  }
+}
+
+@media (max-width: $breakpoint-phone) {
+  .muscle-group-chart {
+    &__content {
+      height: 300px;
+    }
+  }
 }
