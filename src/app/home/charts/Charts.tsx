@@ -34,8 +34,8 @@ const Charts = () => {
   if (errorQuery) {
     return <ErrorPage />;
   }
-  console.log(muscleSets);
-  if (!muscleSets) {
+
+  if (!muscleSets || muscleSets.length == 0) {
     return null;
   }
 
