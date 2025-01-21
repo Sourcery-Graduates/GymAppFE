@@ -11,7 +11,11 @@ const UserMessageCard = ({ isLoading, data }: UserMessageProps) => {
     return <BasicSpinner />;
   }
 
-  return <div className='user-message-card'>{<p className='user-message-card__content'>{data}</p>}</div>;
+  return (
+    <div className='user-message-card'>
+      <p className='user-message-card__content'>{data}</p>
+    </div>
+  );
 };
 
 export default UserMessageCard;
