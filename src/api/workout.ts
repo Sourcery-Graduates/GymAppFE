@@ -11,8 +11,6 @@ export enum WORKOUT_Endpoint {
   DELETE_WORKOUT = workoutApi + '/id',
   UPDATE_WORKOUT = workoutApi + '/id',
   GET_WORKOUT_BY_ID = workoutApi + '/id',
-  WORKOUT_STATS = workoutApi + '/stats',
-  MOST_USED_ROUTINES = workoutApi + '/most-used',
 }
 
 export const getUserWorkoutGrid = async (): Promise<ResponseWorkout[]> => {
