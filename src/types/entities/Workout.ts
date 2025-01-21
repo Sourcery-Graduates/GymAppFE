@@ -55,3 +55,8 @@ export interface WorkoutStats {
   type: string;
   content: string;
 }
+
+export interface MuscleSet {
+  primaryMuscles: string[];
+  numberOfSets: number;
+}

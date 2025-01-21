@@ -1,47 +1,61 @@
 import { PieChart } from '@mui/x-charts';
 import './Charts.scss';
 import { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
+import { useQuery } from '@tanstack/react-query';
+import { MuscleSet } from '@/types/entities/Workout';
+import { getTotalMuscleSetsPerWeek } from '@/api/workoutStats';
+import BasicSpinner from '@/app/components/loaders/BasicSpinner';
+import ErrorPage from '@/app/errorPage/ErrorPage';
 
 const Charts = () => {
-  const [isLegendHidden, setIsLegendHidden] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
+
+  const {
+    data: muscleSets,
+    error: errorQuery,
+    isLoading,
+  } = useQuery<MuscleSet[]>({
+    queryKey: ['muscle-sets'],
+    queryFn: getTotalMuscleSetsPerWeek,
+  });
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 800) {
-        setIsLegendHidden(true);
-      } else {
-        setIsLegendHidden(false);
-      }
+      setIsMobile(window.innerWidth <= 800);
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  if (isLoading) {
+    return <BasicSpinner />;
+  }
+  if (errorQuery) {
+    return <ErrorPage />;
+  }
+  console.log(muscleSets);
+  if (!muscleSets) {
+    return null;
+  }
+
+  const chartData = muscleSets.map((muscleSet) => ({
+    id: muscleSet.primaryMuscles[0],
+    value: muscleSet.numberOfSets,
+    label: muscleSet.primaryMuscles[0],
+  }));
+
   return (
     <div className='muscle-group-chart'>
       <h2 className='muscle-group-chart__title'>Muscle sets per week</h2>
-      <Box className='muscle-group-chart__content'>
+      <div className='muscle-group-chart__content'>
         <PieChart
           slotProps={{
-            legend: { hidden: isLegendHidden },
+            legend: { hidden: isMobile },
           }}
           series={[
             {
-              data: [
-                { id: 1, value: 7, label: 'middleback' },
-                { id: 2, value: 12, label: 'lats' },
-                { id: 3, value: 18, label: 'abdominals' },
-                { id: 4, value: 22, label: 'lowerback' },
-                { id: 5, value: 16, label: 'forearms' },
-                { id: 6, value: 30, label: 'abductors' },
-                { id: 7, value: 27, label: 'traps' },
-                { id: 8, value: 20, label: 'hamstrings' },
-                { id: 9, value: 6, label: 'quadriceps' },
-                { id: 10, value: 23, label: 'chest' },
-                { id: 11, value: 22, label: 'biceps' },
-              ],
+              data: chartData,
               innerRadius: 15,
               paddingAngle: 3,
               cornerRadius: 3,
@@ -50,7 +64,7 @@ const Charts = () => {
             },
           ]}
         />
-      </Box>
+      </div>
     </div>
   );
 };

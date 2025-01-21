@@ -3,7 +3,7 @@ import ErrorPage from '@/app/errorPage/ErrorPage';
 import UserMessageCard from './userMessageCard/UserMessageCard';
 import { useQuery } from '@tanstack/react-query';
 import './UserMessageList.scss';
-import { getWorkoutStats } from '@/api/workout';
+import { getWorkoutStats } from '@/api/workoutStats';
 import { WorkoutStats } from '@/types/entities/Workout';
 import WelcomeMessage from '@/app/components/welcomeMessage/WelcomeMessage';
 import { useEffect, useState } from 'react';
@@ -37,7 +37,7 @@ const UserMessageList = () => {
     <ErrorPage />;
   }
 
-  if (!workoutStats) {
+  if (!workoutStats || workoutStats.length === 0) {
     return null;
   }
   if (workoutStats[0].content === 'newUser') {

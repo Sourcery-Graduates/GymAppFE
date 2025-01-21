@@ -1,4 +1,4 @@
-import { getMostUsedRoutines } from '@/api/workout';
+import { getMostUsedRoutines } from '@/api/workoutStats';
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
 import ErrorPage from '@/app/errorPage/ErrorPage';
 import MostUsedRoutineCard from './mostUsedRoutineCard/MostUsedRoutineCard';

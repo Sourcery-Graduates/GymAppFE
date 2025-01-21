@@ -1,7 +1,6 @@
-import { CalendarWorkoutHashMap, CreateWorkout, ResponseWorkout, WorkoutStats } from '@/types/entities/Workout';
+import { CalendarWorkoutHashMap, CreateWorkout, ResponseWorkout } from '@/types/entities/Workout';
 import api from '@/config/axios/config';
 import { Dayjs } from 'dayjs';
-import { SimpleRoutine } from '@/types/entities/Routine';
 
 const workoutApi = '/api/workout/workout';
 
@@ -66,17 +65,5 @@ export const deleteWorkout = async (workoutId: string): Promise<void> => {
 
 export const getWorkoutById = async (workoutId: string): Promise<ResponseWorkout> => {
   const response = await api.get(WORKOUT_Endpoint.GET_WORKOUT_BY_ID.replace('id', workoutId));
-  return response.data;
-};
-
-export const getWorkoutStats = async (): Promise<WorkoutStats[]> => {
-  const response = await api.get(`${WORKOUT_Endpoint.WORKOUT_STATS}`);
-
-  return response.data;
-};
-
-export const getMostUsedRoutines = async (): Promise<SimpleRoutine[]> => {
-  const response = await api.get(`${WORKOUT_Endpoint.MOST_USED_ROUTINES}`);
-
   return response.data;
 };
