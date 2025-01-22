@@ -7,13 +7,17 @@ import './MostUsedRoutines.scss';
 import { SimpleRoutine } from '@/types/entities/Routine';
 
 const MostUsedRoutines = () => {
+  const routinesLimit = 7;
+
   const {
     data: routines,
     error: errorQuery,
     isLoading,
   } = useQuery<SimpleRoutine[]>({
     queryKey: ['most-used-routines'],
-    queryFn: getMostUsedRoutines,
+    queryFn: () => {
+      return getMostUsedRoutines(routinesLimit);
+    },
   });
 
   if (isLoading) {
@@ -26,13 +30,12 @@ const MostUsedRoutines = () => {
   if (!routines || routines.length === 0) {
     return null;
   }
-  const slicedRoutines = routines.slice(0, 7);
 
   return (
     <div className='most-used-routines'>
       <h2 className='most-used-routines__title'>Quickstart</h2>
       <div className='most-used-routines__content'>
-        {slicedRoutines.map(
+        {routines.map(
           (routine: SimpleRoutine) =>
             routine && <MostUsedRoutineCard routineId={routine.id} routineName={routine.name} key={routine.id} />,
         )}
