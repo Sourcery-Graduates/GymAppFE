@@ -7,8 +7,7 @@ import './MostUsedRoutines.scss';
 import { SimpleRoutine } from '@/types/entities/Routine';
 
 const MostUsedRoutines = () => {
-  const routinesLimit = 7;
-
+  
   const {
     data: routines,
     error: errorQuery,
@@ -16,7 +15,7 @@ const MostUsedRoutines = () => {
   } = useQuery<SimpleRoutine[]>({
     queryKey: ['most-used-routines'],
     queryFn: () => {
-      return getMostUsedRoutines(routinesLimit);
+      return getMostUsedRoutines();
     },
   });
 

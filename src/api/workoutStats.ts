@@ -16,7 +16,8 @@ export const getWorkoutStats = async (): Promise<WorkoutStats[]> => {
   return response.data;
 };
 
-export const getMostUsedRoutines = async (routinesLimit: number): Promise<SimpleRoutine[]> => {
+//By default routinesLimit is set to 7
+export const getMostUsedRoutines = async (routinesLimit?: number): Promise<SimpleRoutine[]> => {
   if (routinesLimit) {
     const response = await api.get(`${WORKOUT_Endpoint.MOST_USED_ROUTINES}?routinesLimit=${routinesLimit}`);
 
