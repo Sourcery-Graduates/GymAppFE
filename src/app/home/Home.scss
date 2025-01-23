@@ -1,15 +1,13 @@
 @import '/src/styles/base/variables';
 
 .home {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-
   &__date {
     font-size: $font-size-medium;
     color: $accent-color;
   }
   &__content {
+    flex-grow: 1;
+    padding-right: $padding-base;
     overflow-y: auto;
   }
 }

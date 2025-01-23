@@ -31,7 +31,11 @@ const Home = () => {
   }
 
   if (isUserNew === true) {
-    return <WelcomeMessage />;
+    return (
+      <div className='home__content'>
+        <WelcomeMessage />
+      </div>
+    );
   }
 
   return (
