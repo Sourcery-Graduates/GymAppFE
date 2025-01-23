@@ -7,6 +7,16 @@
   &__content {
     height: 280px;
     padding: $padding-base;
+
+    &--select {
+      width: 200px;
+      margin-bottom: $margin-base;
+    }
+
+    &--no-data {
+      margin-top: 4rem;
+      justify-self: center;
+    }
   }
 }
 

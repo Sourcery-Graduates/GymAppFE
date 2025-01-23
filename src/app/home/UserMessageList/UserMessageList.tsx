@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import './UserMessageList.scss';
 import { getWorkoutStats } from '@/api/workoutStats';
 import { WorkoutStats } from '@/types/entities/Workout';
-import WelcomeMessage from '@/app/components/welcomeMessage/WelcomeMessage';
 import { useEffect, useState } from 'react';
 import Carousel from 'react-material-ui-carousel';
 
@@ -39,9 +38,6 @@ const UserMessageList = () => {
 
   if (!workoutStats || workoutStats.length === 0) {
     return null;
-  }
-  if (workoutStats[0].content === 'newUser') {
-    return <WelcomeMessage />;
   }
 
   if (isMobile) {

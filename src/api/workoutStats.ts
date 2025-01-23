@@ -6,6 +6,7 @@ const workoutStatsApi = '/api/workout/workout-stats';
 
 export enum WORKOUT_Endpoint {
   WORKOUT_STATS = workoutStatsApi,
+  IS_USER_NEW = workoutStatsApi + '/is-user-new',
   MOST_USED_ROUTINES = workoutStatsApi + '/most-used',
   MUSCLE_SETS = workoutStatsApi + '/muscle-sets',
 }
@@ -16,8 +17,19 @@ export const getWorkoutStats = async (): Promise<WorkoutStats[]> => {
   return response.data;
 };
 
-export const getMostUsedRoutines = async (routinesLimit: number, offsetStartMonth: number): Promise<SimpleRoutine[]> => {
-  const response = await api.get(`${WORKOUT_Endpoint.MOST_USED_ROUTINES}?routinesLimit=${routinesLimit}&offsetStartMonth=${offsetStartMonth}`);
+export const checkIsUserNew = async (): Promise<boolean> => {
+  const response = await api.get(WORKOUT_Endpoint.IS_USER_NEW);
+
+  return response.data;
+};
+
+export const getMostUsedRoutines = async (
+  routinesLimit: number,
+  offsetStartMonth: number,
+): Promise<SimpleRoutine[]> => {
+  const response = await api.get(
+    `${WORKOUT_Endpoint.MOST_USED_ROUTINES}?routinesLimit=${routinesLimit}&offsetStartMonth=${offsetStartMonth}`,
+  );
 
   return response.data;
 };
