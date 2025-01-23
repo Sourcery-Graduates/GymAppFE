@@ -16,21 +16,14 @@ export const getWorkoutStats = async (): Promise<WorkoutStats[]> => {
   return response.data;
 };
 
-//By default routinesLimit is set to 7
-export const getMostUsedRoutines = async (routinesLimit?: number): Promise<SimpleRoutine[]> => {
-  if (routinesLimit) {
-    const response = await api.get(`${WORKOUT_Endpoint.MOST_USED_ROUTINES}?routinesLimit=${routinesLimit}`);
-
-    return response.data;
-  }
-
-  const response = await api.get(WORKOUT_Endpoint.MOST_USED_ROUTINES);
+export const getMostUsedRoutines = async (routinesLimit: number, offsetStartMonth: number): Promise<SimpleRoutine[]> => {
+  const response = await api.get(`${WORKOUT_Endpoint.MOST_USED_ROUTINES}?routinesLimit=${routinesLimit}&offsetStartMonth=${offsetStartMonth}`);
 
   return response.data;
 };
 
-export const getTotalMuscleSetsPerWeek = async (): Promise<MuscleSet[]> => {
-  const response = await api.get(WORKOUT_Endpoint.MUSCLE_SETS);
+export const getTotalMuscleSetsPerWeek = async (offsetWeek: number): Promise<MuscleSet[]> => {
+  const response = await api.get(`${WORKOUT_Endpoint.MUSCLE_SETS}?offsetWeek=${offsetWeek}`);
 
   return response.data;
 };

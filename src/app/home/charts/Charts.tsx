@@ -10,13 +10,16 @@ import ErrorPage from '@/app/errorPage/ErrorPage';
 const Charts = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 800);
 
+  const offsetWeek = 0;
   const {
     data: muscleSets,
     error: errorQuery,
     isLoading,
   } = useQuery<MuscleSet[]>({
     queryKey: ['muscle-sets'],
-    queryFn: getTotalMuscleSetsPerWeek,
+    queryFn: () => {
+      return getTotalMuscleSetsPerWeek(offsetWeek);
+    },
   });
 
   useEffect(() => {
