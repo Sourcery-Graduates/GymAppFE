@@ -1,12 +1,12 @@
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
 import ErrorPage from '@/app/errorPage/ErrorPage';
-import UserMessageCard from './userMessageCard/UserMessageCard';
 import { useQuery } from '@tanstack/react-query';
 import './UserMessageList.scss';
 import { getWorkoutStats } from '@/api/workoutStats';
 import { WorkoutStats } from '@/types/entities/Workout';
 import { useEffect, useState } from 'react';
 import Carousel from 'react-material-ui-carousel';
+import UserMessageCard from './userMessageCard/UserMessageCard';
 
 const UserMessageList = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
