@@ -32,7 +32,7 @@ const Home = () => {
 
   if (isUserNew === true) {
     return (
-      <div className='home__content'>
+      <div className='home'>
         <WelcomeMessage />
       </div>
     );

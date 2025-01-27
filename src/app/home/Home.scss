@@ -3,11 +3,10 @@
 .home {
   flex-grow: 1;
   overflow-y: auto;
+  padding-right: $padding-base;
+  
   &__date {
     font-size: $font-size-medium;
     color: $accent-color;
-  }
-  &__content {
-    padding-right: $padding-base;
   }
 }
