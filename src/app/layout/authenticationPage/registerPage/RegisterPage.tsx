@@ -21,12 +21,20 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  const handleNext = async () => {
+    const fieldsFirstStep: (keyof Register)[] = ['username', 'email', 'password'];
+    // const fieldsSecondStep: (keyof Register)[] = ['firstName', 'lastName', 'location'];
+
+    const isValid = await trigger(fieldsFirstStep, { shouldFocus: false });
+    if (isValid) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      // fieldsSecondStep.forEach((field) => clearErrors(field));
+    }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    clearErrors();
   };
 
   const handleSnackbarClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
@@ -47,12 +55,17 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
     handleSubmit,
     reset,
     clearErrors,
+    trigger,
     formState: { errors },
   } = useForm<Register>({
+    mode: 'onTouched',
     defaultValues: {
       username: '',
       email: '',
       password: '',
+      firstName: '',
+      lastName: '',
+      location: '',
     },
     resolver: yupResolver(registerValidationSchema),
   });
@@ -141,21 +154,50 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
 
           {activeStep === 1 && (
             <>
-              <TextField label='First Name' size='small' className='form-field' variant='filled' />
-              <TextField label='Last Name' size='small' className='form-field' variant='filled' />
-              <TextField label='Location (Optional)' size='small' className='form-field' variant='filled' />
+              <TextField
+                label='First Name'
+                size='small'
+                className='form-field'
+                variant='filled'
+                {...register('firstName')}
+                error={!!errors.firstName}
+                helperText={errors.firstName?.message}
+                onBlur={() => clearErrors('firstName')}
+              />
+              <TextField
+                label='Last Name'
+                size='small'
+                className='form-field'
+                variant='filled'
+                {...register('lastName')}
+                error={!!errors.lastName}
+                helperText={errors.lastName?.message}
+                onBlur={() => clearErrors('lastName')}
+              />
+              <TextField
+                label='Location (Optional)'
+                size='small'
+                className='form-field'
+                variant='filled'
+                {...register('location')}
+                error={!!errors.location}
+                helperText={errors.location?.message}
+                onBlur={() => clearErrors('location')}
+              />
             </>
           )}
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button isDisabled={activeStep === 0} onClick={handleBack}>
+            <Button isDisabled={activeStep === 0} type='button' onClick={handleBack}>
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {activeStep === steps.length - 1 ? (
               <Button type='submit'>Register</Button>
             ) : (
-              <Button onClick={handleNext}>Next</Button>
+              <Button type='button' onClick={handleNext}>
+                Next
+              </Button>
             )}
           </Box>
         </form>
