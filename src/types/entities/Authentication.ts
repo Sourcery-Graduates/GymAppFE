@@ -4,6 +4,9 @@ export interface Register {
   username: string;
   password: string;
   email: string;
+  firstName: string;
+  lastName: string;
+  location?: string;
 }
 
 export interface Login {
@@ -36,9 +39,15 @@ export const loginValidationSchema = baseValidationSchema.shape({
   stayLoggedIn: Yup.boolean().required(),
 });
 
-export const registerValidationSchema = baseValidationSchema.shape({
+export const baseRegistrationValidationSchema = baseValidationSchema.shape({
   email: Yup.string()
     .required('Email is required')
     .email('Invalid email address')
     .max(128, 'Email must be at most 128 characters'),
+});
+
+export const registerValidationSchema = baseRegistrationValidationSchema.shape({
+  firstName: Yup.string().required('First name is required').max(64, 'First name must be at most 64 characters'),
+  lastName: Yup.string().required('Last name is required').max(64, 'Last name must be at most 64 characters'),
+  location: Yup.string().max(128, 'Location must be at most 128 characters'),
 });

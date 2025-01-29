@@ -37,3 +37,28 @@
     }
   }
 }
+
+
+.MuiStepLabel-label {
+  color: $text-color !important; /* Default text */
+}
+
+.Mui-active .MuiStepLabel-label {
+  color: $text-color !important; /* Active step text */
+}
+
+.Mui-completed .MuiStepLabel-label {
+  color: $success-color !important; /* Completed step text */
+}
+
+.MuiStepIcon-root {
+  color: $text-color !important; /* Default circle */
+}
+
+.Mui-active .MuiStepIcon-root {
+  color: $accent-color !important; /* Active circle */
+}
+
+.Mui-completed .MuiStepIcon-root {
+  color: $success-color !important; /* Completed circle */
+}
