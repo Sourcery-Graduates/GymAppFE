@@ -14,21 +14,20 @@ interface RegisterPageProps {
   setIsLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const steps = ['Choose username', 'Write your bio'];
-
 const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+  const steps = ['Choose username', 'Write your bio'];
 
   const handleNext = async () => {
     const fieldsFirstStep: (keyof Register)[] = ['username', 'email', 'password'];
-    // const fieldsSecondStep: (keyof Register)[] = ['firstName', 'lastName', 'location'];
 
     const isValid = await trigger(fieldsFirstStep, { shouldFocus: false });
     if (isValid) {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      // fieldsSecondStep.forEach((field) => clearErrors(field));
+      setTimeout(() => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }, 100);
     }
   };
 
@@ -193,9 +192,9 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {activeStep === steps.length - 1 ? (
-              <Button type='submit'>Register</Button>
+              <Button type='submit' isDisabled={activeStep !== steps.length - 1}>Register</Button>
             ) : (
-              <Button type='button' onClick={handleNext}>
+              <Button onClick={handleNext}>
                 Next
               </Button>
             )}
