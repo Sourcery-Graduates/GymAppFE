@@ -1,0 +1,15 @@
+@import '@/styles/base/variables';
+
+.exercise-list {
+  display: grid;
+  gap: $gap-base;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+}
+
+@media screen and (max-width: 768px) {
+  .exercise-list {
+    display: grid;
+    gap: $gap-base;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+}

@@ -14,6 +14,7 @@ import RoutineCreate from './routines/routineForm/routineCreate/RoutineCreate';
 import RoutineUpdate from './routines/routineForm/routineUpdate/RoutineUpdate';
 import WorkoutPage from '@/app/myTraining/workout/workout/WorkoutPage';
 import CreateWorkoutPage from '@/app/myTraining/workout/createWorkout/CreateWorkoutPage';
+import Exercises from './exercises/Exercises';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path={AppRoutes.WORKOUT} element={<WorkoutPage />} />
           <Route path={AppRoutes.OPTIONS} element={<Options />} />
           <Route path={AppRoutes.MY_PROFILE} element={<MyProfile />} />
+          <Route path={AppRoutes.EXERCISES} element={<Exercises />} />
           <Route path='*' element={<ErrorPage />} />
         </Route>
       </Routes>
