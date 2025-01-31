@@ -6,9 +6,10 @@
   flex-grow: 1;
 
   &__search-bar {
+    margin-top: 4px;
     padding: 0;
     height: 3rem;
-    max-width: 300px;
+    max-width: $breakpoint-phone;
     grid-column-start: 1;
     grid-column-end: 3;
     display: flex;
