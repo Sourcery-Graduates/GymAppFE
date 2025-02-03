@@ -3,4 +3,5 @@ export interface AuthState {
   logOutUser: () => void;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string | null;
+  username: string | null;
 }

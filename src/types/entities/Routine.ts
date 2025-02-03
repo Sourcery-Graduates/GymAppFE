@@ -8,6 +8,11 @@ export interface Routine {
   userId: string;
 }
 
+export interface SimpleRoutine {
+  id: string;
+  name: string;
+}
+
 export interface SimpleExercise {
   id: string;
   name: string;

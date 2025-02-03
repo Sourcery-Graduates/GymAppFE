@@ -1,0 +1,23 @@
+@import '/src/styles/base/variables';
+
+.user-message-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 255px;
+  min-height: 140px;
+  border-radius: $border-radius-base;
+  border: 3px inset $accent-color;
+  background-color: $secondary-color;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem $padding-base;
+  &__content {
+    color: $text-color;
+    font-size: $font-size-medium;
+
+    &:hover {
+      color: $accent-color;
+    }
+  }
+}

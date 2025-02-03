@@ -1,0 +1,29 @@
+@import '/src/styles/base/variables';
+
+.muscle-group-chart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  &__content {
+    height: 280px;
+    padding: $padding-base;
+
+    &--select {
+      width: 200px;
+      margin-bottom: $margin-base;
+    }
+
+    &--no-data {
+      margin-top: 4rem;
+      justify-self: center;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-phone) {
+  .muscle-group-chart {
+    &__content {
+      height: 280px;
+    }
+  }
+}

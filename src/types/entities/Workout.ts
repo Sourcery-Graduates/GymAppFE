@@ -49,3 +49,14 @@ export interface WorkoutExerciseSet {
   comment: string;
 }
 export type CalendarWorkoutHashMap = Record<string, ResponseWorkout[]>;
+
+export interface WorkoutStats {
+  id: string;
+  type: string;
+  content: string;
+}
+
+export interface MuscleSet {
+  primaryMuscles: string[];
+  numberOfSets: number;
+}

@@ -1,0 +1,13 @@
+@import '@/styles/base/variables';
+
+.most-used-routines {
+  &__title {
+    font-size: $font-size-large;
+  }
+  &__content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: $medium-gap;
+  }
+}
