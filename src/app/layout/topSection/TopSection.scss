@@ -1,4 +1,4 @@
-@import '@/styles/base/variables';
+@use '/src/styles/base/variables' as *;
 
 .top_section {
 	width: 100%;

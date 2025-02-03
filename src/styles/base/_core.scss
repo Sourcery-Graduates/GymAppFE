@@ -1,3 +1,5 @@
+@use './variables' as *;
+
 html {
   scrollbar-color: $text-color #1e1e1e;
   scrollbar-width: thin;

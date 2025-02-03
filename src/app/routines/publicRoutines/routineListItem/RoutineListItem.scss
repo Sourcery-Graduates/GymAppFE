@@ -1,4 +1,4 @@
-@import '@/styles/base/variables';
+@use '/src/styles/base/variables' as *;
 
 .public-routine-list-item {
   min-width: 180px;
