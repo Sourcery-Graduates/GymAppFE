@@ -1,4 +1,4 @@
-@import '/src/styles/base/variables';
+@use '/src/styles/base/variables' as *;
 
 .welcome-message {
   &__app-name {

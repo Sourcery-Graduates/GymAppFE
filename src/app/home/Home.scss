@@ -1,4 +1,4 @@
-@import '/src/styles/base/variables';
+@use '/src/styles/base/variables' as *;
 
 .home {
   flex-grow: 1;

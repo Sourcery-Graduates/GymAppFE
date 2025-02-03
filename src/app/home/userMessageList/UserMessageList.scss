@@ -1,4 +1,4 @@
-@import '/src/styles/base/variables';
+@use '/src/styles/base/variables' as *;
 
 .user-message-list {
   display: flex;

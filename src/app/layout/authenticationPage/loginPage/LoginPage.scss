@@ -1,4 +1,4 @@
-@import '/src/styles/base/variables';
+@use '/src/styles/base/variables' as *;
 
 .login_container {
   display: flex;

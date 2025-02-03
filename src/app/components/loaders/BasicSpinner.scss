@@ -1,4 +1,4 @@
-@import '@/styles/base/variables';
+@use '/src/styles/base/variables' as *;
 
 .loader-container {
     padding: 2rem;

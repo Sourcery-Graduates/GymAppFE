@@ -1,4 +1,4 @@
-@import '@/styles/base/variables';
+@use '/src/styles/base/variables' as *;
 
 .routine_options_button {
   display: flex;
