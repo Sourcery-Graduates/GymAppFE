@@ -1,4 +1,4 @@
-@import '../../../styles/base/variables';
+@use '/src/styles/base/variables' as *;
 
 .routine-list-wrapper {
   display: flex;
