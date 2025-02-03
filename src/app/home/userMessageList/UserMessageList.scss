@@ -1,0 +1,16 @@
+@import '/src/styles/base/variables';
+
+.user-message-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $medium-gap;
+  margin: 0 auto;
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .user-message-list {
+    display: grid;
+    justify-self: center;
+    width: 320px;
+  }
+}
