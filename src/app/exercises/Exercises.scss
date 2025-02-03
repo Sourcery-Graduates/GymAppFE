@@ -52,23 +52,6 @@
     margin-top: $margin-base;
     overflow-y: auto;
   }
-
-  .exercises-pagination {
-    display: flex;
-    justify-content: center;
-  }
-
-  .exercisesPagination .MuiIconButton-root {
-    padding: 0;
-    font-size: $font-size-small;
-    color: $accent-color;
-  }
-  .exercisesPagination .MuiSelect-icon {
-    color: $accent-color;
-  }
-  .exercisesPagination .Mui-disabled {
-    color: $secondary-color;
-  }
 }
 
 @media screen and (max-width: $breakpoint-phone) {

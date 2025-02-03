@@ -1,15 +1,46 @@
 @use '/src/styles/base/variables' as *;
 
 .exercise-list {
-  display: grid;
-  gap: $gap-base;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  &__content {
+    display: grid;
+    gap: $gap-base;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  }
+}
+
+.exercise-list__pagination {
+  display: flex;
+  justify-content: center;
 }
 
 @media screen and (max-width: 768px) {
   .exercise-list {
-    display: grid;
-    gap: $gap-base;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    &__content {
+      display: grid;
+      gap: $gap-base;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
   }
+}
+
+.exercisePagination .MuiTablePagination-toolbar {
+  min-height: 60px;
+}
+
+.exercisePagination .MuiTablePagination-selectLabel,
+.exercisePagination .MuiTablePagination-input,
+.exercisePagination .MuiTablePagination-displayedRows {
+  font-size: $font-size-small;
+}
+
+.exercisePagination .MuiIconButton-root {
+  padding: 0;
+  font-size: $font-size-small;
+  color: $accent-color;
+}
+.exercisePagination .MuiSelect-icon {
+  color: $accent-color;
+}
+.exercisePagination .Mui-disabled {
+  color: $secondary-color;
 }
