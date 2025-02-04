@@ -8,13 +8,14 @@
   &__top {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     &--search {
-      width: 300px;
+      width: 320px;
     }
 
     &--multi-select {
-      width: 300px;
+      width: 320px;
     }
   }
 
@@ -29,15 +30,8 @@
     &__top {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-
-      &--search {
-        width: 300px;
-      }
-
-      &--multi-select {
-        width: 300px;
-      }
+      gap: $gap-base;
+      justify-items: center;
     }
 
     &__list {
