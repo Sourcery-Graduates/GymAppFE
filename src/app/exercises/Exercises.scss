@@ -5,46 +5,52 @@
   flex-direction: column;
   flex-grow: 1;
 
-  &__search-bar {
-    margin-top: 4px;
-    padding: 0;
-    height: 3rem;
-    max-width: $breakpoint-phone;
-    grid-column-start: 1;
-    grid-column-end: 3;
+  &__top {
     display: flex;
-    align-items: center;
-    background-color: $secondary-color;
-    border-radius: $border-radius-large;
+    justify-content: space-between;
 
-    &--button {
-      height: 100%;
-      background-color: transparent;
-      color: $text-color;
-    }
-
-    &--field {
+    &--search-bar {
+      margin-top: 4px;
       padding: 0;
       height: 3rem;
-      width: 100%;
-      border: none;
-      outline: none;
-      background-color: transparent;
-      color: $text-color;
+      max-width: $breakpoint-phone;
+      display: flex;
+      background-color: $secondary-color;
+      border-radius: $border-radius-large;
 
-      & :active {
+      &--button {
+        height: 100%;
+        background-color: transparent;
+        color: $text-color;
+      }
+
+      &--field {
+        padding: 0;
+        height: 3rem;
+        width: 100%;
         border: none;
-      }
+        outline: none;
+        background-color: transparent;
+        color: $text-color;
 
-      &::-webkit-search-cancel-button {
-        -webkit-appearance: none;
-        height: 1rem;
-        width: 1rem;
-        margin-left: 0.4em;
-        margin-right: 0.6rem;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>");
-        cursor: pointer;
+        & :active {
+          border: none;
+        }
+
+        &::-webkit-search-cancel-button {
+          -webkit-appearance: none;
+          height: 1rem;
+          width: 1rem;
+          margin-left: 0.4em;
+          margin-right: 0.6rem;
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>");
+          cursor: pointer;
+        }
       }
+    }
+
+    &--multi-select {
+      width: 300px;
     }
   }
 
@@ -67,4 +73,31 @@
       justify-items: center;
     }
   }
+}
+/* customSelect.css */
+
+/* Stylizacja głównego selecta */
+.custom-select {
+  background-color: #282828; /* kolor tła selecta */
+  color: #fff; /* kolor tekstu */
+  border-radius: 8px; /* promień obramowania */
+  height: 50px; /* wysokość selecta */
+  width: 300px; /* szerokość selecta */
+}
+
+/* Stylizacja elementu wyświetlającego zaznaczoną wartość */
+.custom-select .MuiSelect-select {
+  padding: 10px; /* wewnętrzny odstęp */
+}
+
+/* Usunięcie domyślnego obramowania przy wariancie outlined */
+.custom-select .MuiOutlinedInput-notchedOutline {
+  border: none;
+}
+
+/* Stylizacja rozwijanego menu (dropdown) */
+.custom-menu-paper {
+  background-color: $background-color; /* kolor tła menu */
+  color: #fff; /* kolor tekstu w menu */
+  max-height: 200px; /* maksymalna wysokość menu */
 }

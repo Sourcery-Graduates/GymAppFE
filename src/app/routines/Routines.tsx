@@ -53,6 +53,7 @@ const Routines = () => {
             <SearchIcon />
           </button>
           <input
+            id='routines-search-field'
             className='search-field'
             type='search'
             placeholder='Search public routines...'

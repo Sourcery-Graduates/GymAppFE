@@ -4,22 +4,23 @@ import ExerciseListItem from './exerciseListItem/ExerciseListItem';
 import './ExerciseList.scss';
 import TablePagination from '@mui/material/TablePagination/TablePagination';
 import { useQuery } from '@tanstack/react-query';
-import { fetchExercisePagedByName } from '@/api/exerciseApi';
+import { fetchExercisePagedByPrimaryMuscleAndPrefix } from '@/api/exerciseApi';
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
 import ErrorPage from '@/app/errorPage/ErrorPage';
 
 interface ExerciseListProps {
   searchValue: string;
+  primaryMuscle: string;
   scrollTop: () => void;
 }
 
-const ExerciseList: React.FC<ExerciseListProps> = ({ scrollTop, searchValue }) => {
+const ExerciseList: React.FC<ExerciseListProps> = ({ scrollTop, searchValue, primaryMuscle }) => {
   const [rowsPerPage, setRowsPerPage] = useState<number>(25);
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   const { data, isLoading, isError } = useQuery<ExerciseDetailsPage>({
-    queryKey: ['exercises', searchValue, currentPage, rowsPerPage],
-    queryFn: () => fetchExercisePagedByName(searchValue, currentPage, rowsPerPage),
+    queryKey: ['exercises', searchValue, primaryMuscle, currentPage, rowsPerPage],
+    queryFn: () => fetchExercisePagedByPrimaryMuscleAndPrefix(searchValue, primaryMuscle, currentPage, rowsPerPage),
   });
 
   useEffect(() => {
