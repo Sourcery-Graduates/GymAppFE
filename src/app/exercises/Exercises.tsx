@@ -1,10 +1,10 @@
-import SearchIcon from '@mui/icons-material/Search';
 import ExerciseList from './exerciseList/ExerciseList';
 import { useRef, useState } from 'react';
 import debounce from '@mui/material/utils/debounce';
-import './Exercises.scss';
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import { PrimaryMuscle } from '@/types/primaryMuscles';
+import SearchTextField from '../components/textfields/SearchTextField';
+import './Exercises.scss';
 
 const Exercises = () => {
   const [searchValue, setSearchValue] = useState<string>('');
@@ -29,18 +29,9 @@ const Exercises = () => {
   return (
     <div className='exercises'>
       <div className='exercises__top'>
-        <form className='exercises__top--search-bar'>
-          <button className='exercises__top--search-bar--button'>
-            <SearchIcon />
-          </button>
-          <input
-            id='exercises-search-field'
-            className='exercises__top--search-bar--field'
-            type='search'
-            placeholder='Search exercises...'
-            onChange={debouncedHandleSearch}
-          />
-        </form>
+        <div className='exercises__top--search'>
+          <SearchTextField handleSearch={debouncedHandleSearch} />
+        </div>
         <div className='exercises__top--multi-select'>
           <FormControl fullWidth>
             <InputLabel id=''>Muscle Group</InputLabel>
@@ -53,7 +44,13 @@ const Exercises = () => {
               sx={{
                 backgroundColor: '#282828',
                 borderRadius: '8px',
-                color: '#6c757d',
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    maxHeight: 250, // maksymalna wysokość rozwijanego menu
+                  },
+                },
               }}
             >
               {Object.entries(PrimaryMuscle).map(([key, value]) => (
