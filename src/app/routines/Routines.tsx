@@ -44,7 +44,9 @@ const Routines = () => {
   return (
     <div className='routines-container' ref={scrollRef}>
       <div className='routines-top'>
-      <SearchTextField handleSearch={debouncedHandleSearch} />
+        <div className='routines-top__search'>
+          <SearchTextField handleSearch={debouncedHandleSearch} />
+        </div>
         <div className='routine-options'>
           <Button className='new-routine-btn' onClick={handleOnClick}>
             <AddIcon />

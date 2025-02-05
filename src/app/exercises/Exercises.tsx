@@ -41,17 +41,7 @@ const Exercises = () => {
               value={selectedPrimaryMuscle}
               label='Muscle Group'
               onChange={handlePrimaryMuscleChange}
-              sx={{
-                backgroundColor: '#282828',
-                borderRadius: '8px',
-              }}
-              MenuProps={{
-                PaperProps: {
-                  sx: {
-                    maxHeight: 250, // maksymalna wysokość rozwijanego menu
-                  },
-                },
-              }}
+              className='exercises__multi-select'
             >
               {Object.entries(PrimaryMuscle).map(([key, value]) => (
                 <MenuItem key={key} value={value}>
