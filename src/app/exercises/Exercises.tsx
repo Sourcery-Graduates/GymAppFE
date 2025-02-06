@@ -23,6 +23,7 @@ const Exercises = () => {
   const scrollTop = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      console.log("scrolling to top");
     }
   };
 

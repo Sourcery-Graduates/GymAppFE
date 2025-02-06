@@ -1,8 +1,9 @@
 @use '/src/styles/base/variables' as *;
 
 .routines-container {
-  width: 100%;
-  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .routines-top {
@@ -14,6 +15,10 @@
   &__search {
     width: 320px;
   }
+}
+
+.tabs-wrapper {
+  padding-top: 4px;
 }
 
 .routine-options {
