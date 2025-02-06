@@ -1,28 +1,21 @@
 @use '/src/styles/base/variables' as *;
 
-.public-routine-container {
+.public-routines {
   display: flex;
   flex-direction: column;
-  height: 100dvh;
-  max-height: calc(100dvh - 216px);
   overflow-y: auto;
-}
-.public-routine-list-wrapper .MuiList-root {
-  display: flex;
-  flex-direction: column;
-  padding: $small-gap $small-gap $small-gap 0;
-  gap: $small-gap;
-}
-.public-routine-list-wrapper {
-  flex: 1 1 auto;
-  min-width: 300px;
-  max-width: 100%;
-  padding: 0;
-}
 
-.public-routine-pagination {
-  display: flex;
-  justify-content: center;
+  &__list {
+    display: flex;
+    flex-direction: column;
+    padding: $small-gap $small-gap $small-gap 0;
+    gap: $small-gap;
+
+    &--pagination {
+      display: flex;
+      justify-content: center;
+    }
+  }
 }
 
 .customTablePagination .MuiTablePagination-toolbar {
@@ -55,17 +48,4 @@
 
 .MuiMenuItem-root {
   font-size: $font-size-small !important;
-}
-
-@media (max-width: $breakpoint-tablet) {
-  .public-routine-container {
-    max-height: calc(100dvh - 200px);
-  }
-}
-
-
-@media (max-width: $breakpoint-phone) {
-  .public-routine-container {
-    max-height: calc(100dvh - 230px);
-  }
 }

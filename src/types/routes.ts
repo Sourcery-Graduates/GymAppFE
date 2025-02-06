@@ -9,4 +9,5 @@ export enum AppRoutes {
   OPTIONS = '/options',
   MY_PROFILE = '/my-profile',
   WORKOUT_CREATE = '/my-training/new',
+  EXERCISES = '/exercises',
 }

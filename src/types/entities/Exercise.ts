@@ -15,6 +15,12 @@ export interface ExerciseDetails extends ExerciseSimple {
   images?: Array<string>;
 }
 
+export interface ExerciseDetailsPage {
+  data: ExerciseDetails[];
+  totalElements: number;
+  totalPages: number;
+}
+
 export interface CreateRoutineExercise {
   exerciseId: string;
   orderNumber: number;

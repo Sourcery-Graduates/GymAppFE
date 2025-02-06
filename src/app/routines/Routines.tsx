@@ -1,5 +1,4 @@
 import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import React from 'react';
@@ -12,6 +11,7 @@ import './Routines.scss';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '@/types/routes';
 import { debounce } from '@/app/common/utils/debounce.ts';
+import SearchTextField from '../components/textfields/SearchTextField';
 
 const MY_ROUTINES = 'my-routines';
 const PUBLIC_ROUTINES = 'public-routines';
@@ -23,7 +23,7 @@ const Routines = () => {
   const [searchValue, setSearchValue] = React.useState('');
 
   const scrollTop = () => {
-    scrollRef.current?.scrollIntoView({ block: 'end' });
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -41,24 +41,12 @@ const Routines = () => {
     setSearchValue(event.target.value);
   }, 300);
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    debouncedHandleSearch(event);
-  };
-
   return (
     <div className='routines-container' ref={scrollRef}>
       <div className='routines-top'>
-        <form className='search-bar'>
-          <button className='search-button'>
-            <SearchIcon />
-          </button>
-          <input
-            className='search-field'
-            type='search'
-            placeholder='Search public routines...'
-            onChange={handleSearch}
-          />
-        </form>
+        <div className='routines-top__search'>
+          <SearchTextField handleSearch={debouncedHandleSearch} />
+        </div>
         <div className='routine-options'>
           <Button className='new-routine-btn' onClick={handleOnClick}>
             <AddIcon />
