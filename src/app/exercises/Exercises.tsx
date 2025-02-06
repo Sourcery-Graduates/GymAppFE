@@ -19,11 +19,9 @@ const Exercises = () => {
     setSelectedPrimaryMuscle(event.target.value);
   };
 
-  //TODO: update scroll to top in both routines and exercises
   const scrollTop = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      console.log("scrolling to top");
     }
   };
 

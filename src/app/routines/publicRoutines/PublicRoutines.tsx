@@ -53,20 +53,20 @@ const PublicRoutines = ({ scrollTop, searchValue }: PublicRoutinesProps) => {
     <>
       <div className='public-routines'>
         <div className='public-routines__list'>
-            {routines && routines.map((routine) => <RoutineListItem key={routine.id} routine={routine} />)}
-            <div className='public-routines__list--pagination'>
-              <TablePagination
-                component='div'
-                count={totalElements || 0}
-                page={currentPage}
-                onPageChange={handlePageChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleRowsPerPageChange}
-                rowsPerPageOptions={[10, 25, 50, 100]}
-                labelRowsPerPage='Rows:'
-                className='customTablePagination'
-              />
-            </div>
+          {routines && routines.map((routine) => <RoutineListItem key={routine.id} routine={routine} />)}
+          <div className='public-routines__list--pagination'>
+            <TablePagination
+              component='div'
+              count={totalElements || 0}
+              page={currentPage}
+              onPageChange={handlePageChange}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleRowsPerPageChange}
+              rowsPerPageOptions={[10, 25, 50, 100]}
+              labelRowsPerPage='Rows:'
+              className='customTablePagination'
+            />
+          </div>
         </div>
       </div>
     </>

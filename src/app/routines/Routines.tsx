@@ -23,7 +23,7 @@ const Routines = () => {
   const [searchValue, setSearchValue] = React.useState('');
 
   const scrollTop = () => {
-    scrollRef.current?.scrollIntoView({ block: 'end' });
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
