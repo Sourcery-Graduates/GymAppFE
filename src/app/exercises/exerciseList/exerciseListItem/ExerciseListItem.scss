@@ -41,6 +41,7 @@
     white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
+    padding: 0 $padding-base;
   }
   &__image {
     width: 100%;

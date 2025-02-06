@@ -10,23 +10,23 @@
   &__top {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    position: relative;
 
     &--icons {
       display: flex;
-      position: absolute;
-      left: 0;
     }
 
     &--name {
+      flex-grow: 1;
       text-align: center;
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
     }
 
     &--close-icon {
-      position: absolute;
-      right: 0;
+      display: flex;
     }
   }
 
@@ -35,12 +35,14 @@
     padding: 0;
     margin: 0;
     list-style: none;
+    overflow-y: auto;
     text-align: left;
   }
 
   &__description {
     overflow-y: auto;
     text-align: left;
+    padding-right: $padding-base;
   }
 }
 
