@@ -2,7 +2,7 @@ import { registerUser } from '@/api/authentication';
 import Button from '@/app/components/buttons/Button/Button';
 import { Register, registerValidationSchema } from '@/types/entities/Authentication';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, IconButton, InputAdornment, Step, StepLabel, Stepper, TextField, Typography } from '@mui/material';
+import { Box, IconButton, InputAdornment, Step, StepLabel, Stepper, TextField } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import './RegisterPage.scss';
@@ -18,12 +18,20 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
-  const steps = ['Choose username', 'Write your bio'];
+  const steps = ['Email', 'Username', 'Bio'];
 
   const handleNext = async () => {
-    const fieldsFirstStep: (keyof Register)[] = ['username', 'email', 'password'];
+    let fieldsToValidate: (keyof Register)[] = [];
+    switch (activeStep) {
+      case 0:
+        fieldsToValidate = ['email', 'password', 'confirmPassword'];
+        break;
+      case 1:
+        fieldsToValidate = ['username', 'firstName', 'lastName'];
+        break;
+    }
 
-    const isValid = await trigger(fieldsFirstStep, { shouldFocus: false });
+    const isValid = await trigger(fieldsToValidate, { shouldFocus: false });
     if (isValid) {
       setTimeout(() => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -62,9 +70,11 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
       username: '',
       email: '',
       password: '',
+      confirmPassword: '',
       firstName: '',
       lastName: '',
       location: '',
+      bio: '',
     },
     resolver: yupResolver(registerValidationSchema),
   });
@@ -102,14 +112,14 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
           {activeStep === 0 && (
             <>
               <TextField
-                label='Username'
+                label='Email adress'
                 size='small'
                 className='form-field'
                 variant='filled'
-                {...register('username')}
-                error={!!errors.username}
-                helperText={errors.username?.message}
-                onBlur={() => clearErrors('username')}
+                {...register('email')}
+                error={!!errors.email}
+                helperText={errors.email?.message}
+                onBlur={() => clearErrors('email')}
               />
               <TextField
                 label='Password'
@@ -139,20 +149,47 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
                 }}
               />
               <TextField
-                label='Email adress'
+                label='Confirm password'
                 size='small'
                 className='form-field'
                 variant='filled'
-                {...register('email')}
-                error={!!errors.email}
-                helperText={errors.email?.message}
-                onBlur={() => clearErrors('email')}
+                {...register('confirmPassword')}
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword?.message}
+                onBlur={() => clearErrors('confirmPassword')}
+                type={showPassword ? 'text' : 'password'}
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton
+                          className={'show-password-button'}
+                          aria-label={showPassword ? 'hide the password' : 'display the password'}
+                          onClick={handleClickShowPassword}
+                          edge='end'
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
+                }}
               />
             </>
           )}
 
           {activeStep === 1 && (
             <>
+              <TextField
+                label='Username'
+                size='small'
+                className='form-field'
+                variant='filled'
+                {...register('username')}
+                error={!!errors.username}
+                helperText={errors.username?.message}
+                onBlur={() => clearErrors('username')}
+              />
               <TextField
                 label='First Name'
                 size='small'
@@ -173,6 +210,11 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
                 helperText={errors.lastName?.message}
                 onBlur={() => clearErrors('lastName')}
               />
+            </>
+          )}
+
+          {activeStep === 2 && (
+            <>
               <TextField
                 label='Location (Optional)'
                 size='small'
@@ -183,6 +225,18 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
                 helperText={errors.location?.message}
                 onBlur={() => clearErrors('location')}
               />
+              <TextField
+                label='Bio (Optional)'
+                fullWidth
+                multiline
+                size='small'
+                rows={3}
+                className='form-field'
+                variant='filled'
+                {...register('bio')}
+                error={!!errors.bio}
+                helperText={errors.bio?.message}
+              />
             </>
           )}
 
@@ -192,11 +246,11 @@ const RegisterPage = ({ setIsLoginForm }: RegisterPageProps) => {
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {activeStep === steps.length - 1 ? (
-              <Button type='submit' isDisabled={activeStep !== steps.length - 1}>Register</Button>
-            ) : (
-              <Button onClick={handleNext}>
-                Next
+              <Button type='submit' isDisabled={activeStep !== steps.length - 1}>
+                Register
               </Button>
+            ) : (
+              <Button onClick={handleNext}>Next</Button>
             )}
           </Box>
         </form>
