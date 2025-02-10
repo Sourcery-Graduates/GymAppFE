@@ -53,8 +53,6 @@ export const registerValidationSchema = baseRegistrationValidationSchema.shape({
   lastName: Yup.string().required('Last name is required').max(64, 'Last name must be at most 64 characters'),
   confirmPassword: Yup.string()
     .required('Confirm Password is required')
-    .min(8, 'Password must be at least 8 characters')
-    .max(128, 'Password must be at most 128 characters')
     .oneOf([Yup.ref('password')], 'Passwords do not match'),
   location: Yup.string().max(128, 'Location must be at most 128 characters'),
   bio: Yup.string().max(340, 'Bio must be at most 340 characters'),
