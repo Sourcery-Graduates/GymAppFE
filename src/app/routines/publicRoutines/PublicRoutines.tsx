@@ -1,5 +1,4 @@
 import './PublicRoutines.scss';
-import List from '@mui/material/List';
 import { useQuery } from '@tanstack/react-query';
 import { fetchAllPublicRoutines } from '@/api/routineApi';
 import BasicSpinner from '@/app/components/loaders/BasicSpinner';
@@ -52,22 +51,22 @@ const PublicRoutines = ({ scrollTop, searchValue }: PublicRoutinesProps) => {
 
   return (
     <>
-      <div className='public-routine-container'>
-        <div className='public-routine-list-wrapper'>
-          <List>{routines && routines.map((routine) => <RoutineListItem key={routine.id} routine={routine} />)}</List>
-        </div>
-        <div className='public-routine-pagination'>
-          <TablePagination
-            component='div'
-            count={totalElements || 0}
-            page={currentPage}
-            onPageChange={handlePageChange}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleRowsPerPageChange}
-            rowsPerPageOptions={[10, 25, 50, 100]}
-            labelRowsPerPage='Rows:'
-            className='customTablePagination'
-          />
+      <div className='public-routines'>
+        <div className='public-routines__list'>
+          {routines && routines.map((routine) => <RoutineListItem key={routine.id} routine={routine} />)}
+          <div className='public-routines__list--pagination'>
+            <TablePagination
+              component='div'
+              count={totalElements || 0}
+              page={currentPage}
+              onPageChange={handlePageChange}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleRowsPerPageChange}
+              rowsPerPageOptions={[10, 25, 50, 100]}
+              labelRowsPerPage='Rows:'
+              className='customTablePagination'
+            />
+          </div>
         </div>
       </div>
     </>

@@ -1,0 +1,79 @@
+@use '/src/styles/base/variables' as *;
+
+.exercises {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    &--search {
+      width: 320px;
+    }
+
+    &--multi-select {
+      width: 320px;
+    }
+  }
+
+  &__list {
+    margin-top: $margin-base;
+    overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: $breakpoint-tablet) {
+  .exercises {
+    &__top {
+      display: flex;
+      flex-direction: column;
+      gap: $gap-base;
+      justify-items: center;
+
+      &--search {
+        width: 320px;
+      }
+
+      &--multi-select {
+        width: 320px;
+      }
+    }
+
+    &__list {
+      margin-top: $margin-base;
+      overflow-y: auto;
+      justify-items: center;
+    }
+  }
+}
+
+.exercises__multi-select {
+  .MuiInputBase-input {
+    background-color: $secondary-color;
+    border-radius: $border-radius-base;
+  }
+
+  .MuiSelect-icon {
+    color: $text-color;
+  }
+}
+
+.MuiList-root {
+  max-height: 230px;
+}
+@media screen and (max-width: $breakpoint-phone) {
+  .exercises {
+    &__top {
+      &--search {
+        width: 100%;
+      }
+
+      &--multi-select {
+        width: 100%;
+      }
+    }
+  }
+}
