@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/app/layout/authenticatedLayout/AuthenticatedL
 import NotAutenticatedLayout from '@/app/layout/notAuthenticatedLayout/NotAuthenticatedLayout';
 import AuthenticationPage from '@/app/pages/authenticationPage/AuthenticationPage';
 import ErrorPage from '@/app/pages/errorPage/ErrorPage';
+import Exercises from '@/app/pages/exercises/Exercises';
 import Home from '@/app/pages/home/Home';
 import MyProfile from '@/app/pages/myProfile/MyProfile';
 import MyTraining from '@/app/pages/myTraining/MyTraining';
@@ -37,6 +38,7 @@ function App() {
             <Route path={AppRoutes.WORKOUT} element={<WorkoutPage />} />
             <Route path={AppRoutes.OPTIONS} element={<Options />} />
             <Route path={AppRoutes.MY_PROFILE} element={<MyProfile />} />
+            <Route path={AppRoutes.EXERCISES} element={<Exercises />} />
             <Route path='*' element={<ErrorPage />} />
           </Route>
         ) : (

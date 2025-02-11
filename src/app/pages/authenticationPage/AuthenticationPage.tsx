@@ -26,7 +26,7 @@ const AuthenticationPage = () => {
   };
 
   return (
-    <div className='authentication_login'>
+    <div className='authentication_form'>
       {currentForm === CurrentAuthenticationForm.LOGIN_FORM && (
         <LoginPage
           setSnackbarOpen={setSnackbarOpen}

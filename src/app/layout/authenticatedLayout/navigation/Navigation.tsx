@@ -4,7 +4,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
-
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import './Navigation.scss';
 
 const Navigation = () => {
@@ -18,6 +18,9 @@ const Navigation = () => {
       </NavigationItem>
       <NavigationItem navigateTo={AppRoutes.MY_TRAINING} description={'My trainings'}>
         <FitnessCenterIcon />
+      </NavigationItem>
+      <NavigationItem navigateTo={AppRoutes.EXERCISES} description='Exercises'>
+        <ManageSearchIcon fontSize='large' />
       </NavigationItem>
       <NavigationItem className='navigaton_options' navigateTo={AppRoutes.OPTIONS} description={'Options'}>
         <SettingsIcon />
