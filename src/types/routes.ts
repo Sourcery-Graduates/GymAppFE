@@ -9,4 +9,6 @@ export enum AppRoutes {
   OPTIONS = '/options',
   MY_PROFILE = '/my-profile',
   WORKOUT_CREATE = '/my-training/new',
+  REGISTRATION_VERIFICATION = '/registerVerification',
+  PASSWORD_CHANGE = '/passwordReset',
 }
