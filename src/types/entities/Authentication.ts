@@ -3,10 +3,12 @@ import * as Yup from 'yup';
 export interface Register {
   username: string;
   password: string;
+  confirmPassword: string;
   email: string;
   firstName: string;
   lastName: string;
   location?: string;
+  bio?: string;
 }
 
 export interface Login {
@@ -49,5 +51,9 @@ export const baseRegistrationValidationSchema = baseValidationSchema.shape({
 export const registerValidationSchema = baseRegistrationValidationSchema.shape({
   firstName: Yup.string().required('First name is required').max(64, 'First name must be at most 64 characters'),
   lastName: Yup.string().required('Last name is required').max(64, 'Last name must be at most 64 characters'),
+  confirmPassword: Yup.string()
+    .required('Confirm Password is required')
+    .oneOf([Yup.ref('password')], 'Passwords do not match'),
   location: Yup.string().max(128, 'Location must be at most 128 characters'),
+  bio: Yup.string().max(340, 'Bio must be at most 340 characters'),
 });
