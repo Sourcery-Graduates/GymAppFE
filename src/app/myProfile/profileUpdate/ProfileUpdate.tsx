@@ -47,7 +47,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
       if (selectedFile) {
         const formData = new FormData();
         formData.append('file', selectedFile);
-        uploadProfilePhoto(formData);
+        await uploadProfilePhoto(formData);
       }
       await props.saveAction(data);
     } catch (error) {
