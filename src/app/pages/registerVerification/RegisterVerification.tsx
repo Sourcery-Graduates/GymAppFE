@@ -11,7 +11,7 @@ const RegisterVerification = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   const navigate = useNavigate();
-  const redirectTime = 10;
+  const redirectTime = 5;
   const [timeLeft, setTimeLeft] = useState<number>(redirectTime);
   const timeoutRef = useRef<NodeJS.Timeout>(undefined);
   const intervalRef = useRef<NodeJS.Timeout>(undefined);
@@ -23,7 +23,6 @@ const RegisterVerification = () => {
 
     timeoutRef.current = setTimeout(() => {
       navigate(AppRoutes.HOME);
-      console.log('xdd');
     }, redirectTime * 1000);
 
     return () => {
