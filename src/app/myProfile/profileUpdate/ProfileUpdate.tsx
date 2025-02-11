@@ -1,5 +1,4 @@
-import '../MyProfile.scss';
-import { Avatar, Button, TextField } from '@mui/material';
+import { Avatar, Button, Input, TextField } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,11 +6,22 @@ import { validationSchema } from './validationSchema';
 import { Profile } from '@/types/entities/UserProfile';
 import AppAlert from '@/app/components/alerts/AppAlert';
 import { useState } from 'react';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { uploadProfilePhoto } from '@/api/userProfileApi';
+import '../MyProfile.scss';
+import './ProfileUpdate.scss';
 
 interface ProfileUpdateProps {
   cancelAction: () => void;
   saveAction: (profile: Profile) => void;
   profile: Profile;
+}
+
+enum AllowedFileTypes {
+  jpg = 'image/jpg',
+  jpeg = 'image/jpeg',
+  png = 'image/png',
+  gif = 'image/gif',
 }
 
 const ProfileUpdate = (props: ProfileUpdateProps) => {
@@ -30,13 +40,33 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
     defaultValues: props.profile,
     resolver: yupResolver(validationSchema),
   });
-
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  
   const onSubmit = async (data: Profile) => {
     try {
-      await props.saveAction(data); // Await mutation
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        uploadProfilePhoto(formData);
+      }
+      await props.saveAction(data);
     } catch (error) {
       if (error) setSnackbarOpen(true);
     }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 524288) {
+      console.log('File over 5MB');
+      return;
+    }
+    if (!Object.values(AllowedFileTypes).includes(file.type as AllowedFileTypes)) {
+      console.log('Invalid file type');
+      return;
+    }
+    setSelectedFile(file);
   };
 
   const onCancel = () => {
@@ -46,7 +76,23 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
 
   return (
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
-      <Avatar src={props.profile.avatarUrl} className='avatar-image' sx={{ bgcolor: deepPurple[500] }}></Avatar>
+      <div className='profile-photo'>
+        <Avatar
+          src={selectedFile ? URL.createObjectURL(selectedFile) : props.profile.avatarUrl}
+          className='avatar-image'
+          sx={{ bgcolor: deepPurple[500] }}
+        ></Avatar>
+        <Button
+          component='label'
+          variant='outlined'
+          color='info'
+          startIcon={<CloudUploadIcon />}
+          className='profile-photo__button'
+        >
+          Upload photo
+          <Input type='file' onChange={handleFileUpload} className='profile-photo__input' />
+        </Button>
+      </div>
       <div className='profile-data-container'>
         <TextField
           label='Firstname'

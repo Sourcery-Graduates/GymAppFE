@@ -26,3 +26,16 @@ export const updateMyUserProfile: (payload: Profile) => Promise<Profile> = async
 
   return data;
 };
+
+export const uploadProfilePhoto = async (formData: FormData) => {
+  try {
+    const response = await api.put(`${userProfileApiUrl}/photo`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log('Upload successful', response.data);
+  } catch (error) {
+    console.error('Upload error', error);
+  }
+};

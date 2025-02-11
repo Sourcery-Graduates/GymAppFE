@@ -1,0 +1,14 @@
+@use '/src/styles/base/variables' as *;
+
+.profile-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: $margin-base;
+
+  &__input .MuiInputBase-input {
+    display: none;
+  }
+}
