@@ -74,7 +74,6 @@ const PasswordChange = () => {
       reset();
     },
     onError: (error: AxiosError) => {
-      console.log(error);
       setSnackbarOpen(true);
       setSnackbarText(error.response?.data?.message);
       setSnackbarSeverity('error');
