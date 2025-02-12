@@ -9,7 +9,7 @@ interface ExerciseTableProps {
 
 const ExercisesTable = ({ editable = true }: ExerciseTableProps) => {
   const { exercises } = useRoutineExercises();
-  console.log(exercises);
+
   return (
     <>
       <TableContainer>

@@ -1,0 +1,5 @@
+@use '/src/styles/base/variables' as *;
+
+.notAuthenticated_text_footer {
+  font-size: $font-size-very-small;
+}
