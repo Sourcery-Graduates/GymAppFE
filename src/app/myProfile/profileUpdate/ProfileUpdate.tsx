@@ -1,5 +1,4 @@
 import { Avatar, Button, Input, TextField } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './validationSchema';
@@ -7,13 +6,12 @@ import { Profile } from '@/types/entities/UserProfile';
 import AppAlert from '@/app/components/alerts/AppAlert';
 import { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { uploadProfilePhoto } from '@/api/userProfileApi';
 import '../MyProfile.scss';
 import './ProfileUpdate.scss';
 
 interface ProfileUpdateProps {
   cancelAction: () => void;
-  saveAction: (profile: Profile) => void;
+  saveAction: (profile: Profile, formData: FormData) => void;
   profile: Profile;
 }
 
@@ -37,19 +35,25 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues: props.profile,
+    defaultValues: {
+      firstName: props.profile.firstName,
+      lastName: props.profile.lastName,
+      username: props.profile.username,
+      bio: props.profile.bio,
+      location: props.profile.location,
+    },
     resolver: yupResolver(validationSchema),
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  
-  const onSubmit = async (data: Profile) => {
+
+  const onSubmit = async (data) => {
     try {
+      const formData = new FormData();
       if (selectedFile) {
-        const formData = new FormData();
         formData.append('file', selectedFile);
-        await uploadProfilePhoto(formData);
+        setSelectedFile(null);
       }
-      await props.saveAction(data);
+      props.saveAction(data, formData);
     } catch (error) {
       if (error) setSnackbarOpen(true);
     }
@@ -80,7 +84,6 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
         <Avatar
           src={selectedFile ? URL.createObjectURL(selectedFile) : props.profile.avatarUrl}
           className='avatar-image'
-          sx={{ bgcolor: deepPurple[500] }}
         ></Avatar>
         <Button
           component='label'

@@ -1,6 +1,5 @@
-import { Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { Avatar, Divider, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import './UserAvatar.scss';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import SettingsIcon from '@mui/icons-material/Settings';
 import React from 'react';
@@ -8,6 +7,8 @@ import { Logout } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '@/types/routes';
 import useAuth from '@/app/common/hooks/useAuth';
+import { useQuery } from '@tanstack/react-query';
+import { getMyUserProfile } from '@/api/userProfileApi';
 
 const UserAvatar = () => {
   const { logOutUser } = useAuth();
@@ -39,17 +40,22 @@ const UserAvatar = () => {
     handleMenuClose();
   };
 
+  const { data } = useQuery({
+    queryKey: ['userProfile'],
+    queryFn: getMyUserProfile,
+  });
+
   return (
     <div className='user_avatar'>
       <Tooltip title='Account settings'>
-        <IconButton
+        <Avatar
           onClick={handleAvatarClick}
           aria-controls={open ? 'account-menu' : undefined}
           aria-haspopup='true'
           aria-expanded={open ? 'true' : undefined}
-        >
-          <AccountCircleIcon className='user_icon' />
-        </IconButton>
+          src={data?.avatarUrl}
+          className='avatar-image'
+        ></Avatar>
       </Tooltip>
       <Menu
         className='user_menu'

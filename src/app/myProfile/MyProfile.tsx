@@ -4,7 +4,7 @@ import ProfileRead from './profileRead/ProfileRead';
 import ProfileUpdate from './profileUpdate/ProfileUpdate';
 import { Profile } from '@/types/entities/UserProfile';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getMyUserProfile, updateMyUserProfile } from '@/api/userProfileApi';
+import { getMyUserProfile, updateMyUserProfile, uploadProfilePhoto } from '@/api/userProfileApi';
 import { emptyUserProfile } from './EmptyUserProfile';
 import BasicSpinner from '../components/loaders/BasicSpinner';
 
@@ -12,6 +12,7 @@ const MyProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const queryClient = useQueryClient();
 
+  
   const {
     data: profile,
     error: errorQuery,
@@ -22,18 +23,29 @@ const MyProfile = () => {
     retry: false,
   });
 
-  const { mutateAsync: sendUpdatedProfile, error: errorMutation } = useMutation({
+  const { mutate: sendUpdatedProfile, error: errorMutation } = useMutation({
     mutationKey: ['userProfile'],
     mutationFn: updateMyUserProfile,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['userProfile'], exact: true }),
+  });
+
+  const { mutate: sendProfilePhoto } = useMutation({
+    mutationKey: ['userProfilePhoto'],
+    mutationFn: uploadProfilePhoto,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile'], exact: true });
+    },
   });
 
   const toggleIsEditing = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleSaveProfile = async (updatedProfile: Profile) => {
-    await sendUpdatedProfile(updatedProfile);
+  const handleSaveProfile = async (updatedProfile: Profile, formData: FormData) => {
+    sendUpdatedProfile(updatedProfile);
+    if (formData) {
+      sendProfilePhoto(formData);
+    }
     if (!errorMutation) setIsEditing(false);
   };
 

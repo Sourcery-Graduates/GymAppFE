@@ -1,6 +1,5 @@
 import '../MyProfile.scss';
 import { Avatar, Button } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Profile } from '@/types/entities/UserProfile';
 import { useState } from 'react';
@@ -26,7 +25,7 @@ const ProfileRead = (props: ProfileReadProps) => {
 
   return (
     <div className='container'>
-      <Avatar src={props.profile.avatarUrl} className='avatar-image' sx={{ bgcolor: deepPurple[500] }}></Avatar>
+      <Avatar src={props.profile.avatarUrl} className='avatar-image'></Avatar>
 
       <div className='profile-data-container'>
         <h3 className='fullname-text'>
