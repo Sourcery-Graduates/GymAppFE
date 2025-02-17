@@ -8,10 +8,11 @@ import { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import '../MyProfile.scss';
 import './ProfileUpdate.scss';
+import { AppAlertState } from '@/types/entities/AppAlert';
 
 interface ProfileUpdateProps {
   cancelAction: () => void;
-  saveAction: (profile: Profile, formData: FormData) => void;
+  saveAction: (profile: Profile, formData: FormData | null) => void;
   profile: Profile;
 }
 
@@ -23,11 +24,12 @@ enum AllowedFileTypes {
 }
 
 const ProfileUpdate = (props: ProfileUpdateProps) => {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const handleClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') return;
-    setSnackbarOpen(false); // Close Snackbar
-  };
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [alertState, setAlertState] = useState<AppAlertState>({
+    open: false,
+    text: '',
+    severity: 'error',
+  });
 
   const {
     register,
@@ -44,18 +46,24 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
     },
     resolver: yupResolver(validationSchema),
   });
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const onSubmit = async (data) => {
     try {
-      const formData = new FormData();
       if (selectedFile) {
+        const formData = new FormData();
         formData.append('file', selectedFile);
         setSelectedFile(null);
+        props.saveAction(data, formData);
+        return;
       }
-      props.saveAction(data, formData);
+      props.saveAction(data, null);
+      return;
     } catch (error) {
-      if (error) setSnackbarOpen(true);
+      setAlertState({
+        open: true,
+        text: 'Profile data could not be saved',
+        severity: 'error',
+      });
     }
   };
 
@@ -63,11 +71,19 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 524288) {
-      console.log('File over 5MB');
+      setAlertState({
+        open: true,
+        text: 'File size must be less than 5MB',
+        severity: 'error',
+      });
       return;
     }
     if (!Object.values(AllowedFileTypes).includes(file.type as AllowedFileTypes)) {
-      console.log('Invalid file type');
+      setAlertState({
+        open: true,
+        text: 'File type not allowed',
+        severity: 'error',
+      });
       return;
     }
     setSelectedFile(file);
@@ -76,6 +92,10 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
   const onCancel = () => {
     reset(props.profile);
     props.cancelAction();
+  };
+
+  const handleSnackbarClose = () => {
+    setAlertState({ ...alertState, open: false });
   };
 
   return (
@@ -160,10 +180,10 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
         </div>
       </div>
       <AppAlert
-        open={snackbarOpen}
-        onClose={handleClose}
-        text='Error saving profile data. Please try again later.'
-        severity='error'
+        open={alertState.open}
+        onClose={handleSnackbarClose}
+        text={alertState.text}
+        severity={alertState.severity}
       />
     </form>
   );
