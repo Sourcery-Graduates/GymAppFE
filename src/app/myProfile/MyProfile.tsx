@@ -29,8 +29,6 @@ const MyProfile = () => {
     retry: false,
   });
 
-  console.log("data", profile);
-
   const { mutate: sendUpdatedProfile, error: errorMutation } = useMutation({
     mutationKey: ['userProfile'],
     mutationFn: updateMyUserProfile,
