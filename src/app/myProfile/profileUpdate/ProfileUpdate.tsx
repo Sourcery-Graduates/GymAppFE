@@ -30,6 +30,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
     text: '',
     severity: 'error',
   });
+  const MAX_FILE_SIZE = 524288;
 
   const {
     register,
@@ -70,7 +71,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 524288) {
+    if (file.size > MAX_FILE_SIZE) {
       setAlertState({
         open: true,
         text: 'File size must be less than 5MB',
