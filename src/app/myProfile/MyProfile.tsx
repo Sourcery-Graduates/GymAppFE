@@ -40,6 +40,13 @@ const MyProfile = () => {
         severity: 'success',
       });
     },
+    onError: () => {
+      setAlertState({
+        open: true,
+        text: 'Error updating profile',
+        severity: 'error',
+      });
+    }
   });
 
   const { mutate: sendProfilePhoto } = useMutation({
@@ -48,6 +55,13 @@ const MyProfile = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userProfile'], exact: true });
     },
+    onError: () => {
+      setAlertState({
+        open: true,
+        text: 'Error uploading photo',
+        severity: 'error',
+      });
+    }
   });
 
   const toggleIsEditing = () => {
