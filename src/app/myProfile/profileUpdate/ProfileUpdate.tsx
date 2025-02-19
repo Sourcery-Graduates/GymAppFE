@@ -30,8 +30,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
     text: '',
     severity: 'error',
   });
-  const MAX_FILE_SIZE = 524288;
-
+  const MAX_FILE_SIZE = 1048576; // 1MB
   const {
     register,
     handleSubmit,
@@ -74,7 +73,7 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
     if (file.size > MAX_FILE_SIZE) {
       setAlertState({
         open: true,
-        text: 'File size must be less than 5MB',
+        text: 'File size must be less than 1MB',
         severity: 'error',
       });
       return;

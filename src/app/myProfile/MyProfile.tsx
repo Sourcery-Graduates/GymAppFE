@@ -3,7 +3,7 @@ import './MyProfile.scss';
 import ProfileRead from './profileRead/ProfileRead';
 import ProfileUpdate from './profileUpdate/ProfileUpdate';
 import { Profile } from '@/types/entities/UserProfile';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getMyUserProfile, updateMyUserProfile, uploadProfilePhoto } from '@/api/userProfileApi';
 import { emptyUserProfile } from './EmptyUserProfile';
 import BasicSpinner from '../components/loaders/BasicSpinner';
@@ -29,41 +29,6 @@ const MyProfile = () => {
     retry: false,
   });
 
-  const { mutate: sendUpdatedProfile, error: errorMutation } = useMutation({
-    mutationKey: ['userProfile'],
-    mutationFn: updateMyUserProfile,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userProfile'], exact: true });
-      setAlertState({
-        open: true,
-        text: 'Profile updated successfully',
-        severity: 'success',
-      });
-    },
-    onError: () => {
-      setAlertState({
-        open: true,
-        text: 'Error updating profile',
-        severity: 'error',
-      });
-    }
-  });
-
-  const { mutate: sendProfilePhoto } = useMutation({
-    mutationKey: ['userProfilePhoto'],
-    mutationFn: uploadProfilePhoto,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userProfile'], exact: true });
-    },
-    onError: () => {
-      setAlertState({
-        open: true,
-        text: 'Error uploading photo',
-        severity: 'error',
-      });
-    }
-  });
-
   const toggleIsEditing = () => {
     setIsEditing(!isEditing);
   };
@@ -74,11 +39,25 @@ const MyProfile = () => {
     if (profile?.avatarUrl) {
       profileToUpdate.avatarUrl = profile.avatarUrl;
     }
-    sendUpdatedProfile(profileToUpdate);
-    if (formData) {
-      sendProfilePhoto(formData);
+    toggleIsEditing();
+    try {
+      await updateMyUserProfile(profileToUpdate);
+      if (formData) {
+        await uploadProfilePhoto(formData);
+      }
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+      setAlertState({
+        open: true,
+        text: 'Profile updated successfully',
+        severity: 'success',
+      });
+    } catch (error) {
+      setAlertState({
+        open: true,
+        text: 'Error updating profile',
+        severity: 'error',
+      });
     }
-    if (!errorMutation) setIsEditing(false);
   };
 
   return (
