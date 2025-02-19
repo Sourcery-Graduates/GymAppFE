@@ -7,6 +7,12 @@
   color: $accent-color;
   white-space: nowrap;
 
+  &:disabled {
+    pointer-events: none;
+    border: 1px solid $text-color;
+    color: $text-color;
+  }
+
   & span {
     display: flex;
     align-items: center;

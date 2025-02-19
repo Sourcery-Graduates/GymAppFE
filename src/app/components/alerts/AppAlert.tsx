@@ -1,4 +1,4 @@
-import { Snackbar, Alert, AlertColor } from '@mui/material';
+import { Snackbar, Alert, AlertColor, SxProps, Theme } from '@mui/material';
 import React from 'react';
 
 interface AppAlertProps {
@@ -7,15 +7,17 @@ interface AppAlertProps {
   text: string;
   severity: AlertColor;
   autoHideDuration?: number;
+  sx?: SxProps<Theme>;
 }
 
-const AppAlert: React.FC<AppAlertProps> = ({ open, onClose, text, severity, autoHideDuration = 3000 }) => {
+const AppAlert: React.FC<AppAlertProps> = ({ sx, open, onClose, text, severity, autoHideDuration = 3000 }) => {
   return (
     <Snackbar
       open={open}
       autoHideDuration={autoHideDuration}
       onClose={onClose}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      sx={sx}
     >
       <Alert onClose={onClose} severity={severity} sx={{ width: '100%' }}>
         {text}
