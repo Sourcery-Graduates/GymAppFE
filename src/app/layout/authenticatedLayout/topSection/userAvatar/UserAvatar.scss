@@ -9,6 +9,12 @@
 	.user_icon {
 		color: $text-color;
 	}
+
+	.avatar-image {
+		background-color: $accent-color;
+		width: 30px;
+		height: 30px;
+	}
 }
 
 .user_menu .MuiPaper-root {

@@ -1,42 +1,92 @@
-import '../MyProfile.scss';
-import { Avatar, Button, TextField } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
+import { Avatar, Button, Input, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './validationSchema';
 import { Profile } from '@/types/entities/UserProfile';
 import AppAlert from '@/app/components/alerts/AppAlert';
 import { useState } from 'react';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import '../MyProfile.scss';
+import './ProfileUpdate.scss';
+import { AppAlertState } from '@/types/entities/AppAlert';
 
 interface ProfileUpdateProps {
   cancelAction: () => void;
-  saveAction: (profile: Profile) => void;
+  saveAction: (profile: Profile, formData: FormData | null) => void;
   profile: Profile;
 }
 
-const ProfileUpdate = (props: ProfileUpdateProps) => {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const handleClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') return;
-    setSnackbarOpen(false); // Close Snackbar
-  };
+enum AllowedFileTypes {
+  jpg = 'image/jpg',
+  jpeg = 'image/jpeg',
+  png = 'image/png',
+  gif = 'image/gif',
+}
 
+const ProfileUpdate = (props: ProfileUpdateProps) => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [alertState, setAlertState] = useState<AppAlertState>({
+    open: false,
+    text: '',
+    severity: 'error',
+  });
+  const MAX_FILE_SIZE = 1048576; // 1MB
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues: props.profile,
+    defaultValues: {
+      firstName: props.profile.firstName,
+      lastName: props.profile.lastName,
+      username: props.profile.username,
+      bio: props.profile.bio,
+      location: props.profile.location,
+    },
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = async (data: Profile) => {
+  const onSubmit = async (data) => {
     try {
-      await props.saveAction(data); // Await mutation
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        setSelectedFile(null);
+        props.saveAction(data, formData);
+        return;
+      }
+      props.saveAction(data, null);
+      return;
     } catch (error) {
-      if (error) setSnackbarOpen(true);
+      setAlertState({
+        open: true,
+        text: 'Profile data could not be saved',
+        severity: 'error',
+      });
     }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > MAX_FILE_SIZE) {
+      setAlertState({
+        open: true,
+        text: 'File size must be less than 1MB',
+        severity: 'error',
+      });
+      return;
+    }
+    if (!Object.values(AllowedFileTypes).includes(file.type as AllowedFileTypes)) {
+      setAlertState({
+        open: true,
+        text: 'File type not allowed',
+        severity: 'error',
+      });
+      return;
+    }
+    setSelectedFile(file);
   };
 
   const onCancel = () => {
@@ -44,9 +94,28 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
     props.cancelAction();
   };
 
+  const handleSnackbarClose = () => {
+    setAlertState({ ...alertState, open: false });
+  };
+
   return (
     <form className='container' onSubmit={handleSubmit(onSubmit)}>
-      <Avatar src={props.profile.avatarUrl} className='avatar-image' sx={{ bgcolor: deepPurple[500] }}></Avatar>
+      <div className='profile-photo'>
+        <Avatar
+          src={selectedFile ? URL.createObjectURL(selectedFile) : props.profile.avatarUrl}
+          className='avatar-image'
+        ></Avatar>
+        <Button
+          component='label'
+          variant='outlined'
+          color='info'
+          startIcon={<CloudUploadIcon />}
+          className='profile-photo__button'
+        >
+          Upload photo
+          <Input type='file' onChange={handleFileUpload} className='profile-photo__input' />
+        </Button>
+      </div>
       <div className='profile-data-container'>
         <TextField
           label='Firstname'
@@ -111,10 +180,10 @@ const ProfileUpdate = (props: ProfileUpdateProps) => {
         </div>
       </div>
       <AppAlert
-        open={snackbarOpen}
-        onClose={handleClose}
-        text='Error saving profile data. Please try again later.'
-        severity='error'
+        open={alertState.open}
+        onClose={handleSnackbarClose}
+        text={alertState.text}
+        severity={alertState.severity}
       />
     </form>
   );
