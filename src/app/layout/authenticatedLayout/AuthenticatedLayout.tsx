@@ -10,11 +10,11 @@ import useAuth from '@/app/common/hooks/useAuth';
 
 const AuthenticatedLayout = () => {
   const location = useLocation();
-  const { logOutUser } = useAuth();
+  const { logOut } = useAuth();
 
   useEffect(() => {
     if (autoLogoutLocations.includes(location.pathname)) {
-      logOutUser();
+      logOut();
     }
   }, []);
 

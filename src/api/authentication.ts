@@ -1,5 +1,5 @@
 import api from '@/config/axios/config';
-import { ForgotPasswordForm, LoginResponse, PasswordChangeRequest, Register } from '@/types/entities/Authentication';
+import { ForgotPasswordForm, PasswordChangeRequest, Register } from '@/types/entities/Authentication';
 
 const baseUrl = 'api/auth';
 
@@ -10,20 +10,6 @@ export enum Auth_Endpoint {
   REGISTER = `${baseUrl}/register`,
   REGISTER_VERIFICATION = `${baseUrl}/register/verification`,
 }
-
-export const loginUser = async (username: string, password: string, stayLoggedIn: boolean): Promise<void> => {
-  const basicAuthHeader = btoa(`${username}:${password}`);
-  const config = { headers: { Authorization: 'Basic ' + basicAuthHeader } };
-
-  const response = await api.get(Auth_Endpoint.LOGIN, config);
-  const data: LoginResponse = response.data;
-
-  if (stayLoggedIn) {
-    localStorage.setItem('token', data.token);
-  } else {
-    sessionStorage.setItem('token', data.token);
-  }
-};
 
 export const registerUser = async (requestBody: Register): Promise<void> => {
   await api.post(Auth_Endpoint.REGISTER, requestBody);
@@ -45,4 +31,61 @@ export const passwordReset = async (requestBody: ForgotPasswordForm): Promise<st
   const response = await api.post(Auth_Endpoint.PASSWORD_RESET, requestBody);
   const data: string = response.data;
   return data;
+};
+
+export const logoutRequest = async () => {
+  try {
+    await fetch("http://localhost:8080/oauth2/logout", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    localStorage.removeItem("ROCP_token");
+    localStorage.removeItem("ROCP_idToken");
+    localStorage.removeItem("ROCP_tokenExpire");
+    sessionStorage.removeItem("ROCP_token");
+    sessionStorage.removeItem("ROCP_idToken");
+    sessionStorage.removeItem("ROCP_tokenExpire");
+
+    window.location.href = "/login";
+  } catch (error) {
+    console.error("Error during logout: ", error);
+  }
+};
+
+export const refreshAccessToken = async () => {
+  try {
+    const response = await fetch('http://localhost:8080/oauth2/token', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        grant_type: 'refresh_token',
+        client_id: 'public-client',
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error updating tokens');
+    }
+
+    const data = await response.json();
+
+    localStorage.setItem('ROCP_token', data.access_token);
+    if (data.id_token) {
+      localStorage.setItem('ROCP_idToken', data.id_token);
+    }
+    localStorage.setItem('ROCP_tokenExpire', (Math.floor(Date.now() / 1000) + data.expires_in).toString());
+
+  } catch (error) {
+    console.error('Error updating tokens\':', error);
+    localStorage.removeItem('ROCP_token');
+    localStorage.removeItem('ROCP_idToken');
+    window.location.href = '/login';
+  }
 };

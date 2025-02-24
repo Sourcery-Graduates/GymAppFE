@@ -6,7 +6,11 @@ const api: AxiosInstance = axios.create({
 });
 
 export const getToken = (): string | null => {
-  return localStorage.getItem('token') ?? sessionStorage.getItem('token');
+  let token = localStorage.getItem('ROCP_token') ?? sessionStorage.getItem('ROCP_token');
+  if (token?.startsWith('"') && token?.endsWith('"')) {
+    token = token.slice(1, -1);
+  }
+  return token || null;
 };
 
 api.interceptors.request.use((config) => {
@@ -21,9 +25,9 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-const excludeUrl = (configUrl: string | undefined): boolean => {
-  const path = 'api/auth';
-  return configUrl?.includes(path) ?? false;
+const excludeUrl = (configUrl: string | undefined): boolean =>  {
+  const excludedPaths = ['oauth2', 'api/auth'];
+  return excludedPaths.some(path => configUrl?.includes(path));
 };
 
 export default api;

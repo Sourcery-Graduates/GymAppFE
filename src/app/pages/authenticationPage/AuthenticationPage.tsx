@@ -28,12 +28,7 @@ const AuthenticationPage = () => {
   return (
     <div className='authentication_form'>
       {currentForm === CurrentAuthenticationForm.LOGIN_FORM && (
-        <LoginPage
-          setSnackbarOpen={setSnackbarOpen}
-          setSnackbarText={setSnackbarText}
-          setSnackbarSeverity={setSnackbarSeverity}
-          setCurrentForm={setCurrentForm}
-        />
+        <LoginPage />
       )}
       {currentForm === CurrentAuthenticationForm.REGISTER_FORM && (
         <RegisterPage

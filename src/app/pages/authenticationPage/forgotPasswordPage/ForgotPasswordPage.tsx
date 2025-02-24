@@ -9,20 +9,12 @@ import { useMutation } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import Footer from '@/app/layout/notAuthenticatedLayout/footer/Footer';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { AppRoutes } from '@/types/routes.ts';
+import AppAlert from '@/app/components/alerts/AppAlert.tsx';
 
-interface ForgotPasswordPageProps {
-  setCurrentForm: React.Dispatch<React.SetStateAction<CurrentAuthenticationForm>>;
-  setSnackbarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
-  setSnackbarSeverity: React.Dispatch<React.SetStateAction<AlertColor>>;
-}
-
-const ForgotPasswordPage = ({
-  setCurrentForm,
-  setSnackbarOpen,
-  setSnackbarText,
-  setSnackbarSeverity,
-}: ForgotPasswordPageProps) => {
+const ForgotPasswordPage = () => {
   const {
     register,
     handleSubmit,
@@ -36,6 +28,18 @@ const ForgotPasswordPage = ({
     resolver: yupResolver(forgotPasswordValidationSchema),
   });
 
+  const navigate = useNavigate();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarText, setSnackbarText] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<AlertColor>('info');
+
+  const handleSnackbarClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason && reason !== 'timeout') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
   const { mutate } = useMutation({
     mutationFn: async (data: ForgotPasswordForm) => {
       await passwordReset(data);
@@ -44,8 +48,8 @@ const ForgotPasswordPage = ({
       setSnackbarOpen(true);
       setSnackbarText('Email with password reset was send to your email address');
       setSnackbarSeverity('success');
-      setCurrentForm(CurrentAuthenticationForm.LOGIN_FORM);
       reset();
+      navigate(AppRoutes.LOGIN);
     },
     onError: (error: AxiosError) => {
       setSnackbarOpen(true);
@@ -80,12 +84,13 @@ const ForgotPasswordPage = ({
         </Button>
         <p
           className='forgot_password_login_redirect'
-          onClick={() => setCurrentForm(CurrentAuthenticationForm.LOGIN_FORM)}
+          onClick={() => navigate(AppRoutes.LOGIN)}
         >
           Return to login page
         </p>
       </form>
       <Footer />
+      <AppAlert open={snackbarOpen} onClose={handleSnackbarClose} text={snackbarText} severity={snackbarSeverity} />
     </div>
   );
 };
