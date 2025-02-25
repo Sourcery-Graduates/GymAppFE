@@ -4,7 +4,6 @@ import { ForgotPasswordForm, PasswordChangeRequest, Register } from '@/types/ent
 const baseUrl = 'api/auth';
 
 export enum Auth_Endpoint {
-  LOGIN = `${baseUrl}/authenticate`,
   PASSWORD_CHANGE = `${baseUrl}/password/change`,
   PASSWORD_RESET = `${baseUrl}/password/reset`,
   REGISTER = `${baseUrl}/register`,
@@ -33,9 +32,11 @@ export const passwordReset = async (requestBody: ForgotPasswordForm): Promise<st
   return data;
 };
 
+const authUrl = import.meta.env.VITE_AUTH_URL;
+
 export const logoutRequest = async () => {
   try {
-    await fetch("http://localhost:8080/oauth2/logout", {
+    await fetch(`${authUrl}/logout`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -58,7 +59,7 @@ export const logoutRequest = async () => {
 
 export const refreshAccessToken = async () => {
   try {
-    const response = await fetch('http://localhost:8080/oauth2/token', {
+    const response = await fetch(`${authUrl}/token`, {
       method: 'POST',
       credentials: 'include',
       headers: {

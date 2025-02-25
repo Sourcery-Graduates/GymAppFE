@@ -1,12 +1,13 @@
 import { TAuthConfig } from 'react-oauth2-code-pkce';
 
-//TODO: add env dependencies (local + remote)
+const authUrl = import.meta.env.VITE_AUTH_URL;
+const redirectUri = import.meta.env.VITE_REDIRECT_URI;
 
 export const oauth2Config: TAuthConfig = {
   clientId: 'public-client',
-  authorizationEndpoint: 'http://localhost:8080/oauth2/authorize',
-  tokenEndpoint: 'http://localhost:8080/oauth2/token',
-  redirectUri: 'http://localhost:3000/',
+  authorizationEndpoint: `${authUrl}/authorize`,
+  tokenEndpoint: `${authUrl}/token`,
+  redirectUri: `${redirectUri}`,
   scope: 'openid profile',
   storage: 'local',
   decodeToken: true,
