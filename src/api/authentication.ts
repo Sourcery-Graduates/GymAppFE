@@ -43,15 +43,6 @@ export const logoutRequest = async () => {
         "Content-Type": "application/json",
       },
     });
-
-    localStorage.removeItem("ROCP_token");
-    localStorage.removeItem("ROCP_idToken");
-    localStorage.removeItem("ROCP_tokenExpire");
-    sessionStorage.removeItem("ROCP_token");
-    sessionStorage.removeItem("ROCP_idToken");
-    sessionStorage.removeItem("ROCP_tokenExpire");
-
-    window.location.href = "/login";
   } catch (error) {
     console.error("Error during logout: ", error);
   }

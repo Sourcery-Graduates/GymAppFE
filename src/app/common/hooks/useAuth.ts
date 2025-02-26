@@ -68,12 +68,37 @@ const useAuth = () => {
       refreshTimeout.current = undefined;
     }
     await logoutRequest();
+    localStorage.removeItem("ROCP_token");
+    localStorage.removeItem("ROCP_idToken");
+    localStorage.removeItem("ROCP_tokenExpire");
+    sessionStorage.removeItem("ROCP_token");
+    sessionStorage.removeItem("ROCP_idToken");
+    sessionStorage.removeItem("ROCP_tokenExpire");
+
+    window.location.href = "/login";
+  };
+
+  const logOutLocally = async () => {
+    if (refreshTimeout.current) {
+      window.clearTimeout(refreshTimeout.current);
+      refreshTimeout.current = undefined;
+    }
+    await logoutRequest();
+    localStorage.removeItem("ROCP_token");
+    localStorage.removeItem("ROCP_idToken");
+    localStorage.removeItem("ROCP_tokenExpire");
+    sessionStorage.removeItem("ROCP_token");
+    sessionStorage.removeItem("ROCP_idToken");
+    sessionStorage.removeItem("ROCP_tokenExpire");
+
+    window.location.reload();
   };
 
   return {
     isAuthenticated: !!auth.token,
     login: auth.logIn,
     logOut: logout,
+    logOutLocally,
     token: auth.token,
     error: auth.error,
     username: decodedToken?.sub,
