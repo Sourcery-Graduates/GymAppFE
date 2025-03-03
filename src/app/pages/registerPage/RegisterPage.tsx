@@ -1,6 +1,6 @@
-import { registerUser } from '@/api/authentication';
-import Button from '@/app/components/buttons/Button/Button';
-import { Register, registerValidationSchema } from '@/types/entities/Authentication';
+import { registerUser } from '@/api/authentication.ts';
+import Button from '@/app/components/buttons/Button/Button.tsx';
+import { Register, registerValidationSchema } from '@/types/entities/Authentication.ts';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AlertColor, Box, IconButton, InputAdornment, Step, StepLabel, Stepper, TextField } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
@@ -8,7 +8,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import './RegisterPage.scss';
 import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import Footer from '@/app/layout/notAuthenticatedLayout/footer/Footer';
+import Footer from '@/app/layout/notAuthenticatedLayout/footer/Footer.tsx';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '@/types/routes.ts';
 import AppAlert from '@/app/components/alerts/AppAlert.tsx';

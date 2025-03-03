@@ -18,9 +18,9 @@ import RoutineUpdate from '@/app/pages/routines/routineForm/routineUpdate/Routin
 import Routines from '@/app/pages/routines/Routines';
 import { AppRoutes } from '@/types/routes';
 import useAuth from '@/app/common/hooks/useAuth.ts';
-import ForgotPasswordPage from '@/app/pages/authenticationPage/forgotPasswordPage/ForgotPasswordPage.tsx';
-import RegisterPage from '@/app/pages/authenticationPage/registerPage/RegisterPage.tsx';
-import LoginPage from '@/app/pages/authenticationPage/loginPage/LoginPage.tsx';
+import ForgotPasswordPage from '@/app/pages/forgotPasswordPage/ForgotPasswordPage.tsx';
+import RegisterPage from '@/app/pages/registerPage/RegisterPage.tsx';
+import LoginPage from '@/app/pages/loginPage/LoginPage.tsx';
 
 function App() {
   const { isAuthenticated } = useAuth();
