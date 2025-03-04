@@ -1,6 +1,6 @@
-import { registerUser } from '@/api/authentication';
-import Button from '@/app/components/buttons/Button/Button';
-import { Register, registerValidationSchema } from '@/types/entities/Authentication';
+import { registerUser } from '@/api/authentication.ts';
+import Button from '@/app/components/buttons/Button/Button.tsx';
+import { Register, registerValidationSchema } from '@/types/entities/Authentication.ts';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AlertColor, Box, IconButton, InputAdornment, Step, StepLabel, Stepper, TextField } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
@@ -8,20 +8,26 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import './RegisterPage.scss';
 import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { CurrentAuthenticationForm } from '@/app/pages/authenticationPage/AuthenticationPage';
-import Footer from '@/app/layout/notAuthenticatedLayout/footer/Footer';
+import Footer from '@/app/layout/notAuthenticatedLayout/footer/Footer.tsx';
+import { useNavigate } from 'react-router-dom';
+import { AppRoutes } from '@/types/routes.ts';
+import AppAlert from '@/app/components/alerts/AppAlert.tsx';
 
-interface RegisterPageProps {
-  setCurrentForm: React.Dispatch<React.SetStateAction<CurrentAuthenticationForm>>;
-  setSnackbarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setSnackbarText: React.Dispatch<React.SetStateAction<string>>;
-  setSnackbarSeverity: React.Dispatch<React.SetStateAction<AlertColor>>;
-}
-
-const RegisterPage = ({ setCurrentForm, setSnackbarOpen, setSnackbarText, setSnackbarSeverity }: RegisterPageProps) => {
+const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState(0);
   const steps = ['Email', 'Username', 'Bio'];
+  const navigate = useNavigate();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarText, setSnackbarText] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<AlertColor>('info');
+
+  const handleSnackbarClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason && reason !== 'timeout') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   const handleNext = async () => {
     let fieldsToValidate: (keyof Register)[] = [];
@@ -79,8 +85,8 @@ const RegisterPage = ({ setCurrentForm, setSnackbarOpen, setSnackbarText, setSna
       setSnackbarOpen(true);
       setSnackbarText('Account created, verify by link in email!');
       setSnackbarSeverity('success');
-      setCurrentForm(CurrentAuthenticationForm.LOGIN_FORM);
       reset();
+      navigate(AppRoutes.LOGIN);
     },
     onError: (error) => {
       setSnackbarOpen(true);
@@ -259,13 +265,14 @@ const RegisterPage = ({ setCurrentForm, setSnackbarOpen, setSnackbarText, setSna
         <div className='register_form_text'>
           <p
             className='register_form_text_swap_form'
-            onClick={() => setCurrentForm(CurrentAuthenticationForm.LOGIN_FORM)}
+            onClick={() => navigate(AppRoutes.LOGIN)}
           >
             Already have an account? Log in here
           </p>
           <Footer />
         </div>
       </div>
+      <AppAlert open={snackbarOpen} onClose={handleSnackbarClose} text={snackbarText} severity={snackbarSeverity} />
     </>
   );
 };

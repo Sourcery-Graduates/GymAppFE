@@ -13,7 +13,7 @@ interface ProfileReadProps {
 }
 
 const ProfileRead = (props: ProfileReadProps) => {
-  const { logOutUser } = useAuth();
+  const { logOut } = useAuth();
 
   const [snackbarOpen, setSnackbarOpen] = useState(props.errorLoading);
   const handleClose = (_?: React.SyntheticEvent | Event, reason?: string) => {
@@ -43,7 +43,7 @@ const ProfileRead = (props: ProfileReadProps) => {
         </div>
 
         <div className='form-control'>
-          <Button variant='outlined' color='error' onClick={logOutUser}>
+          <Button variant='outlined' color='error' onClick={() => logOut()}>
             Logout
           </Button>
           <Button variant='outlined' color='warning' onClick={props.editAction}>

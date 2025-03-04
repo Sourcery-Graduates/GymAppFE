@@ -11,7 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getMyUserProfile } from '@/api/userProfileApi';
 
 const UserAvatar = () => {
-  const { logOutUser } = useAuth();
+  const { logOut } = useAuth();
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -32,7 +32,7 @@ const UserAvatar = () => {
 
   const handleLogoutClick = (): void => {
     handleMenuClose();
-    logOutUser();
+    logOut();
   };
 
   const handleOptionsClick = (): void => {
