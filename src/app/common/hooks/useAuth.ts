@@ -62,35 +62,28 @@ const useAuth = () => {
     scheduleTokenRefresh();
   }, [auth.token]);
 
-  const logout = async () => {
+  const clearAuthState = async () => {
     if (refreshTimeout.current) {
       window.clearTimeout(refreshTimeout.current);
       refreshTimeout.current = undefined;
     }
-    await logoutRequest();
-    localStorage.removeItem("ROCP_token");
-    localStorage.removeItem("ROCP_idToken");
-    localStorage.removeItem("ROCP_tokenExpire");
-    sessionStorage.removeItem("ROCP_token");
-    sessionStorage.removeItem("ROCP_idToken");
-    sessionStorage.removeItem("ROCP_tokenExpire");
 
+    await logoutRequest();
+
+    const authKeys = ["ROCP_token", "ROCP_idToken", "ROCP_tokenExpire"];
+    authKeys.forEach(key => {
+      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
+    });
+  };
+
+  const logout = async () => {
+    await clearAuthState();
     window.location.href = "/login";
   };
 
   const logOutLocally = async () => {
-    if (refreshTimeout.current) {
-      window.clearTimeout(refreshTimeout.current);
-      refreshTimeout.current = undefined;
-    }
-    await logoutRequest();
-    localStorage.removeItem("ROCP_token");
-    localStorage.removeItem("ROCP_idToken");
-    localStorage.removeItem("ROCP_tokenExpire");
-    sessionStorage.removeItem("ROCP_token");
-    sessionStorage.removeItem("ROCP_idToken");
-    sessionStorage.removeItem("ROCP_tokenExpire");
-
+    await clearAuthState();
     window.location.reload();
   };
 
