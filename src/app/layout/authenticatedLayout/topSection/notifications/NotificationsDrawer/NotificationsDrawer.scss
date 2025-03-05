@@ -7,7 +7,7 @@
     border-left: 1px solid $secondary-color;
 
     @media (min-width: $breakpoint-phone) {
-      width: 350px;
+      width: 400px;
     }
 
     @media (max-width: $breakpoint-phone) {
@@ -17,6 +17,6 @@
   }
 
   svg {
-    color: $text-color; 
+    color: $text-color;
   }
 }

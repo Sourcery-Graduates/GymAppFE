@@ -1,12 +1,14 @@
-import { Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useMediaQuery } from "@mui/material";
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import { Box, Drawer, IconButton, List, useMediaQuery } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import './NotificationsDrawer.scss';
+import NotificationItem from "./NotificationItem";
 
 export type NotificationsDrawerProps = {
     open: boolean;
     closeHandler: (value: boolean) => void;
 }
+
+const testData = {"totalPages":1,"totalElements":2,"data":[{"ownerId":"844f7756-1a97-4dd8-b9da-fc8b1ce4ab54","routineId":"bc267b85-ea6f-4af7-8cb5-baabc7630100","likesCount":-1,"routineTitle":"Weekly presentation routine","createdAt":"2025-02-27T14:20:37.94381"},{"ownerId":"844f7756-1a97-4dd8-b9da-fc8b1ce4ab54","routineId":"60debffd-9b2d-4e2f-a923-ba01146c2115","likesCount":1,"routineTitle":"Mewing routine","createdAt":"2025-02-26T23:33:49.383197"}]}
 
 const NotificationsDrawer = ({ open, closeHandler }: NotificationsDrawerProps) => {
   const isPhoneScreen = useMediaQuery('(min-width:480px)');
@@ -24,15 +26,8 @@ const NotificationsDrawer = ({ open, closeHandler }: NotificationsDrawerProps) =
                 </IconButton>
             </Box>
           <List>
-            {['All mail', 'Trash', 'Spam'].map((text) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <NotificationsIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
+            {testData.data.map((notification) => (
+              <NotificationItem {...notification} setNotificationDrawerOpen={closeHandler}/>
             ))}
           </List>
         </Drawer>
