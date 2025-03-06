@@ -1,37 +1,77 @@
-import { Box, Drawer, IconButton, List, useMediaQuery } from "@mui/material";
+import { Box, Button, Drawer, IconButton, List, Typography, useMediaQuery } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import './NotificationsDrawer.scss';
-import NotificationItem from "./NotificationItem";
+import NotificationItem from './NotificationItem';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { fetchLikeNotifications } from '@/api/likeNotificationApi';
 
 export type NotificationsDrawerProps = {
-    open: boolean;
-    closeHandler: (value: boolean) => void;
-}
-
-const testData = {"totalPages":1,"totalElements":2,"data":[{"ownerId":"844f7756-1a97-4dd8-b9da-fc8b1ce4ab54","routineId":"bc267b85-ea6f-4af7-8cb5-baabc7630100","likesCount":-1,"routineTitle":"Weekly presentation routine","createdAt":"2025-02-27T14:20:37.94381"},{"ownerId":"844f7756-1a97-4dd8-b9da-fc8b1ce4ab54","routineId":"60debffd-9b2d-4e2f-a923-ba01146c2115","likesCount":1,"routineTitle":"Mewing routine","createdAt":"2025-02-26T23:33:49.383197"}]}
+  open: boolean;
+  closeHandler: (value: boolean) => void;
+};
 
 const NotificationsDrawer = ({ open, closeHandler }: NotificationsDrawerProps) => {
   const isPhoneScreen = useMediaQuery('(min-width:480px)');
-  
-    return (
-        <Drawer
-            className="likes-notification-drawer"
-            anchor={isPhoneScreen ? "right" : "bottom"}
-            open={open}
-            onClose={() => closeHandler(false)}
-        >
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: 1 }}>
-                <IconButton onClick={() => closeHandler(false)}>
-                    <CloseIcon />
-                </IconButton>
-            </Box>
-          <List>
-            {testData.data.map((notification) => (
-              <NotificationItem {...notification} setNotificationDrawerOpen={closeHandler}/>
-            ))}
-          </List>
-        </Drawer>
-    );
-}
+  const queryClient = useQueryClient();
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ['like-notifications'],
+    queryFn: ({ pageParam }) => fetchLikeNotifications(pageParam, 5),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage = allPages.length;
+      return nextPage < lastPage.totalPages ? nextPage : undefined;
+    },
+  });
+
+  const drawerCloseHandler = () => {
+    closeHandler(false);
+    queryClient.invalidateQueries({ queryKey: ['like-notifications'] });
+  };
+
+  return (
+    <Drawer
+      className='likes-notification-drawer'
+      anchor={isPhoneScreen ? 'right' : 'bottom'}
+      open={open}
+      onClose={drawerCloseHandler}
+    >
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: 1 }}>
+        <IconButton onClick={drawerCloseHandler}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
+      <List>
+        {data?.pages.map((page) =>
+          page.data.map((notification) => (
+            <NotificationItem
+              key={notification.routineId + notification.createdAt}
+              {...notification}
+              setNotificationDrawerOpen={closeHandler}
+            />
+          )),
+        )}
+
+        <div className='like-notification-controll'>
+          {hasNextPage ? (
+            <Button
+              variant='outlined'
+              color='info'
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              variant='outlined'
+            >
+              Load More
+            </Button>
+          ) : (
+            <Typography variant='body2' color='textPrimary'>
+              You have seen all info up-to-date
+            </Typography>
+          )}
+        </div>
+      </List>
+    </Drawer>
+  );
+};
 
 export default NotificationsDrawer;

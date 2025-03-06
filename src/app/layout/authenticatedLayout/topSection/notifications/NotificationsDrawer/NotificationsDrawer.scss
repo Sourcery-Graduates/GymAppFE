@@ -5,6 +5,7 @@
     background-color: $primary-color;
     color: $text-color;
     border-left: 1px solid $secondary-color;
+    overflow-y: auto;
 
     @media (min-width: $breakpoint-phone) {
       width: 400px;
@@ -12,7 +13,15 @@
 
     @media (max-width: $breakpoint-phone) {
       width: 100%;
-      height: 80%;
+      height: 100%;
+    }
+
+    .like-notification-controll {
+      display: flex;
+      justify-content: center;
+      padding-bottom: 10px;
+      padding-top: 20px;
+      color: grey;
     }
   }
 
