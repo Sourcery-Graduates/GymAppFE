@@ -11,7 +11,8 @@ export type NotificationItemProps = {
 
 const NotificationItem = (props: NotificationItemProps) => {
   const likeCountPositive = props.likesCount > 0;
-  const notificationText = `Your routine '${props.routineTitle}' ${likeCountPositive ? 'received' : 'lost'} ${Math.abs(props.likesCount)} likes.`;
+  const likeWord = Math.abs(props.likesCount) === 1 ? "like" : "likes";
+  const notificationText = `Your routine '${props.routineTitle}' ${likeCountPositive ? 'received' : 'lost'} ${Math.abs(props.likesCount)} ${likeWord}.`;
   const formattedDate = dayjs(props.createdAt).toDate().toLocaleDateString();
   const navigate = useNavigate();
 
