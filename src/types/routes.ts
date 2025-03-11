@@ -1,6 +1,9 @@
 export enum AppRoutes {
   EXERCISES = '/exercises',
   HOME = '/',
+  LOGIN = '/login',
+  REGISTER = '/register',
+  FORGOT_PASSWORD = '/forgot-password',
   MY_PROFILE = '/my-profile',
   MY_TRAINING = '/my-training',
   OPTIONS = '/options',

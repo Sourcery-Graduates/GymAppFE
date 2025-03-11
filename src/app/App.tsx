@@ -1,8 +1,7 @@
 import '@/App.scss';
-import useAuth from '@/app/common/hooks/useAuth';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthenticatedLayout from '@/app/layout/authenticatedLayout/AuthenticatedLayout';
-import NotAutenticatedLayout from '@/app/layout/notAuthenticatedLayout/NotAuthenticatedLayout';
-import AuthenticationPage from '@/app/pages/authenticationPage/AuthenticationPage';
+import NotAuthenticatedLayout from '@/app/layout/notAuthenticatedLayout/NotAuthenticatedLayout';
 import ErrorPage from '@/app/pages/errorPage/ErrorPage';
 import Exercises from '@/app/pages/exercises/Exercises';
 import Home from '@/app/pages/home/Home';
@@ -18,16 +17,19 @@ import RoutineCreate from '@/app/pages/routines/routineForm/routineCreate/Routin
 import RoutineUpdate from '@/app/pages/routines/routineForm/routineUpdate/RoutineUpdate';
 import Routines from '@/app/pages/routines/Routines';
 import { AppRoutes } from '@/types/routes';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import useAuth from '@/app/common/hooks/useAuth.ts';
+import ForgotPasswordPage from '@/app/pages/forgotPasswordPage/ForgotPasswordPage.tsx';
+import RegisterPage from '@/app/pages/registerPage/RegisterPage.tsx';
+import LoginPage from '@/app/pages/loginPage/LoginPage.tsx';
 
 function App() {
-  const { isLoggedIn } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <BrowserRouter>
       <Routes>
-        {isLoggedIn ? (
-          <Route path={AppRoutes.HOME} element={<AuthenticatedLayout />}>
+        {isAuthenticated ? (
+          <Route element={<AuthenticatedLayout />}>
             <Route path={AppRoutes.HOME} element={<Home />} />
             <Route path={AppRoutes.ROUTINES} element={<Routines />} />
             <Route path={AppRoutes.WORKOUT_CREATE} element={<CreateWorkoutPage />} />
@@ -39,14 +41,17 @@ function App() {
             <Route path={AppRoutes.OPTIONS} element={<Options />} />
             <Route path={AppRoutes.MY_PROFILE} element={<MyProfile />} />
             <Route path={AppRoutes.EXERCISES} element={<Exercises />} />
-            <Route path='*' element={<ErrorPage />} />
+            <Route path="*" element={<ErrorPage />} />
           </Route>
         ) : (
-          <Route path={AppRoutes.HOME} element={<NotAutenticatedLayout />}>
-            <Route path={AppRoutes.HOME} element={<AuthenticationPage />} />
+          <Route element={<NotAuthenticatedLayout />}>
+            <Route path="*" element={<LoginPage />} />
+            <Route path={AppRoutes.HOME} element={<LoginPage />} />
+            <Route path={AppRoutes.LOGIN} element={<LoginPage />} />
+            <Route path={AppRoutes.REGISTER} element={<RegisterPage />} />
+            <Route path={AppRoutes.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
             <Route path={AppRoutes.REGISTRATION_VERIFICATION} element={<RegisterVerification />} />
             <Route path={AppRoutes.PASSWORD_CHANGE} element={<PasswordChange />} />
-            <Route path='*' element={<AuthenticationPage />} />
           </Route>
         )}
       </Routes>
