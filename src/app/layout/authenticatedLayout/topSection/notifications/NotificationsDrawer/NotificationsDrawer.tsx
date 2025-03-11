@@ -22,11 +22,12 @@ const NotificationsDrawer = ({ open, closeHandler }: NotificationsDrawerProps) =
       const nextPage = allPages.length;
       return nextPage < lastPage.totalPages ? nextPage : undefined;
     },
+    enabled: open,
   });
 
   const drawerCloseHandler = () => {
     closeHandler(false);
-    queryClient.invalidateQueries({ queryKey: ['like-notifications'] });
+    queryClient.removeQueries({ queryKey: ['like-notifications'] });
   };
 
   return (
@@ -54,13 +55,7 @@ const NotificationsDrawer = ({ open, closeHandler }: NotificationsDrawerProps) =
 
         <div className='like-notification-controll'>
           {hasNextPage ? (
-            <Button
-              variant='outlined'
-              color='info'
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-              variant='outlined'
-            >
+            <Button variant='outlined' color='info' onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
               Load More
             </Button>
           ) : (
