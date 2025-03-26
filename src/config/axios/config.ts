@@ -5,6 +5,12 @@ const api: AxiosInstance = axios.create({
   timeout: 5000,
 });
 
+const authApi: AxiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_AUTH_URL,
+  timeout: 5000,
+  withCredentials: true,
+});
+
 export const getToken = (): string | null => {
   let token = localStorage.getItem('ROCP_token') ?? sessionStorage.getItem('ROCP_token');
   if (token?.startsWith('"') && token?.endsWith('"')) {
@@ -30,4 +36,5 @@ const excludeUrl = (configUrl: string | undefined): boolean =>  {
   return excludedPaths.some(path => configUrl?.includes(path));
 };
 
+export { authApi };
 export default api;
