@@ -48,3 +48,32 @@ export default tseslint.config({
   },
 })
 ```
+## Testing
+### Unit tests
+
+Tests are developed using [Vitest](https://vitest.dev/) & React testing library
+
+To run tests locally install all dependencies: 
+``` bash
+npm install
+```
+
+Particular scripts could be used to run tests:
+```bash
+npm run test          // running all tests in CI mode
+npm run test:watch    // running all tests in interactive mode
+npm run test:unit     // running only unit tests
+```
+Tests are automatically run on push and pull request to main (workflow: Node - Run Vitest tests)
+
+Tests are placed in:
+```
+src/
+├── app/
+│   └── tests/
+│       └── unit/
+│           └── components/
+|
+├── setupTests.ts
+└── vite.config.ts
+```
