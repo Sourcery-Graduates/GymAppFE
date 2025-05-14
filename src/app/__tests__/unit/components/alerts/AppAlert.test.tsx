@@ -1,5 +1,6 @@
 import AppAlert from '@/app/components/alerts/AppAlert.tsx';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 
 describe('AppAlert', () => {
@@ -21,4 +22,15 @@ describe('AppAlert', () => {
 
     expect(alert).not.toBeInTheDocument();
   });
+
+  it('should call onClose when dismissed', async () => {
+  render(<AppAlert open={true} onClose={mockOnClose} text='Dismissable alert' severity='warning' />);
+  
+  const closeButton = screen.getByRole('button'); // get alert close button
+
+  await userEvent.click(closeButton);
+
+  expect(mockOnClose).toHaveBeenCalledTimes(1);
+});
+
 });
