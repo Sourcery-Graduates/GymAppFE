@@ -28,5 +28,7 @@ jobs:
       - name: Check Directory
         run: ls -R src/app/pages/home/
       - run: npm ci
+      - name: Run Vitest tests
+        run: npm run test
       - run: npm run build --if-present
-    # - run: npm test
+

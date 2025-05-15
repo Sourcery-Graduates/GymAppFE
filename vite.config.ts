@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { configDefaults } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
@@ -12,4 +13,10 @@ export default defineConfig(() => ({
 	resolve: {
 		alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
 	},
+	test: {
+		environment: 'jsdom',
+		globals: true,
+		exclude: [...configDefaults.exclude, 'e2e'],
+		setupFiles: 'src/setupTests.ts'
+	}
 }));
