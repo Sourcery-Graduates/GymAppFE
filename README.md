@@ -192,3 +192,35 @@ Focus on critical paths, edge cases, and user flows.
 
 Keep tests updated as features evolve.
 Deduplicate setup code and extract shared utilities where possible.
+
+### Automation tests
+
+Tests are developed using [Playwright](https://playwright.dev/).
+
+### ▶️ Running Tests
+
+Particular scripts could be used to run tests:
+```bash
+npm run test:playwright             // running all tests
+npm run test:playwright:headed      // running all tests in headed mode
+```
+
+### 📂 Test Structure
+
+Tests are located in the following directories:
+```
+e2e/
+├── pages/        # Contains page object classes
+└── tests/        # Automation tests for UI
+|
+|
+├── playwright.config.ts        # Global test setup
+```
+
+### 🔐 Environment configuration
+Copy the `.env.template` file to `.env.test` and fill in the required values.
+```bash
+# Credentials for logging
+USER_EMAIL=EMAIL
+USER_PASSWORD=PASSWORD
+```
