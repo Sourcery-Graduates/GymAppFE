@@ -21,4 +21,4 @@ test.describe("User login to GymApp", async () => {
     // Assert
     await expect(loginPage.credentialsError).toHaveText(expectedErrorMessage);
   });
-})
+});

@@ -12,5 +12,5 @@ export class LoginPage {
         this.passwordInput = this.page.getByRole('textbox', { name: 'Password' });
         this.loginButton = this.page.getByRole('button', { name: 'Login' });
         this.credentialsError = this.page.locator('#credentials-error-toast > div > span')
-    }
-}
+    };
+};
