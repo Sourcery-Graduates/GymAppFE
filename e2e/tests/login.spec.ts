@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
+import { HomePage } from '../pages/home.page';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
-import { HomePage } from '../pages/home.page';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env.test') });
 
@@ -43,5 +43,4 @@ test.describe("User login to GymApp", async () => {
     // Assert
     await expect(homePage.welcomeMessage).toHaveText(expectedWelcomeMessage);
   });
-
 });
