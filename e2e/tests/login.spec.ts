@@ -19,9 +19,7 @@ test.describe("User login to GymApp", async () => {
     const expectedErrorMessage = 'Invalid email or password. Please try again.'
 
     // Act
-    await loginPage.emailInput.fill(nonExistingEmail);
-    await loginPage.passwordInput.fill(nonExistingPassword);
-    await loginPage.loginButton.click();
+    await loginPage.login(nonExistingEmail, nonExistingPassword);
 
     // Assert
     await expect(loginPage.credentialsError).toHaveText(expectedErrorMessage);
@@ -36,9 +34,7 @@ test.describe("User login to GymApp", async () => {
     const expectedWelcomeMessage = 'Welcome to Gym App!'
 
     // Act
-    await loginPage.emailInput.fill(userEmail);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+    await loginPage.login(userEmail, userPassword);
 
     // Assert
     await expect(homePage.welcomeMessage).toHaveText(expectedWelcomeMessage);
