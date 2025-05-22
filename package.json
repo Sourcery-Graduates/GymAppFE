@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:unit": "vitest run src/app/__tests__/unit"
+    "test:unit": "vitest run src/app/__tests__/unit",
+    "test:playwright": "npx playwright test",
+    "test:playwright:headed": "npx playwright test --headed"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -50,6 +52,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "dotenv": "^16.5.0",
     "eslint": "^9.15.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",

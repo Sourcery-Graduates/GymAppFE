@@ -3,7 +3,7 @@ import './WelcomeMessage.scss';
 const WelcomeMessage = () => {
   return (
     <div className='welcome-message'>
-      <h1>
+      <h1 data-testid='welcome-message'>
         Welcome to <span className='welcome-message__app-name'>Gym App</span>!
       </h1>
 
