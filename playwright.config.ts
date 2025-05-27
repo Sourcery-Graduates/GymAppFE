@@ -32,23 +32,24 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
-  /* Configure projects for major browsers */
   projects: [
     {
-      name: 'setup authentication',
-      testMatch: ['**/setup.spec.ts'],
+      name: 'setup authentication', //login and store user storageState in json for use in e2e project
+      testMatch: ['tests/setup.spec.ts'],
       workers: 1,
     },
     {
-      name: 'login',
+      name: 'login', //project with tests that do not need login
       use: { ...devices['Desktop Chrome'] },
       testMatch: ['tests/login.spec.ts', 'tests/register.spec.ts'],
+      testIgnore: ['tests/setup.spec.ts'],
     },
     {
-      name: 'e2e',
+      name: 'e2e', //project in which all tests need authenticated user
       use: { ...devices['Desktop Chrome'], storageState: './e2e/.auth/user.json' },
       dependencies: ['setup authentication'],
-      testIgnore: ['tests/login.spec.ts', 'tests/register.spec.ts'],
+      testMatch: ['tests/*.spec.ts'],
+      testIgnore: ['tests/login.spec.ts', 'tests/register.spec.ts', 'tests/setup.spec.ts'],
     },
   ],
 
