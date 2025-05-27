@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "test:unit": "vitest run src/app/__tests__/unit",
     "test:playwright": "npx playwright test",
-    "test:playwright:headed": "npx playwright test --headed"
+    "test:playwright:headed": "npx playwright test --headed",
+    "test:e2e": "npx playwright test --project=e2e"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

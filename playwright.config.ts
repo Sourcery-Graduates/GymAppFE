@@ -34,7 +34,7 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'setup authentication', //login and store user storageState in json for use in e2e project
+      name: 'setup-authentication', //login and store user storageState in json for use in e2e project
       testMatch: ['tests/setup.spec.ts'],
       workers: 1,
     },
@@ -47,7 +47,7 @@ export default defineConfig({
     {
       name: 'e2e', //project in which all tests need authenticated user
       use: { ...devices['Desktop Chrome'], storageState: './e2e/.auth/user.json' },
-      dependencies: ['setup authentication'],
+      dependencies: ['setup-authentication'],
       testMatch: ['tests/*.spec.ts'],
       testIgnore: ['tests/login.spec.ts', 'tests/register.spec.ts', 'tests/setup.spec.ts'],
     },
