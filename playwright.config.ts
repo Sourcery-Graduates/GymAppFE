@@ -35,39 +35,21 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'setup authentication',
+      testMatch: ['**/setup.spec.ts'],
+      workers: 1,
     },
-
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+    {
+      name: 'login',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: ['tests/login.spec.ts', 'tests/register.spec.ts'],
+    },
+    {
+      name: 'e2e',
+      use: { ...devices['Desktop Chrome'], storageState: './e2e/.auth/user.json' },
+      dependencies: ['setup authentication'],
+      testIgnore: ['tests/login.spec.ts', 'tests/register.spec.ts'],
+    },
   ],
 
   /* Run your local dev server before starting the tests */
