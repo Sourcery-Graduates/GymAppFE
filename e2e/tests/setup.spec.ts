@@ -1,10 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
-import * as dotenv from 'dotenv';
-import * as path from 'path';
 import { HomePage } from '../pages/home.page';
-
-dotenv.config({ path: path.resolve(process.cwd(), '.env.test') });
 
 test('setup: authenticate user', async ({ page }) => {
   //Arrange
