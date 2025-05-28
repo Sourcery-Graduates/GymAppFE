@@ -22,7 +22,7 @@ export default tseslint.config({
       tsconfigRootDir: import.meta.dirname,
     },
   },
-})
+});
 ```
 
 - Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
@@ -31,7 +31,7 @@ export default tseslint.config({
 
 ```js
 // eslint.config.js
-import react from 'eslint-plugin-react'
+import react from 'eslint-plugin-react';
 
 export default tseslint.config({
   // Set the react version
@@ -46,9 +46,11 @@ export default tseslint.config({
     ...react.configs.recommended.rules,
     ...react.configs['jsx-runtime'].rules,
   },
-})
+});
 ```
+
 ## 🧪 Testing
+
 ### Unit tests
 
 Tests are developed using [Vitest](https://vitest.dev/) & [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
@@ -57,20 +59,23 @@ Vitest provides fast test execution and good integration with Vite Framework, wh
 
 ### 📦 Installation
 
-To run tests locally install all dependencies: 
-``` bash
+To run tests locally install all dependencies:
+
+```bash
 npm install
 ```
+
 ### ▶️ Running Tests
 
 Particular scripts could be used to run tests:
+
 ```bash
 npm run test          // running all tests in CI mode
 npm run test:watch    // running all tests in interactive mode
 npm run test:unit     // running only unit tests
 ```
 
-### ⚙️	CI Integration
+### ⚙️ CI Integration
 
 - Trigger: On push and pull request to the `main` branch
 - Runner: Github Actions
@@ -79,6 +84,7 @@ npm run test:unit     // running only unit tests
 ### 📂 Test Structure
 
 Tests are located in the following directories:
+
 ```
 src/
 ├── app/
@@ -98,6 +104,7 @@ src/
 1. Open relevant test file
 2. Set breakpoints where needed
 3. To use a launch configuration `Vitest: Debug Tests` add setup in .vscode/launch.json:
+
 ```json
 {
   "version": "0.2.0",
@@ -114,11 +121,14 @@ src/
   ]
 }
 ```
+
 4. Alternatively run test in interactive mode with flag `--watch` (script: `npm run test:watch`)
 
 For running one test you can use:
+
 1. Add in the test file `.only` : `it.only(...)`, `test.only(...)` or `describe.only(...)`
 2. Specify path to the test file in the command line script
+
 ```
 npm run test --src/app/tests/unit/components/AppAlert.test.tsx
 ```
@@ -151,6 +161,7 @@ test('should work', () => {
   // unclear test
 });
 ```
+
 ### 3️⃣ Prefer `screen queries` over manual DOM access
 
 Use semantic queries like **getByRole, getByText, getByLabelText**.
@@ -193,34 +204,76 @@ Focus on critical paths, edge cases, and user flows.
 Keep tests updated as features evolve.
 Deduplicate setup code and extract shared utilities where possible.
 
-### Automation tests
+## E2E Automated tests
 
 Tests are developed using [Playwright](https://playwright.dev/).
+
+### 📦 Installation
+
+To run tests locally install all dependencies:
+
+```bash
+npm install
+```
 
 ### ▶️ Running Tests
 
 Particular scripts could be used to run tests:
+
 ```bash
 npm run test:playwright             // running all tests
 npm run test:playwright:headed      // running all tests in headed mode
+npm run test:auth                   // running login and registration tests
+npm run test:app                    // running shared login tests with first generating new user session
 ```
 
 ### 📂 Test Structure
 
 Tests are located in the following directories:
+
 ```
 e2e/
-├── pages/        # Contains page object classes
-└── tests/        # Automation tests for UI
+├── pages/                        # Contains page object classes
+└── tests/
+|      └── application/           # Tests using shared login data
+|      └── authentication/        # Login and registration tests
+|      └── setup/                 # Setup autentication state that is reused in application tests
 |
 |
-├── playwright.config.ts        # Global test setup
+├── playwright.config.ts          # Global test setup
 ```
 
 ### 🔐 Environment configuration
+
 Copy the `.env.template` file to `.env.test` and fill in the required values.
+
 ```bash
 # Credentials for logging
 USER_EMAIL=EMAIL
 USER_PASSWORD=PASSWORD
 ```
+
+### 👤 Shared login using storageState
+
+To avoid repeating login step in every test, we use a shared authenticated session stored in `.auth/user.json`
+File will be created once `setup.spec.ts` or project `setup-authentication` is be run.
+To avoid expiration of storage state, setup is added to application project as a dependency - storage data will be generated each time application tests are run.
+
+**How it works:**
+
+1. **Login once** in a separate setup test file `setup.spec.ts` and save the session to `.auth/user.json`
+2. **Reuse setup authentication** as dependency in any test project that needs an authenticated user
+
+### 📋 Project Structure
+
+We use Playwright projects to separate test categories and apply different configurations:
+
+1. setup-authentication
+2. authentication
+3. application
+
+**Benefits of this approach:**
+
+- **Separation of concerns** - setup, authentication and application test are kept separately
+- **Selective configuration** - shared login used where needed (application project)
+- **Clear test management** - easier to run or skip specific test groups
