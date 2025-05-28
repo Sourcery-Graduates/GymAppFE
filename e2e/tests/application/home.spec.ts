@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/home.page';
+import { HomePage } from '../../pages/home.page';
 
 test('homepage is presented to the logged in user', async ({ page }) => {
   //Arrange

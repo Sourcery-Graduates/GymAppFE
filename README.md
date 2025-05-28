@@ -204,9 +204,17 @@ Focus on critical paths, edge cases, and user flows.
 Keep tests updated as features evolve.
 Deduplicate setup code and extract shared utilities where possible.
 
-## Automation tests
+## E2E Automated tests
 
 Tests are developed using [Playwright](https://playwright.dev/).
+
+### 📦 Installation
+
+To run tests locally install all dependencies:
+
+```bash
+npm install
+```
 
 ### ▶️ Running Tests
 
@@ -215,7 +223,8 @@ Particular scripts could be used to run tests:
 ```bash
 npm run test:playwright             // running all tests
 npm run test:playwright:headed      // running all tests in headed mode
-npm run test:e2e                    // running e2e tests with first generating new user session
+npm run test:auth                   // running login and registration tests
+npm run test:app                    // running shared login tests with first generating new user session
 ```
 
 ### 📂 Test Structure
@@ -224,11 +233,14 @@ Tests are located in the following directories:
 
 ```
 e2e/
-├── pages/        # Contains page object classes
-└── tests/        # Automation tests for UI
+├── pages/                        # Contains page object classes
+└── tests/
+|      └── application/           # Tests using shared login data
+|      └── authentication/        # Login and registration tests
+|      └── setup/                 # Setup autentication state that is reused in application tests
 |
 |
-├── playwright.config.ts        # Global test setup
+├── playwright.config.ts          # Global test setup
 ```
 
 ### 🔐 Environment configuration
@@ -244,6 +256,8 @@ USER_PASSWORD=PASSWORD
 ### 👤 Shared login using storageState
 
 To avoid repeating login step in every test, we use a shared authenticated session stored in `.auth/user.json`
+File will be created once `setup.spec.ts` or project `setup-authentication` is be run.
+To avoid expiration of storage state, setup is added to application project as a dependency - storage data will be generated each time application tests are run.
 
 **How it works:**
 
@@ -252,14 +266,14 @@ To avoid repeating login step in every test, we use a shared authenticated sessi
 
 ### 📋 Project Structure
 
-We use Playwright projects to separate test categories and apply diffrent configurations:
+We use Playwright projects to separate test categories and apply different configurations:
 
 1. setup-authentication
-2. login
-3. e2e
+2. authentication
+3. application
 
 **Benefits of this approach:**
 
-- **Separation of concerns** - setup, authentication and e2e test are kept separately
-- **Selective configuration** - shared login used where needed (e2e)
+- **Separation of concerns** - setup, authentication and application test are kept separately
+- **Selective configuration** - shared login used where needed (application project)
 - **Clear test management** - easier to run or skip specific test groups

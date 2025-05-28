@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/login.page';
-import { HomePage } from '../pages/home.page';
+import { LoginPage } from '../../pages/login.page';
+import { HomePage } from '../../pages/home.page';
 
 test('setup: authenticate user', async ({ page }) => {
   //Arrange
