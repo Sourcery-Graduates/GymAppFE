@@ -7,6 +7,7 @@ export class LoginPage {
     loginButton: Locator;
     credentialsError: Locator;
     welcomeMessage: Locator;
+    registerLink: Locator;
 
 
     constructor(private page: Page) {
@@ -15,6 +16,7 @@ export class LoginPage {
         this.loginButton = this.page.getByRole('button', { name: 'Login' });
         this.credentialsError = this.page.locator('#credentials-error-toast > div > span');
         this.welcomeMessage = this.page.getByTestId('welcome-message');
+        this.registerLink = this.page.locator("body > div > div.register-container > p > a");
     };
 
     async login(email: string, password: string): Promise<void> {
