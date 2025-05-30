@@ -12,9 +12,9 @@ test.describe('Registration tests', async () => {
   const testFirstName = registerData.userFirstName;
   const testLastName = registerData.userLastName;
 
-
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
+    registerPage = new RegisterPage(page);
 
     await page.goto('/');
     await loginPage.registerLink.click();
@@ -22,7 +22,6 @@ test.describe('Registration tests', async () => {
 
   test('register link redirects to registration form', async ({ page }) => {
     // Arrange
-    registerPage = new RegisterPage(page);
 
     // Assert
     await expect(page).toHaveURL('/register');
@@ -32,7 +31,6 @@ test.describe('Registration tests', async () => {
 
   test('registration fails when email field is empty', async ({ page }) => {
     // Arrange
-    registerPage = new RegisterPage(page);
     const expectedEmailErrorMessage = 'Email is required';
 
     // Act
@@ -46,7 +44,6 @@ test.describe('Registration tests', async () => {
 
   test('registration fails when password field is empty', async ({ page }) => {
     // Arrange
-    registerPage = new RegisterPage(page);
     const expectedPasswordErrorMessage = 'Password is required';
     const expectedMatchPasswordError = 'Passwords do not match';
 
@@ -62,7 +59,6 @@ test.describe('Registration tests', async () => {
 
   test('registration fails when confirm password field is empty', async ({ page }) => {
     // Arrange
-    registerPage = new RegisterPage(page);
     const expectedMatchPasswordError = 'Passwords do not match';
 
     // Act
@@ -76,7 +72,6 @@ test.describe('Registration tests', async () => {
 
   test('registration fails when username field is empty', async ({ page }) => {
     // Arrange
-    registerPage = new RegisterPage(page);
     const expectedUsernameError = 'Username is required';
 
     // Act
@@ -91,7 +86,6 @@ test.describe('Registration tests', async () => {
 
   test('registration fails when first name field is empty', async ({ page }) => {
     // Arrange
-    registerPage = new RegisterPage(page);
     const expectedFirstNameError = 'First name is required';
 
     // Act
@@ -106,7 +100,6 @@ test.describe('Registration tests', async () => {
 
   test('registration fails when last name field is empty', async ({ page }) => {
     // Arrange
-    registerPage = new RegisterPage(page);
     const expectedLastNameError = 'Last name is required';
 
     // Act
