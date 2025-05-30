@@ -21,15 +21,13 @@ test.describe('Registration tests', async () => {
   });
 
   test('register link redirects to registration form', async ({ page }) => {
-    // Arrange
-
     // Assert
     await expect(page).toHaveURL('/register');
     await expect(registerPage.emailInput).toBeVisible();
     await expect(registerPage.nextButton).toBeEnabled();
   });
 
-  test('registration fails when email field is empty', async ({ page }) => {
+  test('registration fails when email field is empty', async () => {
     // Arrange
     const expectedEmailErrorMessage = 'Email is required';
 
@@ -42,7 +40,7 @@ test.describe('Registration tests', async () => {
     await expect(registerPage.emailError).toHaveText(expectedEmailErrorMessage);
   });
 
-  test('registration fails when password field is empty', async ({ page }) => {
+  test('registration fails when password field is empty', async () => {
     // Arrange
     const expectedPasswordErrorMessage = 'Password is required';
     const expectedMatchPasswordError = 'Passwords do not match';
@@ -57,7 +55,7 @@ test.describe('Registration tests', async () => {
     await expect(registerPage.confirmPasswordError).toHaveText(expectedMatchPasswordError);
   });
 
-  test('registration fails when confirm password field is empty', async ({ page }) => {
+  test('registration fails when confirm password field is empty', async () => {
     // Arrange
     const expectedMatchPasswordError = 'Passwords do not match';
 
@@ -70,7 +68,7 @@ test.describe('Registration tests', async () => {
     await expect(registerPage.confirmPasswordError).toHaveText(expectedMatchPasswordError);
   });
 
-  test('registration fails when username field is empty', async ({ page }) => {
+  test('registration fails when username field is empty', async () => {
     // Arrange
     const expectedUsernameError = 'Username is required';
 
@@ -84,7 +82,7 @@ test.describe('Registration tests', async () => {
     await expect(registerPage.usernameError).toHaveText(expectedUsernameError);
   });
 
-  test('registration fails when first name field is empty', async ({ page }) => {
+  test('registration fails when first name field is empty', async () => {
     // Arrange
     const expectedFirstNameError = 'First name is required';
 
@@ -98,7 +96,7 @@ test.describe('Registration tests', async () => {
     await expect(registerPage.firstNameError).toHaveText(expectedFirstNameError);
   });
 
-  test('registration fails when last name field is empty', async ({ page }) => {
+  test('registration fails when last name field is empty', async () => {
     // Arrange
     const expectedLastNameError = 'Last name is required';
 
