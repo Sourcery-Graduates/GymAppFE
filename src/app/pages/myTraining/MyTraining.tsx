@@ -17,13 +17,14 @@ const MyTraining = () => {
   return (
     <div className='my-training'>
       <header className='my-training-header'>
-        <div className='my-training-title'> MY TRAININGS</div>
+        <div className='my-training-title' data-testid='my-training-title'>
+          MY TRAININGS
+        </div>
         <Select
           className='my-training-select'
           values={viewOptions}
           optionValue={optionValue}
           setOptionValue={setOptionValue}
-          data-testid='my-training-select'
         />
       </header>
       <div className='workout-container' data-testid='workout-container'>

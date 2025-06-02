@@ -11,9 +11,24 @@ test.describe('User with no workouts', async () => {
     const myTrainingPage = new MyTrainingPage(page);
     const title = 'MY TRAININGS';
     const defaultView = 'List';
+    const changedView = 'Calendar';
 
     //Assert
     await expect(myTrainingPage.title).toHaveText(title);
     await expect(myTrainingPage.selectView).toHaveValue(defaultView);
+    await expect(myTrainingPage.workoutList).toBeEmpty();
+
+    //Act
+    await myTrainingPage.selectView.selectOption('Calendar');
+
+    //Assert
+    await expect(myTrainingPage.selectView).toHaveValue(changedView);
+    await expect(myTrainingPage.currentMonthButton).toBeVisible();
+    await expect(myTrainingPage.calendar).toBeVisible();
+
+    const workouts = await myTrainingPage.workoutInCalendar.all();
+    for (const workout of workouts) {
+      await expect(workout).toBeEmpty();
+    }
   });
 });

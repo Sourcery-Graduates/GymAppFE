@@ -9,7 +9,7 @@ interface MyTrainingListProps {
 const MyTrainingList = ({ data }: MyTrainingListProps) => {
   return (
     <div className='workout-container-list'>
-      <div className='workout-list'>
+      <div className='workout-list' data-testid='workout-list'>
         {data?.map((workout) => {
           return <TrainingCard key={workout.id} workout={workout} />;
         })}

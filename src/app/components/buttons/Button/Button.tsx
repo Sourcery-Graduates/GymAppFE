@@ -11,6 +11,7 @@ const Button: React.FC<Props> = ({
   style,
   size = 'big',
   form,
+  dataTestId,
 }) => {
   return (
     <button
@@ -20,6 +21,7 @@ const Button: React.FC<Props> = ({
       disabled={isDisabled}
       style={style}
       form={form}
+      data-testid={dataTestId}
     >
       <span>{children}</span>
     </button>
@@ -35,6 +37,7 @@ type Props = {
   style?: React.CSSProperties;
   size?: 'big' | 'small';
   form?: string;
+  dataTestId?: string;
 };
 
 export default Button;
