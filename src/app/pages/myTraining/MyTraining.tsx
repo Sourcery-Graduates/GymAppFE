@@ -23,9 +23,10 @@ const MyTraining = () => {
           values={viewOptions}
           optionValue={optionValue}
           setOptionValue={setOptionValue}
+          data-testid='my-training-select'
         />
       </header>
-      <div className='workout-container'>
+      <div className='workout-container' data-testid='workout-container'>
         {optionValue == viewOptions[0] && <MyTrainingList data={workoutGrid} />}
         {optionValue == viewOptions[1] && <MyTrainingCalendar />}
       </div>
