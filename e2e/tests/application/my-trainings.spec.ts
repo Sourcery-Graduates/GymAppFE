@@ -6,7 +6,7 @@ test.describe('User with no workouts', async () => {
 
   test.beforeEach(async ({ page }) => {
     myTrainingPage = new MyTrainingPage(page);
-    myTrainingPage.goto();
+    await myTrainingPage.goto();
   });
 
   test('can switch views on My Training page', async () => {
@@ -14,15 +14,15 @@ test.describe('User with no workouts', async () => {
     const changedView = 'Calendar';
 
     //Assert
-    myTrainingPage.expectHeadingToBeVisible();
-    myTrainingPage.expectDefaultViewIsList();
-    myTrainingPage.expectListIsEmpty();
+    await myTrainingPage.expectHeadingToBeVisible();
+    await myTrainingPage.expectDefaultViewIsList();
+    await myTrainingPage.expectListIsEmpty();
 
     //Act
-    myTrainingPage.switchViewTo(changedView);
+    await myTrainingPage.switchViewTo(changedView);
 
     //Assert
-    myTrainingPage.expectCalendarIsVisible();
-    myTrainingPage.expectCalendarIsEmpty();
+    await myTrainingPage.expectCalendarIsVisible();
+    await myTrainingPage.expectCalendarIsEmpty();
   });
 });
