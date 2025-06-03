@@ -62,7 +62,7 @@ const MyTrainingCalendar = () => {
       <div className='my-training-calendar-container'>
         <div className='my-training-calendar-navigation'>
           <div className='my-training-calendar-navigation-buttons'>
-            <Button size='big' onClick={() => handleCurrentMonth()}>
+            <Button size='big' onClick={() => handleCurrentMonth()} dataTestId='current-month-button'>
               Current month
             </Button>
             <Button size='big' onClick={() => handleAddMonth(-1)}>
@@ -77,7 +77,7 @@ const MyTrainingCalendar = () => {
             <span>{firstDayOfCurrentMonthDate.format('YYYY')}</span>
           </div>
         </div>
-        <div className='my-training-calendar'>
+        <div className='my-training-calendar' data-testid='my-training-calendar'>
           {weekDaysShortNames.map((day, index) => (
             <div key={day} className={`item-header item-${index}`}>
               {day}
@@ -95,7 +95,7 @@ const MyTrainingCalendar = () => {
                 )}
               </div>
               {date.month() == firstDayOfCurrentMonthDate.month() && (
-                <div className={'item-workout-container'}>
+                <div className={'item-workout-container'} data-testid='item-workout-container'>
                   {workouts[`${date.format('YYYY-MM-DD')}`] &&
                     workouts[`${date.format('YYYY-MM-DD')}`].map((workout) => (
                       <Fragment key={workout.id}>

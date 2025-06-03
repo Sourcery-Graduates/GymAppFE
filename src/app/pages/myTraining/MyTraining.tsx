@@ -17,7 +17,9 @@ const MyTraining = () => {
   return (
     <div className='my-training'>
       <header className='my-training-header'>
-        <div className='my-training-title'> MY TRAININGS</div>
+        <div className='my-training-title' data-testid='my-training-title'>
+          MY TRAININGS
+        </div>
         <Select
           className='my-training-select'
           values={viewOptions}
@@ -25,7 +27,7 @@ const MyTraining = () => {
           setOptionValue={setOptionValue}
         />
       </header>
-      <div className='workout-container'>
+      <div className='workout-container' data-testid='workout-container'>
         {optionValue == viewOptions[0] && <MyTrainingList data={workoutGrid} />}
         {optionValue == viewOptions[1] && <MyTrainingCalendar />}
       </div>
