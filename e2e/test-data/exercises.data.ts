@@ -1,3 +1,5 @@
+export const noExercises = [];
+
 export const oneExercise = [
   {
     defaultSets: 3,
