@@ -29,6 +29,9 @@ export class MyTrainingPage {
   async expectListIsEmpty() {
     await expect(this.workoutList).toBeEmpty();
   }
+  async expectListContainsWorkouts() {
+    await expect(this.workoutList).not.toBeEmpty();
+  }
   async switchViewTo(view: string) {
     await this.selectView.selectOption(view);
   }
