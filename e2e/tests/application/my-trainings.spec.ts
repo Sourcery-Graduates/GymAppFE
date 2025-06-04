@@ -30,7 +30,7 @@ test.describe('User with no workouts', async () => {
   });
 });
 
-test.describe.only('User with existing workouts', async () => {
+test.describe('User with existing workouts', async () => {
   let myTrainingPage: MyTrainingPage;
 
   test.beforeEach(async ({ page }) => {
@@ -63,5 +63,7 @@ test.describe.only('User with existing workouts', async () => {
     await myTrainingPage.expectCalendarIsVisible();
     await myTrainingPage.expectCalendarContainsWorkout();
     await apiContext.dispose();
+
+    // wyczyscic dane / moze przenoesc do before/after each
   });
 });
