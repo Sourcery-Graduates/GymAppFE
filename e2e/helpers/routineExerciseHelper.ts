@@ -8,7 +8,7 @@ export class RoutineExerciseHelper {
   }
 
   async addExercisesToRoutine(routineId: string, exercises: any[]) {
-    const response = await this.apiContext.post(`/api/workout/routine/exercise?routineId=${routineId}`, {
+    const response = await this.apiContext.put(`/api/workout/routine/exercise?routineId=${routineId}`, {
       data: exercises,
     });
     if (!response.ok()) throw new Error(`Failed to add exercises to routine: ${response.status()}`);
