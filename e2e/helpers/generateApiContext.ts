@@ -16,14 +16,14 @@ export async function createApiContextFromStorageState(storageStatePath: string)
   const storageState: StorageState = JSON.parse(data);
 
   // Znajdź localStorage dla origin http://localhost:3000
-  const originData = storageState.origins.find(o => o.origin === 'http://localhost:3000');
+  const originData = storageState.origins.find((o) => o.origin === 'http://localhost:3000');
   if (!originData) throw new Error('No localStorage found for origin http://localhost:3000');
 
   // Znajdź token ROCP_token
-  const tokenItem = originData.localStorage.find(item => item.name === 'ROCP_token');
+  const tokenItem = originData.localStorage.find((item) => item.name === 'ROCP_token');
   if (!tokenItem) throw new Error('No ROCP_token found in localStorage');
 
-  // Usuń cudzysłowy jeśli są (czasem token jest w "" w pliku)
+  // Usuń cudzysłowy jeśli są
   const token = tokenItem.value.replace(/^"(.*)"$/, '$1');
 
   // Stwórz nowy request context z Bearer token
