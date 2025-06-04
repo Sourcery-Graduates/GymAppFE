@@ -2,6 +2,8 @@ import test, { expect, request } from '@playwright/test';
 import { MyTrainingPage } from '../../pages/my-training.page';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
 import { RoutineHelper } from '../../helpers/routineHelper';
+import { RoutineExerciseHelper } from '../../helpers/routineExerciseHelper';
+import { twoExercises } from '../../test-data/exercises.data';
 
 test.describe('User with no workouts', async () => {
   let myTrainingPage: MyTrainingPage;
@@ -35,47 +37,6 @@ test.describe.only('User with existing workouts', async () => {
     myTrainingPage = new MyTrainingPage(page);
     await myTrainingPage.goto();
     await myTrainingPage.expectHeadingToBeVisible();
-
-    //     const routine = await routineResponse.json();
-
-    //     const routineExercisesResponse = await request.post(`api/workout/routine/exercise?routineId=${routine.id}`, {
-    //       data: [
-    //         {
-    //           exerciseId: '383ec35d-a9f5-4c0d-84f7-c7f9344d0092',
-    //           defaultSets: 3,
-    //           defaultReps: 12,
-    //           defaultWeight: 40,
-    //           defaultRestTime: 90,
-    //           notes: '',
-    //           restTimeUnit: 'seconds',
-    //           weightUnit: 'kg',
-    //           routineExerciseId: '383ec35d-a9f5-4c0d-84f7-c7f9344d0092',
-    //           exercise: {
-    //             id: '383ec35d-a9f5-4c0d-84f7-c7f9344d0092',
-    //             name: 'Sit Squats',
-    //           },
-    //           orderNumber: 1,
-    //         },
-    //         {
-    //           exerciseId: '718539a9-5054-43a3-9176-990fdf7a193b',
-    //           defaultSets: 3,
-    //           defaultReps: 12,
-    //           defaultWeight: 40,
-    //           defaultRestTime: 90,
-    //           notes: '',
-    //           restTimeUnit: 'seconds',
-    //           weightUnit: 'kg',
-    //           routineExerciseId: '718539a9-5054-43a3-9176-990fdf7a193b',
-    //           exercise: {
-    //             id: '718539a9-5054-43a3-9176-990fdf7a193b',
-    //             name: 'Single-Cone Sprint Drill',
-    //           },
-    //           orderNumber: 2,
-    //         },
-    //       ],
-    //     });
-
-    //     const routineExercises = await routineExercisesResponse.json();
 
     //     const workoutResponse = await request.post('api/workout/workout', {
     //       data: {
@@ -155,12 +116,18 @@ test.describe.only('User with existing workouts', async () => {
     const routineName = 'Strength & Stability';
     const routineDesc =
       'You want to be strong, balanced, and unshakable—the kind of person who could carry all the grocery bags in one trip while standing on one leg.';
+    const routineExercises = new RoutineExerciseHelper(apiContext);
+    const exercises = twoExercises;
     const changedView = 'Calendar';
 
     const routine = await routineHelper.createRoutine(routineName, routineDesc);
     expect(routine.id).toBeDefined();
+    
+    await routineExercises.addExercisesToRoutine(routine.id, exercises);
 
     
+
+
     //Assert
     // await myTrainingPage.expectListContainsWorkouts();
     await apiContext.dispose();
