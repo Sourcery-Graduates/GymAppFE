@@ -1,4 +1,5 @@
 import { APIRequestContext } from '@playwright/test';
+import { RoutineExercise } from '../test-data/exercises.data';
 
 export class RoutineExerciseHelper {
   apiContext: APIRequestContext;
@@ -7,7 +8,7 @@ export class RoutineExerciseHelper {
     this.apiContext = apiContext;
   }
 
-  async addExercisesToRoutine(routineId: string, exercises: any[]) {
+  async addExercisesToRoutine(routineId: string, exercises: RoutineExercise[]) {
     const response = await this.apiContext.put(`/api/workout/routine/exercise?routineId=${routineId}`, {
       data: exercises,
     });

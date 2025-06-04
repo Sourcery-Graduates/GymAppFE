@@ -3,7 +3,16 @@ import path from 'path';
 import { request, APIRequestContext } from '@playwright/test';
 
 type StorageState = {
-  cookies: Array<any>;
+  cookies: Array<{
+    name: string;
+    value: string;
+    domain: string;
+    path: string;
+    expires: number; // -1 means the cookie does not expire
+    httpOnly: boolean;
+    secure: boolean;
+    sameSite: 'Strict' | 'Lax' | 'None';
+  }>;
   origins: Array<{
     origin: string;
     localStorage: Array<{ name: string; value: string }>;
@@ -11,22 +20,22 @@ type StorageState = {
 };
 
 export async function createApiContextFromStorageState(storageStatePath: string): Promise<APIRequestContext> {
-  // Wczytaj plik user.json
+  // Read storageState from user.json
   const data = await fs.readFile(path.resolve(storageStatePath), 'utf-8');
   const storageState: StorageState = JSON.parse(data);
 
-  // Znajdź localStorage dla origin http://localhost:3000
+  // Find localStorage for origin http://localhost:3000
   const originData = storageState.origins.find((o) => o.origin === 'http://localhost:3000');
   if (!originData) throw new Error('No localStorage found for origin http://localhost:3000');
 
-  // Znajdź token ROCP_token
+  // Find ROCP_token
   const tokenItem = originData.localStorage.find((item) => item.name === 'ROCP_token');
   if (!tokenItem) throw new Error('No ROCP_token found in localStorage');
 
-  // Usuń cudzysłowy jeśli są
+  // Remove "" if exist
   const token = tokenItem.value.replace(/^"(.*)"$/, '$1');
 
-  // Stwórz nowy request context z Bearer token
+  // Create new request context with Bearer token
   const apiContext = await request.newContext({
     baseURL: 'http://localhost:8080', // backend API URL
     extraHTTPHeaders: {

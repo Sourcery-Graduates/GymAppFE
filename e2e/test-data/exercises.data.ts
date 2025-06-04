@@ -1,7 +1,27 @@
-export const noExercises = [];
+type Exercise = {
+  id: string;
+  name: string;
+};
 
-export const oneExercise = [
+export type RoutineExercise = {
+  exerciseId: string;
+  defaultSets: number;
+  defaultReps: number;
+  defaultWeight: number;
+  defaultRestTime: number;
+  notes: string;
+  restTimeUnit: string;
+  weightUnit: string;
+  routineExerciseId: string;
+  exercise: Exercise;
+  orderNumber: number;
+};
+
+export const noExercises: RoutineExercise[] = [];
+
+export const oneExercise: RoutineExercise[] = [
   {
+    exerciseId: '383ec35d-a9f5-4c0d-84f7-c7f9344d0092',
     defaultSets: 3,
     defaultReps: 12,
     defaultWeight: 40,
@@ -18,7 +38,7 @@ export const oneExercise = [
   },
 ];
 
-export const twoExercises = [
+export const twoExercises: RoutineExercise[] = [
   {
     exerciseId: '383ec35d-a9f5-4c0d-84f7-c7f9344d0092',
     defaultSets: 3,
