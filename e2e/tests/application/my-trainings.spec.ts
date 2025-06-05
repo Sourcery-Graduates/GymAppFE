@@ -1,4 +1,4 @@
-import test from '@playwright/test';
+import test, { APIRequestContext } from '@playwright/test';
 import { MyTrainingPage } from '../../pages/my-training.page';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
 import { twoExercises } from '../../test-data/exercises.data';
@@ -31,7 +31,16 @@ test.describe('User with no workouts', async () => {
 });
 
 test.describe('User with existing workouts', async () => {
+  let apiContext: APIRequestContext;
   let myTrainingPage: MyTrainingPage;
+
+  test.beforeAll(async () => {
+    apiContext = await createApiContextFromStorageState('./e2e/.auth/user.json');
+  });
+
+  test.afterAll(async () => {
+    await apiContext.dispose();
+  });
 
   test.beforeEach(async ({ page }) => {
     myTrainingPage = new MyTrainingPage(page);
@@ -39,8 +48,6 @@ test.describe('User with existing workouts', async () => {
   });
 
   test('can switch views on My Training page', async () => {
-    //Arrange
-    const apiContext = await createApiContextFromStorageState('./e2e/.auth/user.json');
     const workoutHelper = new WorkoutHelper(apiContext);
     const routineName = 'Strength & Stability';
     const routineDesc =
@@ -48,22 +55,15 @@ test.describe('User with existing workouts', async () => {
     const exercises = twoExercises;
     const changedView = 'Calendar';
 
-    //Act
-    await workoutHelper.createWorkout(routineName, routineDesc, exercises);
+    const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercises);
     await myTrainingPage.reloadPage();
-
-    //Assert
     await myTrainingPage.expectHeadingToBeVisible();
     await myTrainingPage.expectListContainsWorkouts();
 
-    //Act
     await myTrainingPage.switchViewTo(changedView);
-
-    //Assert
     await myTrainingPage.expectCalendarIsVisible();
     await myTrainingPage.expectCalendarContainsWorkout();
-    await apiContext.dispose();
 
-    // wyczyscic dane / moze przenoesc do before/after each
+    await workoutHelper.deleteWorkout(workout.id, workout.routineId);
   });
 });
