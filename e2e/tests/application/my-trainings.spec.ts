@@ -4,6 +4,8 @@ import { createApiContextFromStorageState } from '../../helpers/generateApiConte
 import { twoExercises } from '../../test-data/exercises.data';
 import { WorkoutHelper } from '../../helpers/workoutHelper';
 
+test.describe.configure({ mode: 'serial' });
+
 test.describe('User with no workouts', async () => {
   let myTrainingPage: MyTrainingPage;
 
@@ -57,6 +59,7 @@ test.describe('User with existing workouts', async () => {
 
     const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercises);
     await myTrainingPage.reloadPage();
+
     await myTrainingPage.expectHeadingToBeVisible();
     await myTrainingPage.expectListContainsWorkouts();
 
