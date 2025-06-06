@@ -31,28 +31,25 @@ export class RegisterPage {
     this.usernameError = this.page.locator('#\\:rb\\:-helper-text');
     this.firstNameError = this.page.locator('#\\:rd\\:-helper-text');
     this.lastNameError = this.page.locator('#\\:rf\\:-helper-text');
-  };
+  }
 
-  async goto() {
-    await this.page.goto('/register');
-  };
   async expectToBeOnRegisterPage() {
     await expect(this.page).toHaveURL('/register');
     await expect(this.emailInput).toBeVisible();
     await expect(this.nextButton).toBeEnabled();
-  };
+  }
   async stepOneRegister(email: string, password: string, confirmPassword: string): Promise<void> {
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
     await this.confirmPasswordInput.fill(confirmPassword);
     await this.nextButton.click();
-  };
+  }
   async stepTwoRegister(username: string, firstName: string, lastName: string): Promise<void> {
     await this.usernameInput.fill(username);
     await this.firstNameInput.fill(firstName);
     await this.lastNameInput.fill(lastName);
     await this.nextButton.click();
-  };
+  }
   async expectEmailIsRequiredError() {
     await expect(this.emailError).toHaveText('Email is required');
   }

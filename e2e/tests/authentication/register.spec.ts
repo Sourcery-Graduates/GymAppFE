@@ -1,9 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { RegisterPage } from '../../pages/register.page';
 import { registerData } from '../../test-data/register.data';
+import { LoginPage } from '../../pages/login.page';
 
 test.describe('Registration tests', async () => {
   let registerPage: RegisterPage;
+  let loginPage: LoginPage;
   const testEmail = registerData.userEmail;
   const testPassword = registerData.userPassword;
   const testUsername = registerData.userUsername;
@@ -12,7 +14,8 @@ test.describe('Registration tests', async () => {
 
   test.beforeEach(async ({ page }) => {
     registerPage = new RegisterPage(page);
-    await registerPage.goto();
+    loginPage = new LoginPage(page);
+    await loginPage.gotoRegisterPage();
   });
 
   test('register link redirects to registration form', async () => {
