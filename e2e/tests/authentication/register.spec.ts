@@ -1,10 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../pages/login.page';
 import { RegisterPage } from '../../pages/register.page';
 import { registerData } from '../../test-data/register.data';
 
 test.describe('Registration tests', async () => {
-  let loginPage: LoginPage;
   let registerPage: RegisterPage;
   const testEmail = registerData.userEmail;
   const testPassword = registerData.userPassword;
@@ -13,100 +11,64 @@ test.describe('Registration tests', async () => {
   const testLastName = registerData.userLastName;
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
     registerPage = new RegisterPage(page);
-
-    await page.goto('/');
-    await loginPage.registerLink.click();
+    await registerPage.goto();
   });
 
-  test('register link redirects to registration form', async ({ page }) => {
+  test('register link redirects to registration form', async () => {
     // Assert
-    await expect(page).toHaveURL('/register');
-    await expect(registerPage.emailInput).toBeVisible();
-    await expect(registerPage.nextButton).toBeEnabled();
+    await registerPage.expectToBeOnRegisterPage();
   });
 
   test('registration fails when email field is empty', async () => {
-    // Arrange
-    const expectedEmailErrorMessage = 'Email is required';
-
     // Act
-    await registerPage.passwordInput.fill(testPassword);
-    await registerPage.confirmPasswordInput.fill(testPassword);
-    await registerPage.nextButton.click();
+    await registerPage.stepOneRegister('', testPassword, testPassword);
 
     // Assert
-    await expect(registerPage.emailError).toHaveText(expectedEmailErrorMessage);
+    await registerPage.expectEmailIsRequiredError();
   });
 
   test('registration fails when password field is empty', async () => {
-    // Arrange
-    const expectedPasswordErrorMessage = 'Password is required';
-    const expectedMatchPasswordError = 'Passwords do not match';
-
     // Act
-    await registerPage.emailInput.fill(testEmail);
-    await registerPage.confirmPasswordInput.fill(testPassword);
-    await registerPage.nextButton.click();
+    await registerPage.stepOneRegister(testEmail, '', testPassword);
 
     // Assert
-    await expect(registerPage.passwordError).toHaveText(expectedPasswordErrorMessage);
-    await expect(registerPage.confirmPasswordError).toHaveText(expectedMatchPasswordError);
+    await registerPage.expectPasswordIsRequiredError();
+    await registerPage.expectPasswordsDoNotMatchError();
   });
 
-  test('registration fails when confirm password field is empty', async () => {
-    // Arrange
-    const expectedMatchPasswordError = 'Passwords do not match';
-
+  test('registration fails when confirm password field is empty or do not match', async () => {
     // Act
-    await registerPage.emailInput.fill(testEmail);
-    await registerPage.passwordInput.fill(testPassword);
-    await registerPage.nextButton.click();
+    await registerPage.stepOneRegister(testEmail, testPassword, '');
 
     // Assert
-    await expect(registerPage.confirmPasswordError).toHaveText(expectedMatchPasswordError);
+    await registerPage.expectPasswordsDoNotMatchError();
   });
 
   test('registration fails when username field is empty', async () => {
-    // Arrange
-    const expectedUsernameError = 'Username is required';
-
     // Act
-    await registerPage.stepOneRegister(testEmail, testPassword);
-    await registerPage.firstNameInput.fill(testFirstName);
-    await registerPage.lastNameInput.fill(testLastName);
-    await registerPage.nextButton.click();
+    await registerPage.stepOneRegister(testEmail, testPassword, testPassword);
+    await registerPage.stepTwoRegister('', testFirstName, testLastName);
 
     // Assert
-    await expect(registerPage.usernameError).toHaveText(expectedUsernameError);
+    await registerPage.expectUsernameIsRequiredError();
   });
 
   test('registration fails when first name field is empty', async () => {
-    // Arrange
-    const expectedFirstNameError = 'First name is required';
-
     // Act
-    await registerPage.stepOneRegister(testEmail, testPassword);
-    await registerPage.emailInput.fill(testEmail);
-    await registerPage.lastNameInput.fill(testLastName);
-    await registerPage.nextButton.click();
+    await registerPage.stepOneRegister(testEmail, testPassword, testPassword);
+    await registerPage.stepTwoRegister(testUsername, '', testLastName);
 
     // Assert
-    await expect(registerPage.firstNameError).toHaveText(expectedFirstNameError);
+    await registerPage.expectFirstNameIsRequiredError();
   });
 
   test('registration fails when last name field is empty', async () => {
-    // Arrange
-    const expectedLastNameError = 'Last name is required';
-
     // Act
-    await registerPage.stepOneRegister(testEmail, testPassword);
-    await registerPage.usernameInput.fill(testUsername);
-    await registerPage.firstNameInput.fill(testFirstName);
-    await registerPage.nextButton.click();
+    await registerPage.stepOneRegister(testEmail, testPassword, testPassword);
+    await registerPage.stepTwoRegister(testUsername, testFirstName, '');
 
     // Assert
-    await expect(registerPage.lastNameError).toHaveText(expectedLastNameError);
+    await registerPage.expectLastNameIsRequiredError();
   });
 });
