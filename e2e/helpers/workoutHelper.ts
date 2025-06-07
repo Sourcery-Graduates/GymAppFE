@@ -1,17 +1,17 @@
 import { APIRequestContext, expect } from '@playwright/test';
 import { RoutineHelper } from './routineHelper';
-import { RoutineExerciseHelper } from './routineExerciseHelper';
+import { ExerciseHelper } from './exerciseHelper';
 import { RoutineExercise } from '../test-data/exercises.data';
 
 export class WorkoutHelper {
   apiContext: APIRequestContext;
   routineHelper: RoutineHelper;
-  routineExercises: RoutineExerciseHelper;
+  routineExercises: ExerciseHelper;
 
   constructor(apiContext: APIRequestContext) {
     this.apiContext = apiContext;
     this.routineHelper = new RoutineHelper(this.apiContext);
-    this.routineExercises = new RoutineExerciseHelper(this.apiContext);
+    this.routineExercises = new ExerciseHelper(this.apiContext);
   }
 
   async createWorkout(routineName: string, routineDesc: string, exercises: RoutineExercise[], comment?: string) {
@@ -31,7 +31,7 @@ export class WorkoutHelper {
         routineId: routine.id,
         date: todayISO,
         comment: comment,
-        exercises: exercises,
+        exercises: exercises, // TODO: we need a mapper to add sets
       },
     });
     if (!response.ok()) throw new Error(`Failed to create workout: ${response.status()}`);

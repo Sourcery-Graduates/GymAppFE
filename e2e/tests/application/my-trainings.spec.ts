@@ -1,8 +1,8 @@
 import test, { APIRequestContext } from '@playwright/test';
 import { MyTrainingPage } from '../../pages/my-training.page';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
-import { twoExercises } from '../../test-data/exercises.data';
 import { WorkoutHelper } from '../../helpers/workoutHelper';
+import { ExerciseHelper } from '../../helpers/exerciseHelper';
 
 test.describe.configure({ mode: 'serial' });
 
@@ -51,13 +51,15 @@ test.describe('User with existing workouts', async () => {
 
   test('can switch views on My Training page', async () => {
     const workoutHelper = new WorkoutHelper(apiContext);
+    const exerciseHelper = new ExerciseHelper(apiContext);
     const routineName = 'Strength & Stability';
     const routineDesc =
       'You want to be strong, balanced, and unshakable—the kind of person who could carry all the grocery bags in one trip while standing on one leg.';
-    const exercises = twoExercises;
     const changedView = 'Calendar';
+    const exerciseName = 'Sit Squats';
 
-    const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercises);
+    const exercise = await exerciseHelper.getExerciseByName(exerciseName);
+    const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
     await myTrainingPage.reloadPage();
 
     await myTrainingPage.expectHeadingToBeVisible();
