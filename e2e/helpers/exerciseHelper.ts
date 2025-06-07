@@ -8,6 +8,14 @@ export class ExerciseHelper {
     this.apiContext = apiContext;
   }
 
+  async addExercisesToRoutine(routineId: string, exercises: RoutineExercise[]) {
+    const response = await this.apiContext.put(`/api/workout/routine/exercise?routineId=${routineId}`, {
+      data: exercises,
+    });
+    if (!response.ok()) throw new Error(`Failed to add exercises to routine: ${response.status()}`);
+    return await response.json();
+  }
+
   async getExerciseByName(name: string): Promise<RoutineExercise[]> {
     const response = await this.apiContext.get(`/api/workout/exercise?page=0&size=10&prefix=${name}`);
     if (!response.ok()) throw new Error(`Failed to get exercises: ${response.status()}`);
@@ -37,12 +45,27 @@ export class ExerciseHelper {
     ];
   }
 
-  async addExercisesToRoutine(routineId: string, exercises: RoutineExercise[]) {
-    const response = await this.apiContext.put(`/api/workout/routine/exercise?routineId=${routineId}`, {
-      data: exercises,
-    });
-    if (!response.ok()) throw new Error(`Failed to add exercises to routine: ${response.status()}`);
-    return await response.json();
+  async getGivenNumberOfExercises(limit: number): Promise<RoutineExercise[]> {
+    const response = await this.apiContext.get(`/api/workout/exercise?page=0&size=${limit}`);
+    if (!response.ok()) throw new Error(`Failed to get exercises: ${response.status()}`);
+    const data = await response.json();
+    const exercises = data.data;
+
+    return exercises.map((exercise, index) => ({
+      exerciseId: exercise.id,
+      routineExerciseId: exercise.id,
+      defaultSets: 3,
+      defaultReps: 12,
+      defaultWeight: 40,
+      defaultRestTime: 90,
+      notes: '',
+      restTimeUnit: 'seconds',
+      weightUnit: 'kg',
+      exercise: {
+        id: exercise.id,
+        name: exercise.name,
+      },
+      orderNumber: index + 1,
+    }));
   }
-  
 }
