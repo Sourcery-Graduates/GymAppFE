@@ -79,12 +79,13 @@ const ForgotPasswordPage = () => {
           helperText={errors.email?.message}
           onBlur={() => clearErrors('email')}
         />
-        <Button className='forgot_password_email_button' type='submit'>
+        <Button className='forgot_password_email_button' type='submit' dataTestId='send-email-button'>
           Send E-mail
         </Button>
         <p
           className='forgot_password_login_redirect'
           onClick={() => navigate(AppRoutes.LOGIN)}
+          data-testid='return-login-page-link'
         >
           Return to login page
         </p>
