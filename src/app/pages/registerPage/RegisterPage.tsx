@@ -257,7 +257,7 @@ const RegisterPage = () => {
                 Register
               </Button>
             ) : (
-              <Button onClick={handleNext}>Next</Button>
+              <Button onClick={handleNext} dataTestId='next-button'>Next</Button>
             )}
           </Box>
         </form>
