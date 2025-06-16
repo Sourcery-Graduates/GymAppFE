@@ -4,8 +4,6 @@ import { createApiContextFromStorageState } from '../../helpers/generateApiConte
 import { WorkoutHelper } from '../../helpers/workoutHelper';
 import { ExerciseHelper } from '../../helpers/exerciseHelper';
 
-test.describe.configure({ mode: 'serial' });
-
 test.describe('User with no workouts', async () => {
   let myTrainingPage: MyTrainingPage;
 

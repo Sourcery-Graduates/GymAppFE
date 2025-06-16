@@ -4,8 +4,7 @@ import { ExerciseHelper } from '../../helpers/exerciseHelper';
 import { WorkoutHelper } from '../../helpers/workoutHelper';
 import { WorkoutPage } from '../../pages/workout.page';
 import { MyTrainingPage } from '../../pages/my-training.page';
-
-test.describe.configure({ mode: 'serial' });
+import { RoutineHelper } from '../../helpers/routineHelper';
 
 test.describe('User with existing workouts', async () => {
   let apiContext: APIRequestContext;
@@ -28,6 +27,7 @@ test.describe('User with existing workouts', async () => {
   test('can delete workout', async () => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
+    const routineHelper = new RoutineHelper(apiContext);
     const routineName = 'Strength & Stability';
     const routineDesc =
       'You want to be strong, balanced, and unshakable—the kind of person who could carry all the grocery bags in one trip while standing on one leg.';
@@ -41,5 +41,7 @@ test.describe('User with existing workouts', async () => {
     await workoutPage.deleteWorkout();
     await myTrainingPage.expectToBeOnMyTrainingPage();
     await myTrainingPage.expectListIsEmpty();
+
+    await routineHelper.deleteRoutine(workout.routineId);
   });
 });
