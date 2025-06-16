@@ -26,6 +26,7 @@ const ConfirmationDialog: React.FC<Props> = ({
   onClose,
   confirmationText = 'Confirm',
   cancelText = 'Cancel',
+  dataTestId,
 }) => {
   return (
     <Dialog
@@ -50,14 +51,14 @@ const ConfirmationDialog: React.FC<Props> = ({
       }}
     >
       {title ? <DialogTitle>{title}</DialogTitle> : ''}
-      <DialogContent>
+      <DialogContent data-testid={dataTestId}>
         <DialogContentText id='alert-dialog-slide-description'>{description}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button className='close-button' size='small' onClick={onClose}>
           {cancelText}
         </Button>
-        <Button size='small' onClick={onConfirm}>
+        <Button size='small' onClick={onConfirm} dataTestId='delete-workout-confirmation-button'>
           {confirmationText}
         </Button>
       </DialogActions>
@@ -73,6 +74,7 @@ type Props = {
   onClose: () => void;
   confirmationText?: string;
   cancelText?: string;
+  dataTestId?: string;
 };
 
 export default ConfirmationDialog;
