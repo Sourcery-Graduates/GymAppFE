@@ -20,6 +20,9 @@ export class MyTrainingPage {
   async goto() {
     await this.page.goto('/my-training');
   }
+  async reloadPage() {
+    await this.page.reload({ waitUntil: 'load' });
+  }
   async expectHeadingToBeVisible() {
     await expect(this.title).toHaveText('MY TRAININGS');
   }
@@ -28,6 +31,9 @@ export class MyTrainingPage {
   }
   async expectListIsEmpty() {
     await expect(this.workoutList).toBeEmpty();
+  }
+  async expectListContainsWorkouts() {
+    await expect(this.workoutList).not.toBeEmpty();
   }
   async switchViewTo(view: string) {
     await this.selectView.selectOption(view);
@@ -42,5 +48,9 @@ export class MyTrainingPage {
     for (const workout of workouts) {
       await expect(workout).toBeEmpty();
     }
+  }
+  async expectCalendarContainsWorkout() {
+    const workoutCount = await this.workoutInCalendar.count();
+    expect(workoutCount).toBeGreaterThan(0);
   }
 }
