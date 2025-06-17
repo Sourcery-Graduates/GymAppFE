@@ -26,6 +26,10 @@ export class MyTrainingPage {
   async expectHeadingToBeVisible() {
     await expect(this.title).toHaveText('MY TRAININGS');
   }
+  async expectToBeOnMyTrainingPage() {
+    await this.expectHeadingToBeVisible();
+    await expect(this.page).toHaveURL('/my-training');
+  }
   async expectDefaultViewIsList() {
     await expect(this.selectView).toHaveValue('List');
   }

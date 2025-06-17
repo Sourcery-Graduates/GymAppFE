@@ -135,7 +135,12 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
             </Typography>
             <div className='workout-options'>
               {!isNewWorkout && (
-                <Button className='delete-workout-button' size='small' onClick={handleOpenConfirmationDialog}>
+                <Button
+                  className='delete-workout-button'
+                  size='small'
+                  onClick={handleOpenConfirmationDialog}
+                  dataTestId='delete-workout-button'
+                >
                   <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Workout
                 </Button>
               )}
@@ -243,6 +248,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
         open={openConfirmationDialog}
         onConfirm={handleConfirm}
         onClose={handleCloseConfirmationDialog}
+        dataTestId='delete-workout-confirmation-dialog'
       />
       <AppAlert
         open={snackbarOpen}
