@@ -25,13 +25,27 @@ export class WorkoutHelper {
     await this.routineExercises.addExercisesToRoutine(routine.id, exercises);
 
     // The final step is to create a workout based on the previously added routine and exercises
+    const workoutExercises = exercises.map((exercise) => ({
+      exerciseId: exercise.exerciseId,
+      exerciseName: exercise.exercise.name,
+      orderNumber: exercise.orderNumber,
+      notes: exercise.notes,
+      sets: Array.from({ length: exercise.defaultSets }, (_, index) => ({
+        setNumber: index + 1,
+        reps: exercise.defaultReps,
+        weight: exercise.defaultWeight,
+        restTime: exercise.defaultRestTime,
+        comment: '',
+      })),
+    }));
+
     const response = await this.apiContext.post('/api/workout/workout', {
       data: {
         name: `${routineName} workout`,
         routineId: routine.id,
         date: todayISO,
         comment: comment,
-        exercises: exercises, // TODO: we need a mapper to add sets
+        exercises: workoutExercises,
       },
     });
     if (!response.ok()) throw new Error(`Failed to create workout: ${response.status()}`);
