@@ -13,6 +13,10 @@ export class RoutinesPage {
   chooseExercise: Locator;
   saveButton: Locator;
 
+  routineOptions: Locator;
+  deleteRoutineButton: Locator;
+  deleteRoutineConfirmationButton: Locator; 
+
   constructor(private page: Page) {
     this.myRoutines = this.page.getByTestId('my-routines');
     this.publicRoutines = this.page.getByTestId('public-routines');
@@ -25,41 +29,66 @@ export class RoutinesPage {
 
     this.chooseExercise = this.page.locator('#\\:rd\\:');
     this.saveButton = this.page.getByTestId('save-button');
+
+    this.routineOptions = this.page.getByRole('button', { name: 'Routine options' });
+    this.deleteRoutineButton = this.page.getByText('Delete Routine')
+    this.deleteRoutineConfirmationButton = this.page.getByTestId('delete-workout-confirmation-button');
   }
 
   async goto() {
     await this.page.goto('/routines');
   }
+  async reloadPage() {
+    await this.page.reload({ waitUntil: 'load' });
+  }
   async expectHeadingToBeVisible() {
     await expect(this.myRoutines).toHaveText('My Routines');
     await expect(this.publicRoutines).toHaveText('Public Routines');
+  }
+  async getRoutineId(page:Page, saveRoutineButton: Locator): Promise<string> {
+    const [response] = await Promise.all([
+      page.waitForResponse(
+        response =>
+          response.url().includes('/api/workout/routine') && response.request().method() === 'POST'
+      ),
+      saveRoutineButton.click(),
+    ]);
+
+    const data = await response.json();
+    return data.id;
   }
   async addNewRoutineWithNoExercise() {
     await this.newRoutineButton.click();
     await this.routineName.fill('Empty Test Routine');
     await this.routineDesciption.fill('This is a test routine without any exercises.');
-
-    const [response] = await Promise.all([
-    this.page.waitForResponse(response => response.url().includes('/api/workout/routine') && response.request().method() === 'POST'),
-    this.saveRoutineButton.click(),
-  ]);
-    console.log(await response.json());
     
+    const routineId = await this.getRoutineId(this.page, this.saveRoutineButton);
+
     await expect(
       this.page.locator('#root > div > div.layout_outlet > div > div.routine-list-wrapper > div:nth-child(1)'),
     ).toBeVisible();
+    return routineId;
   }
   async addNewRoutine() {
     await this.newRoutineButton.click();
     await this.routineName.fill('Test Routine');
     await this.routineDesciption.fill('This is a test routine with one exercise.');
+
     await this.addExerciseButton.click();
     await this.chooseExercise.fill('push');
     await this.page.getByRole('option', { name: 'Push Press', exact: true }).click();
     await this.saveButton.click();
-    await this.saveRoutineButton.click();
+
+    const routineId = await this.getRoutineId(this.page, this.saveRoutineButton);
+    
     await expect(
       this.page.locator('#root > div > div.layout_outlet > div > div.routine-list-wrapper > div:nth-child(1)'),
     ).toBeVisible();
+    return routineId;
+  }
+  async deleteRoutine() {
+    await this.routineOptions.click();
+    await this.deleteRoutineButton.click();
+    await this.deleteRoutineConfirmationButton.click();
   }
 }
