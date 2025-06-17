@@ -38,7 +38,13 @@ export class RoutinesPage {
     await this.newRoutineButton.click();
     await this.routineName.fill('Empty Test Routine');
     await this.routineDesciption.fill('This is a test routine without any exercises.');
-    await this.saveRoutineButton.click();
+
+    const [response] = await Promise.all([
+    this.page.waitForResponse(response => response.url().includes('/api/workout/routine') && response.request().method() === 'POST'),
+    this.saveRoutineButton.click(),
+  ]);
+    console.log(await response.json());
+    
     await expect(
       this.page.locator('#root > div > div.layout_outlet > div > div.routine-list-wrapper > div:nth-child(1)'),
     ).toBeVisible();
