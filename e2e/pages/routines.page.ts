@@ -1,4 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { routineData } from '../test-data/routine.data';
 
 export class RoutinesPage {
   myRoutines: Locator;
@@ -14,8 +15,12 @@ export class RoutinesPage {
   saveButton: Locator;
 
   routineOptions: Locator;
+  editRoutineButton: Locator;
   deleteRoutineButton: Locator;
-  deleteRoutineConfirmationButton: Locator; 
+  deleteRoutineConfirmationButton: Locator;
+  routineList: Locator;
+  routineItem: Locator;
+  routineItemTitle: Locator;
 
   constructor(private page: Page) {
     this.myRoutines = this.page.getByTestId('my-routines');
@@ -31,8 +36,17 @@ export class RoutinesPage {
     this.saveButton = this.page.getByTestId('save-button');
 
     this.routineOptions = this.page.getByRole('button', { name: 'Routine options' });
-    this.deleteRoutineButton = this.page.getByText('Delete Routine')
+    this.editRoutineButton = this.page.getByText('Edit Routine');
+    this.deleteRoutineButton = this.page.getByText('Delete Routine');
     this.deleteRoutineConfirmationButton = this.page.getByTestId('delete-workout-confirmation-button');
+
+    this.routineList = this.page.locator('#root > div > div.layout_outlet > div > div.routine-list-wrapper > div');
+    this.routineItem = this.page.locator(
+      '#root > div > div.layout_outlet > div > div.routine-list-wrapper > div > div.routine-list-item_name > h3',
+    );
+    this.routineItemTitle = this.page.locator(
+      '#root > div > div.layout_outlet > div > div.routine-list-wrapper > div > div.routine-list-item_name > h3 > title',
+    );
   }
 
   async goto() {
@@ -45,11 +59,10 @@ export class RoutinesPage {
     await expect(this.myRoutines).toHaveText('My Routines');
     await expect(this.publicRoutines).toHaveText('Public Routines');
   }
-  async getRoutineId(page:Page, saveRoutineButton: Locator): Promise<string> {
+  async getRoutineId(page: Page, saveRoutineButton: Locator): Promise<string> {
     const [response] = await Promise.all([
       page.waitForResponse(
-        response =>
-          response.url().includes('/api/workout/routine') && response.request().method() === 'POST'
+        (response) => response.url().includes('/api/workout/routine') && response.request().method() === 'POST',
       ),
       saveRoutineButton.click(),
     ]);
@@ -61,7 +74,7 @@ export class RoutinesPage {
     await this.newRoutineButton.click();
     await this.routineName.fill('Empty Test Routine');
     await this.routineDesciption.fill('This is a test routine without any exercises.');
-    
+
     const routineId = await this.getRoutineId(this.page, this.saveRoutineButton);
 
     await expect(
@@ -80,15 +93,32 @@ export class RoutinesPage {
     await this.saveButton.click();
 
     const routineId = await this.getRoutineId(this.page, this.saveRoutineButton);
-    
+
     await expect(
       this.page.locator('#root > div > div.layout_outlet > div > div.routine-list-wrapper > div:nth-child(1)'),
     ).toBeVisible();
     return routineId;
   }
-  async deleteRoutine() {
+  async deleteRoutineWithRoutineOptions() {
     await this.routineOptions.click();
     await this.deleteRoutineButton.click();
     await this.deleteRoutineConfirmationButton.click();
+    await expect(this.routineList).toHaveCount(0);
+  }
+  async goToRoutineDetails() {
+    await this.routineItem.click();
+  }
+  async editRoutineWithRoutineOptions() {
+    await this.routineOptions.click();
+    await this.editRoutineButton.click();
+  }
+  async expectListRoutineToBeEmpty() {
+    await expect(this.routineList).toHaveCount(0);
+  }
+  async expectRoutineNameToBeUpdated() {
+    await expect(this.routineItemTitle).toHaveText(routineData.routineUpdatedName);
+  }
+  async goToEditRoutineForm() {
+    await this.editRoutineButton.click();
   }
 }
