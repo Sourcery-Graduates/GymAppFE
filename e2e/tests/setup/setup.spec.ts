@@ -4,7 +4,7 @@ import { HomePage } from '../../pages/home.page';
 import { LoginPage } from '../../pages/login.page';
 
 test('setup: authenticate user', async ({ page }) => {
-  // Assert
+  // Arrange
   const loginPage = new LoginPage(page);
   const homePage = new HomePage(page);
   const userEmail = process.env.USER_EMAIL!;
