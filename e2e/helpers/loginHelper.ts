@@ -1,10 +1,7 @@
 import { Page } from '@playwright/test';
 
-const userEmail = process.env.USER_EMAIL!;
-const userPassword = process.env.USER_PASSWORD!;
-
-export async function loginProgrammatically(page: Page) {
-  // Extract CSRF token value
+export async function loginProgrammatically(page: Page, userEmail: string, userPassword: string) {
+  // Extract CSRF token value from html
   const csrfToken = await page.getAttribute('input[name="_csrf"]', 'value');
   if (!csrfToken) {
     throw new Error('CSRF token not found');
