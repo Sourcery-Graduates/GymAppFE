@@ -1,23 +1,23 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../pages/login.page';
+import { test } from '@playwright/test';
+import { loginProgrammatically } from '../../helpers/loginHelper';
 import { HomePage } from '../../pages/home.page';
+import { LoginPage } from '../../pages/login.page';
 
 test('setup: authenticate user', async ({ page }) => {
-  //Arrange
-  const userEmail = process.env.USER_EMAIL!;
-  const userPassword = process.env.USER_PASSWORD!;
+  // Arrange
   const loginPage = new LoginPage(page);
   const homePage = new HomePage(page);
-  const expectedWelcomeMessage = 'Welcome to Gym App!';
+  const userEmail = process.env.USER_EMAIL!;
+  const userPassword = process.env.USER_PASSWORD!;
 
-  //Act
-  await page.goto('/login');
-  await loginPage.login(userEmail, userPassword);
+  // Act
+  await loginPage.goto();
+  await loginPage.expectHeadingToBeVisible();
 
-  //Assert
-  await page.waitForURL('/');
-  await expect(homePage.welcomeMessage).toHaveText(expectedWelcomeMessage);
+  await loginProgrammatically(page, userEmail, userPassword);
 
-  //Act
+  await homePage.goto();
+  await homePage.expectWelcomeMessage();
+
   await page.context().storageState({ path: './e2e/.auth/user.json' });
 });

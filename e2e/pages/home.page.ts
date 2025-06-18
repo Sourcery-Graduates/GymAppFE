@@ -1,14 +1,16 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { expect, Locator, Page } from '@playwright/test';
 
 export class HomePage {
-    
-    welcomeMessage: Locator;
+  welcomeMessage: Locator;
 
-    constructor(private page: Page) {
-        this.welcomeMessage = this.page.getByTestId('welcome-message');
-    };
+  constructor(private page: Page) {
+    this.welcomeMessage = this.page.getByTestId('welcome-message');
+  }
 
-    async expectWelcomeMessage() {
-        await expect(this.welcomeMessage).toHaveText('Welcome to Gym App!');
-    }
-};
+  async goto() {
+    await this.page.goto('/');
+  }
+  async expectWelcomeMessage() {
+    await expect(this.welcomeMessage).toHaveText('Welcome to Gym App!');
+  }
+}
