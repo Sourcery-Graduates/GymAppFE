@@ -24,7 +24,7 @@ const MyRoutines: () => ReactNode = () => {
   }
 
   return (
-    <div className='routine-list-wrapper'>
+    <div className='routine-list-wrapper' data-testid='routine-list'>
       {routines &&
         routines.map((routine) => (
           <RoutineCard key={routine.id} routine={routine}

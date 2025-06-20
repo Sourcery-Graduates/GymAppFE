@@ -7,7 +7,7 @@ export class RoutineHelper {
     this.apiContext = apiContext;
   }
 
-  async createRoutine(name: string, description: string) {
+  async createRoutine(name: string, description: string = '') {
     const response = await this.apiContext.post('/api/workout/routine', {
       data: {
         name: name,

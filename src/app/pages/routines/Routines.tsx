@@ -48,7 +48,7 @@ const Routines = () => {
           <SearchTextField handleSearch={debouncedHandleSearch} />
         </div>
         <div className='routine-options'>
-          <Button className='new-routine-btn' onClick={handleOnClick}>
+          <Button className='new-routine-btn' onClick={handleOnClick} dataTestId='new-routine-button'>
             <AddIcon />
             &nbsp;NEW ROUTINE
           </Button>
@@ -57,8 +57,8 @@ const Routines = () => {
       <div className='routines-filter-bar'>
         <div className='tabs-wrapper'>
           <Tabs value={tabValue} onChange={handleTabChange} textColor='inherit' indicatorColor='secondary'>
-            <Tab value={MY_ROUTINES} label='My Routines' />
-            <Tab value={PUBLIC_ROUTINES} label='Public Routines' />
+            <Tab value={MY_ROUTINES} label='My Routines' data-testid='my-routines'/>
+            <Tab value={PUBLIC_ROUTINES} label='Public Routines' data-testid='public-routines'/>
           </Tabs>
         </div>
       </div>
