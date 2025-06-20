@@ -36,8 +36,8 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseIndex, control, rem
   });
 
   return (
-    <div className='exercise-card'>
-      <div className='exercise-card-header'>
+    <div className='exercise-card' data-testid='exercise-card'>
+      <div className='exercise-card-header' data-testid='exercise-card-header'>
         <Controller
           name={`exercises[${exerciseIndex}].exerciseName`}
           control={control}

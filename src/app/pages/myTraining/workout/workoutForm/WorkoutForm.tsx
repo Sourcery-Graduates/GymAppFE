@@ -144,7 +144,12 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
                   <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Workout
                 </Button>
               )}
-              <Button type='submit' className='create-workout-button' size='small'>
+              <Button
+                type='submit'
+                className='create-workout-button'
+                size='small'
+                dataTestId='create-save-workout-button'
+              >
                 {isNewWorkout ? (
                   'Create Workout'
                 ) : (
@@ -212,10 +217,17 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
                   )}
                 />
               </LocalizationProvider>
-              <TextField {...register('name')} label='Workout name' />
+              <TextField {...register('name')} label='Workout name' data-testid='workout-name' />
             </div>
             <div className='comment'>
-              <TextField className='comment-field' {...register('comment')} multiline maxRows={10} label='Comment' />
+              <TextField
+                className='comment-field'
+                {...register('comment')}
+                multiline
+                maxRows={10}
+                label='Comment'
+                data-testid='workout-comment'
+              />
             </div>
           </div>
           <Typography variant='h6' sx={{ marginTop: '16px' }}>
