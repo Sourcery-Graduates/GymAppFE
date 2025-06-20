@@ -99,7 +99,7 @@ const RoutineDetails = () => {
               <Button size='small' onClick={openRoutineUpdate}>
                 <EditIcon fontSize='small' /> &nbsp; Edit Routine
               </Button>
-              <Button size='small' className='delete-routine-button' onClick={handleClickOpen}>
+              <Button size='small' className='delete-routine-button' onClick={handleClickOpen} dataTestId='routine-details-delete-routine-button'>
                 <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Routine
               </Button>
               <ConfirmationDialog

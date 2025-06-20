@@ -5,9 +5,7 @@ export class RoutineDetailsPage {
   deleteRoutineConfirmationButton: Locator;
 
   constructor(private page: Page) {
-    this.deleteRoutineButton = this.page.locator(
-      '#root > div > div.layout_outlet > div > div.routine-options-bar > div > button.basic-button.delete-routine-button.small',
-    );
+    this.deleteRoutineButton = this.page.getByTestId('routine-details-delete-routine-button');
     this.deleteRoutineConfirmationButton = this.page.getByTestId('delete-workout-confirmation-button');
   }
 

@@ -32,11 +32,13 @@ test.describe('Routines page', async () => {
 
   test('Add a new routine without any exercises', async () => {
     const routineId = await routinesPage.addNewRoutineWithNoExercise();
+    await routinesPage.expectRoutineToBeVisible(routineData.emptyRoutineName);
     await routineHelper.deleteRoutine(routineId);
   });
 
   test('Add a new routine with one exercise', async () => {
     const routineId = await routinesPage.addNewRoutine();
+    await routinesPage.expectRoutineToBeVisible(routineData.routineName);
     await routineHelper.deleteRoutine(routineId);
   });
 
