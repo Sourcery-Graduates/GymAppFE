@@ -64,12 +64,12 @@ test.describe('User with existing workouts', async () => {
     await workoutPage.updateWorkoutComment(sandbagLoadWorkout.comment);
     await workoutPage.removeSetFromExercise(exerciseName, exerciseSetToBeRemoved);
 
-    await workoutPage.createSaveButton.click();
-    await workoutPage.expectAlertToBeVisible();
+    await workoutPage.saveWorkout();
+    await workoutPage.expectSaveSuccessAlert();
 
     await workoutPage.expectNameToBeUpdated(sandbagLoadWorkout.name);
     await workoutPage.expectCommentToBeUpdated(sandbagLoadWorkout.comment);
-    await workoutPage.expectToHaveSetsInExercise(exerciseName, updatedSetCount);
+    await workoutPage.expectExerciseToHaveSetCount(exerciseName, updatedSetCount);
 
     await workoutHelper.deleteWorkout(workout.id, workout.routineId);
   });

@@ -40,6 +40,9 @@ export class WorkoutPage {
     await expect(this.deleteWorkoutConfirmationDialog).toHaveText('Are you sure you want to delete this Workout?');
     await this.deleteWorkoutConfirmationButton.click();
   }
+  async saveWorkout() {
+    await this.createSaveButton.click();
+  }
   async updateWorkoutName(name: string) {
     await this.workoutName.fill('');
     await this.workoutName.fill(name);
@@ -58,7 +61,7 @@ export class WorkoutPage {
     await expect(this.workoutComment).toBeVisible();
     await expect(this.workoutComment).toHaveValue(comment);
   }
-  async expectAlertToBeVisible() {
+  async expectSaveSuccessAlert() {
     await expect(this.saveWorkoutConfirmationAlert).toBeVisible();
   }
   async removeSetFromExercise(exerciseName: string, setIndex: number) {
@@ -67,7 +70,7 @@ export class WorkoutPage {
     await exerciseCard.deleteSetByIndex(setIndex);
     await exerciseCard.stopEditing();
   }
-  async expectToHaveSetsInExercise(exerciseName: string, setCount: number) {
+  async expectExerciseToHaveSetCount(exerciseName: string, setCount: number) {
     const exerciseCard = await ExerciseCardComponent.getByName(this.page, exerciseName);
     const count = await exerciseCard.setList.count();
     await expect(count).toBe(setCount);
