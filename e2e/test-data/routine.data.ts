@@ -7,3 +7,9 @@ export const routineData = {
 
   routineUpdatedName: 'New Routine Name',
 };
+
+export const strengthStabilityRoutine = {
+  name: 'Strength & Stability',
+  description:
+    'You want to be strong, balanced, and unshakable—the kind of person who could carry all the grocery bags in one trip while standing on one leg.',
+};

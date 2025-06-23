@@ -6,6 +6,7 @@ import { WorkoutPage } from '../../pages/workout.page';
 import { MyTrainingPage } from '../../pages/my-training.page';
 import { RoutineHelper } from '../../helpers/routineHelper';
 import { sandbagLoadWorkout } from '../../test-data/workout.data';
+import { strengthStabilityRoutine } from '../../test-data/routine.data';
 
 test.describe('User with existing workouts', async () => {
   let apiContext: APIRequestContext;
@@ -29,10 +30,9 @@ test.describe('User with existing workouts', async () => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
     const routineHelper = new RoutineHelper(apiContext);
-    const routineName = 'Strength & Stability';
-    const routineDesc =
-      'You want to be strong, balanced, and unshakable—the kind of person who could carry all the grocery bags in one trip while standing on one leg.';
-    const exerciseName = 'Sit Squats';
+    const routineName = strengthStabilityRoutine.name;
+    const routineDesc = strengthStabilityRoutine.description;
+    const exerciseName = sandbagLoadWorkout.exerciseName;
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
     const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
@@ -49,10 +49,9 @@ test.describe('User with existing workouts', async () => {
   test('can edit workout', async () => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
-    const routineName = 'Strength & Stability';
-    const routineDesc =
-      'You want to be strong, balanced, and unshakable—the kind of person who could carry all the grocery bags in one trip while standing on one leg.';
-    const exerciseName = 'Sit Squats';
+    const routineName = strengthStabilityRoutine.name;
+    const routineDesc = strengthStabilityRoutine.description;
+    const exerciseName = sandbagLoadWorkout.exerciseName;
     const exerciseSetToBeRemoved = 1;
     const updatedSetCount = 2;
 
