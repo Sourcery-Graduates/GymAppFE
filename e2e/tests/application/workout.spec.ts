@@ -62,6 +62,12 @@ test.describe('User with existing workouts', async () => {
 
     await workoutPage.expectToUpdateName(sandbagLoadWorkout.name);
     await workoutPage.expectToUpdateComment(sandbagLoadWorkout.comment);
+    await workoutPage.expectToUpdateExercise(exerciseName);
+
     await workoutPage.createSaveButton.click();
+    await workoutPage.expectAlertToBeVisible();
+
+    //  await routineHelper.deleteRoutine(workout.routineId);
+    //  await workoutHelper.deleteWorkout(workout.workoutId, workout.routineId);
   });
 });

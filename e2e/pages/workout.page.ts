@@ -1,4 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { ExerciseCardComponent } from '../components/exerciseCard.component';
 
 export class WorkoutPage {
   title: Locator;
@@ -7,20 +8,18 @@ export class WorkoutPage {
   deleteWorkoutConfirmationButton: Locator;
   workoutName: Locator;
   workoutComment: Locator;
-
-  exerciseCard: Locator;
   createSaveButton: Locator;
+  saveWorkoutConfirmationAlert: Locator;
 
   constructor(private page: Page) {
     this.title = this.page.getByRole('heading', { name: 'Workout' });
     this.deleteButton = this.page.getByTestId('delete-workout-button');
     this.createSaveButton = this.page.getByTestId('create-save-workout-button');
+    this.saveWorkoutConfirmationAlert = this.page.getByText('Workout saved successfully');
     this.deleteWorkoutConfirmationDialog = this.page.getByTestId('delete-workout-confirmation-dialog');
     this.deleteWorkoutConfirmationButton = this.page.getByTestId('delete-workout-confirmation-button');
     this.workoutName = this.page.getByTestId('workout-name').locator('input');
     this.workoutComment = this.page.getByTestId('workout-comment').locator('textarea:not([readonly])');
-
-    this.exerciseCard = this.page.getByTestId('exercise-card');
   }
 
   async goto(workoutId: string) {
@@ -47,7 +46,13 @@ export class WorkoutPage {
     await this.workoutComment.fill(comment);
     await expect(this.workoutComment).toHaveValue(comment);
   }
-  async getExerciseByName(name: string): Promise<Locator> {
-    return this.page.getByTestId('exercise-card').filter({ hasText: name });
+  async expectAlertToBeVisible() {
+    await expect(this.saveWorkoutConfirmationAlert).toBeVisible();
+  }
+  async expectToUpdateExercise(exerciseName: string) {
+    const exerciseCard = await ExerciseCardComponent.getByName(this.page, exerciseName);
+    await exerciseCard.clickEdit();
+    await exerciseCard.deleteSetByIndex(1);
+    await exerciseCard.stopEditing();
   }
 }
