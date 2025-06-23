@@ -183,7 +183,7 @@ const ExerciseModal = ({ open, handleClose, onSave }: ExerciseModalProps) => {
           <Button variant='outlined' color='error' onClick={onClose}>
             Cancel
           </Button>
-          <Button variant='outlined' color='info' type='submit'>
+          <Button variant='outlined' color='info' type='submit' data-testid='save-button'>
             Save
           </Button>
         </DialogActions>

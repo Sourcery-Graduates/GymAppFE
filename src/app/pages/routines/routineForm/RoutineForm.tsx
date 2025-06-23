@@ -120,7 +120,13 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
           <ArrowBackIosNewIcon sx={{ color: 'accent.main' }} />
         </IconButton>
         <div className='routine-options'>
-          <Button type='submit' size='small' form='routine-form' isDisabled={isSubmitting}>
+          <Button
+            type='submit'
+            size='small'
+            form='routine-form'
+            isDisabled={isSubmitting}
+            dataTestId='save-routine-button'
+          >
             <SaveAsIcon fontSize='small' /> &nbsp; Save Routine
           </Button>
         </div>
@@ -150,7 +156,7 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
         />
       </form>
       <div className='routine-exercise-list'>
-        <Button onClick={handleClickOpen}>
+        <Button onClick={handleClickOpen} dataTestId='add-exercise-button'>
           <AddIcon />
           &nbsp;ADD EXERCISE
         </Button>
