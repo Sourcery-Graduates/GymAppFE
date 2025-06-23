@@ -67,4 +67,9 @@ export class WorkoutPage {
     await exerciseCard.deleteSetByIndex(setIndex);
     await exerciseCard.stopEditing();
   }
+  async expectToHaveSetsInExercise(exerciseName: string, setCount: number) {
+    const exerciseCard = await ExerciseCardComponent.getByName(this.page, exerciseName);
+    const count = await exerciseCard.setList.count();
+    await expect(count).toBe(setCount);
+  }
 }
