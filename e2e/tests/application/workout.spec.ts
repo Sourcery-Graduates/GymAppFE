@@ -60,9 +60,9 @@ test.describe('User with existing workouts', async () => {
     await workoutPage.goto(workout.id);
     await workoutPage.expectHeadingToBeVisible();
 
-    await workoutPage.expectToUpdateName(sandbagLoadWorkout.name);
-    await workoutPage.expectToUpdateComment(sandbagLoadWorkout.comment);
-    await workoutPage.expectToRemoveSetFromExercise(exerciseName, exerciseSetToBeRemoved);
+    await workoutPage.updateWorkoutName(sandbagLoadWorkout.name);
+    await workoutPage.updateWorkoutComment(sandbagLoadWorkout.comment);
+    await workoutPage.removeSetFromExercise(exerciseName, exerciseSetToBeRemoved);
 
     await workoutPage.createSaveButton.click();
     await workoutPage.expectAlertToBeVisible();
