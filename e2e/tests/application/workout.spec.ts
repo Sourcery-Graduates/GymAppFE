@@ -71,7 +71,6 @@ test.describe('User with existing workouts', async () => {
     await workoutPage.expectNameToBeUpdated(sandbagLoadWorkout.name);
     await workoutPage.expectCommentToBeUpdated(sandbagLoadWorkout.comment);
 
-    await routineHelper.deleteRoutine(workout.routineId);
-    await workoutHelper.deleteWorkout(workout.workoutId, workout.routineId);
+    await workoutHelper.deleteWorkout(workout.id, workout.routineId);
   });
 });
