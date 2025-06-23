@@ -62,7 +62,7 @@ export class RegisterPage {
     await this.lastNameInput.fill(lastName);
     await this.nextButton.click();
   }
-  async stepThreeRegister(): Promise<void> {
+  async submitRegistration(): Promise<void> {
     // Optional you can add Location and Bio
     await this.registerButton.click();
   }
@@ -102,6 +102,6 @@ export class RegisterPage {
     await this.backButton.click();
     await expect(this.emailInput).toHaveValue(email);
     await expect(this.passwordInput).toHaveValue(password);
-    await expect(this.passwordInput).toHaveValue(password);
+    await expect(this.confirmPasswordInput).toHaveValue(password);
   }
 }

@@ -6,7 +6,6 @@ import { LoginPage } from '../../pages/login.page';
 test.describe('Registration tests', async () => {
   let registerPage: RegisterPage;
   let loginPage: LoginPage;
-  const registeredEmail = registerData.registeredEmail;
   const testEmail = registerData.userEmail;
   const testPassword = registerData.userPassword;
   const testUsername = registerData.userUsername;
@@ -77,9 +76,9 @@ test.describe('Registration tests', async () => {
   });
 
   test('registration fails with already registered email', async () => {
-    await registerPage.stepOneRegister(registeredEmail, testPassword, testPassword);
+    await registerPage.stepOneRegister(process.env.USER_EMAIL!, testPassword, testPassword);
     await registerPage.stepTwoRegister(testUsername, testFirstName, testLastName);
-    await registerPage.stepThreeRegister();
+    await registerPage.submitRegistration();
     await registerPage.expectUserAlreadyExistsAlert();
   });
   
