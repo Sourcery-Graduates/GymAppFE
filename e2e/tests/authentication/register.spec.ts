@@ -6,6 +6,7 @@ import { LoginPage } from '../../pages/login.page';
 test.describe('Registration tests', async () => {
   let registerPage: RegisterPage;
   let loginPage: LoginPage;
+  const registeredEmail = registerData.registeredEmail;
   const testEmail = registerData.userEmail;
   const testPassword = registerData.userPassword;
   const testUsername = registerData.userUsername;
@@ -74,4 +75,19 @@ test.describe('Registration tests', async () => {
     // Assert
     await registerPage.expectLastNameIsRequiredError();
   });
+
+  test('registration fails with already registered email', async () => {
+    await registerPage.stepOneRegister(registeredEmail, testPassword, testPassword);
+    await registerPage.stepTwoRegister(testUsername, testFirstName, testLastName);
+    await registerPage.stepThreeRegister();
+    await registerPage.expectUserAlreadyExistsAlert();
+  });
+  
+  test('registration - Back/Next button behaviour', async () => {
+    await registerPage.expectBackButtonIsDisabled();
+    await registerPage.stepOneRegister(testEmail, testPassword, testPassword);
+    await registerPage.stepTwoRegister(testUsername, testFirstName, testLastName);
+    await registerPage.expectLocationBioFieldsAreVisible();
+    await registerPage.expectPreviousEnteredDataIsVisible(testEmail, testPassword, testUsername, testFirstName, testLastName);
+  })
 });
