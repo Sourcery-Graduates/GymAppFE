@@ -83,8 +83,8 @@ const RoutineCard = ({ routine }: { routine: Routine }) => {
     <>
       <div className='routine-list-item'>
         <div className='routine-list-item_name' onClick={() => openRoutineDetails(routine.id)}>
-          <h3>
-            <title>{routine.name}</title>
+          <h3 data-testid='routine-item'>
+            <title data-testid='routine-item-title'>{routine.name}</title>
             {routine.name}
           </h3>
         </div>
