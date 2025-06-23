@@ -8,22 +8,19 @@ export class ExerciseCardComponent {
   deleteIcon: Locator;
   setList: Locator;
 
-  constructor(
-    private page: Page,
-    root: Locator,
-  ) {
+  constructor(root: Locator) {
     this.root = root;
-    this.cardBody = this.page.getByTestId('exercise-card-body');
-    this.editIcon = this.page.getByTestId('edit-exercise-icon');
-    this.stopEditingIcon = this.page.getByTestId('stop-editing-exercise-icon');
-    this.deleteIcon = this.page.getByTestId('CloseIcon');
-    this.setList = this.page.getByTestId('exercise-set-list').locator('ul > li');
+    this.cardBody = this.root.getByTestId('exercise-card-body');
+    this.editIcon = this.root.getByTestId('edit-exercise-icon');
+    this.stopEditingIcon = this.root.getByTestId('stop-editing-exercise-icon');
+    this.deleteIcon = this.root.getByTestId('CloseIcon');
+    this.setList = this.root.getByTestId('exercise-set-list').locator('ul > li');
   }
 
   static async getByName(page: Page, name: string): Promise<ExerciseCardComponent> {
     const root = page.getByTestId('exercise-card').filter({ hasText: name });
     await expect(root).toBeVisible();
-    return new ExerciseCardComponent(page, root);
+    return new ExerciseCardComponent(root);
   }
   async clickEdit() {
     await this.editIcon.click();
