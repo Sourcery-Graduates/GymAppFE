@@ -27,14 +27,14 @@ export class ExerciseCardComponent {
   }
   async clickEdit() {
     await this.editIcon.click();
+    await expect(this.stopEditingIcon).toBeVisible();
   }
   async stopEditing() {
     await this.stopEditingIcon.click();
+    await expect(this.editIcon).toBeVisible();
   }
   async deleteSetByIndex(index: number) {
     const deleteIcons = this.cardBody.getByTestId('CloseIcon');
     await deleteIcons.nth(index).click();
-    const count = await this.setList.count();
-    await expect(count).toBe(2);
   }
 }

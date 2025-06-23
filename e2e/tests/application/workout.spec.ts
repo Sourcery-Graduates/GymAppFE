@@ -46,7 +46,7 @@ test.describe('User with existing workouts', async () => {
     await routineHelper.deleteRoutine(workout.routineId);
   });
 
-  test.only('can edit workout', async () => {
+  test('can edit workout', async () => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
     const routineHelper = new RoutineHelper(apiContext);
@@ -54,6 +54,7 @@ test.describe('User with existing workouts', async () => {
     const routineDesc =
       'You want to be strong, balanced, and unshakable—the kind of person who could carry all the grocery bags in one trip while standing on one leg.';
     const exerciseName = 'Sit Squats';
+    const exerciseSetToBeRemoved = 1;
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
     const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
@@ -62,12 +63,15 @@ test.describe('User with existing workouts', async () => {
 
     await workoutPage.expectToUpdateName(sandbagLoadWorkout.name);
     await workoutPage.expectToUpdateComment(sandbagLoadWorkout.comment);
-    await workoutPage.expectToUpdateExercise(exerciseName);
+    await workoutPage.expectToRemoveSetFromExercise(exerciseName, exerciseSetToBeRemoved);
 
     await workoutPage.createSaveButton.click();
     await workoutPage.expectAlertToBeVisible();
 
-    //  await routineHelper.deleteRoutine(workout.routineId);
-    //  await workoutHelper.deleteWorkout(workout.workoutId, workout.routineId);
+    await workoutPage.expectNameToBeUpdated(sandbagLoadWorkout.name);
+    await workoutPage.expectCommentToBeUpdated(sandbagLoadWorkout.comment);
+
+    await routineHelper.deleteRoutine(workout.routineId);
+    await workoutHelper.deleteWorkout(workout.workoutId, workout.routineId);
   });
 });
