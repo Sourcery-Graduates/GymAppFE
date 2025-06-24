@@ -248,12 +248,12 @@ const RegisterPage = () => {
           )}
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button isDisabled={activeStep === 0} type='button' onClick={handleBack}>
+            <Button isDisabled={activeStep === 0} type='button' onClick={handleBack} dataTestId='back-button'>
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {activeStep === steps.length - 1 ? (
-              <Button type='submit' isDisabled={activeStep !== steps.length - 1}>
+              <Button type='submit' isDisabled={activeStep !== steps.length - 1} dataTestId='register-button'>
                 Register
               </Button>
             ) : (

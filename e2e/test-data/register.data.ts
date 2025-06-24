@@ -4,5 +4,4 @@ export const registerData = {
     userUsername: 'user',
     userFirstName: 'John',
     userLastName: 'Doe',
-    
 }

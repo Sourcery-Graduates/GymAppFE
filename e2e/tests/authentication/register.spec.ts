@@ -74,4 +74,19 @@ test.describe('Registration tests', async () => {
     // Assert
     await registerPage.expectLastNameIsRequiredError();
   });
+
+  test('registration fails with already registered email', async () => {
+    await registerPage.stepOneRegister(process.env.USER_EMAIL!, testPassword, testPassword);
+    await registerPage.stepTwoRegister(testUsername, testFirstName, testLastName);
+    await registerPage.submitRegistration();
+    await registerPage.expectUserAlreadyExistsAlert();
+  });
+  
+  test('registration - Back/Next button behaviour', async () => {
+    await registerPage.expectBackButtonIsDisabled();
+    await registerPage.stepOneRegister(testEmail, testPassword, testPassword);
+    await registerPage.stepTwoRegister(testUsername, testFirstName, testLastName);
+    await registerPage.expectLocationBioFieldsAreVisible();
+    await registerPage.expectPreviousEnteredDataIsVisible(testEmail, testPassword, testUsername, testFirstName, testLastName);
+  })
 });
