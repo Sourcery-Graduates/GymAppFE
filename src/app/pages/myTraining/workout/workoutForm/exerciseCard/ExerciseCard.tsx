@@ -36,8 +36,8 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseIndex, control, rem
   });
 
   return (
-    <div className='exercise-card'>
-      <div className='exercise-card-header'>
+    <div className='exercise-card' data-testid='exercise-card'>
+      <div className='exercise-card-header' data-testid='exercise-card-header'>
         <Controller
           name={`exercises[${exerciseIndex}].exerciseName`}
           control={control}
@@ -49,11 +49,11 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseIndex, control, rem
         />
         <div>
           {!isEditing ? (
-            <Tooltip title='Edit'>
+            <Tooltip title='Edit' data-testid='edit-exercise-icon'>
               <EditIcon onClick={handleEdit} sx={{ cursor: 'pointer', marginRight: '8px' }} />
             </Tooltip>
           ) : (
-            <Tooltip title='Stop editing'>
+            <Tooltip title='Stop editing' data-testid='stop-editing-exercise-icon'>
               <EditOffIcon onClick={handleStopEditing} sx={{ cursor: 'pointer', marginRight: '8px' }} />
             </Tooltip>
           )}
@@ -68,8 +68,8 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ exerciseIndex, control, rem
         </div>
       </div>
       <Divider className='divider' />
-      <div className='exercise-card-body'>
-        <div>
+      <div className='exercise-card-body' data-testid='exercise-card-body'>
+        <div data-testid='exercise-set-list'>
           <SetList
             isEditing={isEditing}
             setIsEditing={setIsEditing}
