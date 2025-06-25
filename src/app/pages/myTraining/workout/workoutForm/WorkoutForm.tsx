@@ -233,7 +233,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
           <Typography variant='h6' sx={{ marginTop: '16px' }}>
             Exercises:
           </Typography>
-          <div className='exercise-list-wrapper'>
+          <div className='exercise-list-wrapper' data-testId='exercise-list-wrapper'>
             {exerciseFields.map((exercise, exerciseIndex) => (
               <ExerciseCard
                 key={exercise.id}

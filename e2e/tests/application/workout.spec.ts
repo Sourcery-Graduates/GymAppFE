@@ -107,9 +107,9 @@ test.describe('User with no workouts', async () => {
     const routineDesc = strengthStabilityRoutine.description;
     const today = new Date().toLocaleDateString('en-GB');
 
-    const exercise = await exerciseHelper.getGivenNumberOfExercises(2);
+    const exercises = await exerciseHelper.getGivenNumberOfExercises(2);
     const routine = await routineHelper.createRoutine(routineName, routineDesc);
-    await exerciseHelper.addExercisesToRoutine(routine.id, exercise);
+    await exerciseHelper.addExercisesToRoutine(routine.id, exercises);
     await routinePage.goto();
     await routinePage.expectHeadingToBeVisible();
 
@@ -120,8 +120,7 @@ test.describe('User with no workouts', async () => {
     await workoutFormPage.expectDateToBe(today);
     await workoutFormPage.expectNameToBe(routineName);
     await workoutFormPage.expectCommentToBe('');
-
-    
+    await workoutFormPage.expectWorkoutContainsExercises(exercises);
 
     // await workoutHelper.deleteWorkout(workout.id, workout.routineId);
   });

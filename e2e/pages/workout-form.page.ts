@@ -1,4 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { RoutineExercise } from '../test-data/exercises.data';
+import { ExerciseCardComponent } from '../components/exerciseCard.component';
 
 export class WorkoutFormPage {
   startWorkoutButton: Locator;
@@ -41,5 +43,24 @@ export class WorkoutFormPage {
   async expectCommentToBe(comment: string) {
     await expect(this.workoutComment).toBeVisible();
     await expect(this.workoutComment).toHaveValue(comment);
+  }
+  async getAllExerciseCards(): Promise<ExerciseCardComponent[]> {
+    const roots = this.page.getByTestId('exercise-card');
+    const count = await roots.count();
+    const cards: ExerciseCardComponent[] = [];
+
+    for (let i = 0; i < count; i++) {
+      cards.push(new ExerciseCardComponent(roots.nth(i)));
+    }
+
+    return cards;
+  }
+  async expectWorkoutContainsExercises(exercises: RoutineExercise[]) {
+    const cards = await this.getAllExerciseCards();
+    expect(cards.length).toBe(exercises.length);
+
+    const actualNames = await Promise.all(cards.map((card) => card.getHeading()));
+    const expectedNames = await Promise.all(exercises.map((card) => card.exercise.name));
+    expect(actualNames).toEqual(expect.arrayContaining(expectedNames));
   }
 }
