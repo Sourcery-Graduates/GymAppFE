@@ -1,5 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { WorkoutBasePage } from './workout-base.page';
+import { RoutineExercise } from '../test-data/exercises.data';
 
 export class WorkoutFormPage extends WorkoutBasePage {
   title: Locator;
@@ -22,5 +23,9 @@ export class WorkoutFormPage extends WorkoutBasePage {
 
     const data = await response.json();
     return data.id;
+  }
+  async validateWorkoutForm(formattedDate: string, name: string, comment: string, exercises: RoutineExercise[]) {
+    await this.expectHeadingToBeVisible();
+    await super.validateWorkoutData(formattedDate, name, comment, exercises);
   }
 }

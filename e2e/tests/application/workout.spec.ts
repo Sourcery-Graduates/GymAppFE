@@ -101,9 +101,8 @@ test.describe('User with no workouts', async () => {
     workoutFormPage = new WorkoutFormPage(page);
   });
 
-  test.only('creates workout from existing routine and verifies updated data', async () => {
+  test('creates workout from existing routine and verifies updated data', async () => {
     const routineHelper = new RoutineHelper(apiContext);
-    const exerciseHelper = new ExerciseHelper(apiContext);
     const workoutHelper = new WorkoutHelper(apiContext);
     const routineName = strengthStabilityRoutine.name;
     const routineDesc = strengthStabilityRoutine.description;
@@ -111,32 +110,20 @@ test.describe('User with no workouts', async () => {
     const today = formatDateDDMMYYY(new Date());
     const tomorrow = formatDateDDMMYYY(addDays(new Date(), 1));
 
-    const exercises = await exerciseHelper.getGivenNumberOfExercises(2);
-    const routine = await routineHelper.createRoutine(routineName, routineDesc);
-    await exerciseHelper.addExercisesToRoutine(routine.id, exercises);
+    const { routine, exercises } = await routineHelper.createRoutineWithExercises(routineName, routineDesc, 2);
     await routinePage.goto();
     await routinePage.expectHeadingToBeVisible();
 
     await routinePage.goToRoutineDetails();
     await routineDetailsPage.startWorkout();
-
-    await workoutFormPage.expectHeadingToBeVisible();
-    await workoutFormPage.expectDateToBe(today);
-    await workoutFormPage.expectNameToBe(routineName);
-    await workoutFormPage.expectCommentToBe('');
-    await workoutFormPage.expectWorkoutContainsExercises(exercises);
+    await workoutFormPage.validateWorkoutForm(today, routine.name, '', exercises);
 
     await workoutFormPage.updateDate(tomorrow);
     await workoutFormPage.updateWorkoutName(barbellCurlWorkout.name);
     await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
 
     const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId();
-
-    await workoutPage.expectHeadingToBeVisible();
-    await workoutPage.expectDateToBe(tomorrow);
-    await workoutPage.expectNameToBe(barbellCurlWorkout.name);
-    await workoutPage.expectCommentToBe(barbellCurlWorkout.comment);
-    await workoutPage.expectWorkoutContainsExercises(exercises);
+    await workoutPage.validateWorkoutData(tomorrow, barbellCurlWorkout.name, barbellCurlWorkout.comment, exercises);
 
     await workoutHelper.deleteWorkout(workoutId, routine.id);
   });

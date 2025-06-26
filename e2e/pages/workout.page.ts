@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { ExerciseCardComponent } from '../components/exerciseCard.component';
 import { WorkoutBasePage } from './workout-base.page';
+import { RoutineExercise } from '../test-data/exercises.data';
 
 export class WorkoutPage extends WorkoutBasePage {
   title: Locator;
@@ -48,5 +49,9 @@ export class WorkoutPage extends WorkoutBasePage {
     const exerciseCard = await ExerciseCardComponent.getByName(this.page, exerciseName);
     const count = await exerciseCard.setList.count();
     await expect(count).toBe(setCount);
+  }
+  async validateWorkout(formattedDate: string, name: string, comment: string, exercises: RoutineExercise[]) {
+    await this.expectHeadingToBeVisible();
+    await super.validateWorkoutData(formattedDate, name, comment, exercises);
   }
 }

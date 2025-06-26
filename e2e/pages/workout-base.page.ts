@@ -67,4 +67,10 @@ export class WorkoutBasePage {
     const expectedNames = await Promise.all(exercises.map((card) => card.exercise.name));
     expect(actualNames).toEqual(expect.arrayContaining(expectedNames));
   }
+  async validateWorkoutData(formattedDate: string, name: string, comment: string, exercises: RoutineExercise[]) {
+    await this.expectDateToBe(formattedDate);
+    await this.expectNameToBe(name);
+    await this.expectCommentToBe(comment);
+    await this.expectWorkoutContainsExercises(exercises);
+  }
 }
