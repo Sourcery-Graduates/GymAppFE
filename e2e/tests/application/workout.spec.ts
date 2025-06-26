@@ -70,8 +70,8 @@ test.describe('User with existing workouts', async () => {
     await workoutPage.saveWorkout();
     await workoutPage.expectSaveSuccessAlert();
 
-    await workoutPage.expectNameToBeUpdated(sandbagLoadWorkout.name);
-    await workoutPage.expectCommentToBeUpdated(sandbagLoadWorkout.comment);
+    await workoutPage.expectNameToBe(sandbagLoadWorkout.name);
+    await workoutPage.expectCommentToBe(sandbagLoadWorkout.comment);
     await workoutPage.expectExerciseToHaveSetCount(exerciseName, updatedSetCount);
 
     await workoutHelper.deleteWorkout(workout.id, workout.routineId);
@@ -136,8 +136,8 @@ test.describe('User with no workouts', async () => {
 
     await workoutPage.expectHeadingToBeVisible();
     await workoutPage.expectDateToBe(tomorrow);
-    await workoutPage.expectNameToBeUpdated(barbellCurlWorkout.name);
-    await workoutPage.expectCommentToBeUpdated(barbellCurlWorkout.comment);
+    await workoutPage.expectNameToBe(barbellCurlWorkout.name);
+    await workoutPage.expectCommentToBe(barbellCurlWorkout.comment);
     await workoutPage.expectWorkoutContainsExercises(exercises);
 
     await workoutHelper.deleteWorkout(workoutId, routine.id);
