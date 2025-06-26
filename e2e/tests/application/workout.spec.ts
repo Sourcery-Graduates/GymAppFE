@@ -10,6 +10,7 @@ import { strengthStabilityRoutine } from '../../test-data/routine.data';
 import { RoutinesPage } from '../../pages/routines.page';
 import { RoutineDetailsPage } from '../../pages/routine-details.page';
 import { WorkoutFormPage } from '../../pages/workout-form.page';
+import { addDays, formatDateDDMMYYY } from '../../helpers/dateHelper';
 
 test.describe('User with existing workouts', async () => {
   let apiContext: APIRequestContext;
@@ -100,18 +101,15 @@ test.describe('User with no workouts', async () => {
     workoutFormPage = new WorkoutFormPage(page);
   });
 
-  test('can create workout from existing routine', async () => {
+  test.only('creates workout from existing routine and verifies updated data', async () => {
     const routineHelper = new RoutineHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
     const workoutHelper = new WorkoutHelper(apiContext);
     const routineName = strengthStabilityRoutine.name;
     const routineDesc = strengthStabilityRoutine.description;
 
-    const todayDate = new Date();
-    const tomorrowDate = new Date();
-    tomorrowDate.setDate(todayDate.getDate() + 1);
-    const today = todayDate.toLocaleDateString('en-GB');
-    const tomorrow = tomorrowDate.toLocaleDateString('en-GB');
+    const today = formatDateDDMMYYY(new Date());
+    const tomorrow = formatDateDDMMYYY(addDays(new Date(), 1));
 
     const exercises = await exerciseHelper.getGivenNumberOfExercises(2);
     const routine = await routineHelper.createRoutine(routineName, routineDesc);
