@@ -123,6 +123,7 @@ test.describe('User with no workouts', async () => {
     await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
 
     const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId();
+    await workoutPage.expectToBeOnWorkoutPage(workoutId);
     await workoutPage.validateWorkoutData(tomorrow, barbellCurlWorkout.name, barbellCurlWorkout.comment, exercises);
 
     await workoutHelper.deleteWorkout(workoutId, routine.id);

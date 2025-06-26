@@ -22,6 +22,9 @@ export class WorkoutPage extends WorkoutBasePage {
   async goto(workoutId: string) {
     await this.page.goto(`/my-training/${workoutId}`);
   }
+  async expectToBeOnWorkoutPage(workoutId: string) {
+    await expect(this.page).toHaveURL(`/my-training/${workoutId}`);
+  }
   async expectHeadingToBeVisible() {
     await expect(this.title).toBeVisible();
   }
