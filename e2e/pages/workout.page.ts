@@ -1,5 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { ExerciseCardComponent } from '../components/exerciseCard.component';
+import { RoutineExercise } from '../test-data/exercises.data';
 
 export class WorkoutPage {
   title: Locator;
@@ -10,6 +11,7 @@ export class WorkoutPage {
   deleteWorkoutConfirmationDialog: Locator;
   deleteWorkoutConfirmationButton: Locator;
 
+  date: Locator;
   workoutName: Locator;
   workoutComment: Locator;
 
@@ -22,6 +24,7 @@ export class WorkoutPage {
     this.deleteWorkoutConfirmationDialog = this.page.getByTestId('delete-workout-confirmation-dialog');
     this.deleteWorkoutConfirmationButton = this.page.getByTestId('delete-workout-confirmation-button');
 
+    this.date = this.page.getByLabel('Workout Date');
     this.workoutName = this.page.getByTestId('workout-name').locator('input');
     this.workoutComment = this.page.getByTestId('workout-comment').locator('textarea:not([readonly])');
   }
@@ -31,6 +34,9 @@ export class WorkoutPage {
   }
   async expectHeadingToBeVisible() {
     await expect(this.title).toBeVisible();
+  }
+  async expectDateToBe(date: string) {
+    await expect(this.date).toHaveValue(date);
   }
   async reloadPage() {
     await this.page.reload({ waitUntil: 'load' });
@@ -74,5 +80,24 @@ export class WorkoutPage {
     const exerciseCard = await ExerciseCardComponent.getByName(this.page, exerciseName);
     const count = await exerciseCard.setList.count();
     await expect(count).toBe(setCount);
+  }
+  async getAllExerciseCards(): Promise<ExerciseCardComponent[]> {
+    const roots = this.page.getByTestId('exercise-card');
+    const count = await roots.count();
+    const cards: ExerciseCardComponent[] = [];
+
+    for (let i = 0; i < count; i++) {
+      cards.push(new ExerciseCardComponent(roots.nth(i)));
+    }
+
+    return cards;
+  }
+  async expectWorkoutContainsExercises(exercises: RoutineExercise[]) {
+    const cards = await this.getAllExerciseCards();
+    expect(cards.length).toBe(exercises.length);
+
+    const actualNames = await Promise.all(cards.map((card) => card.getHeading()));
+    const expectedNames = await Promise.all(exercises.map((card) => card.exercise.name));
+    expect(actualNames).toEqual(expect.arrayContaining(expectedNames));
   }
 }

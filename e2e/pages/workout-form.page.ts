@@ -3,28 +3,34 @@ import { RoutineExercise } from '../test-data/exercises.data';
 import { ExerciseCardComponent } from '../components/exerciseCard.component';
 
 export class WorkoutFormPage {
-  startWorkoutButton: Locator;
-  heading: Locator;
+  title: Locator;
+  createWorkoutButton: Locator;
   date: Locator;
   workoutName: Locator;
   workoutComment: Locator;
 
   constructor(private page: Page) {
-    this.startWorkoutButton = this.page.getByTestId('create-save-workout-button');
-    this.heading = this.page.getByTestId('workout-create-header');
+    this.title = this.page.getByTestId('workout-create-header').locator('h4');
+    this.createWorkoutButton = this.page.getByTestId('create-save-workout-button');
     this.date = this.page.getByLabel('Workout Date');
     this.workoutName = this.page.getByTestId('workout-name').locator('input');
     this.workoutComment = this.page.getByTestId('workout-comment').locator('textarea:not([readonly])');
   }
 
-  async startWorkout() {
-    await this.startWorkoutButton.click();
+  async createWorkout() {
+    await this.createWorkoutButton.click();
   }
   async expectHeadingToBeVisible() {
-    await expect(this.heading).toBeVisible();
+    await expect(this.title).toBeVisible();
+    await expect(this.title).toHaveText('New Workout');
   }
   async expectDateToBe(date: string) {
     await expect(this.date).toHaveValue(date);
+  }
+  async updateDate(date: string) {
+    await this.date.fill('');
+    await this.date.fill(date);
+    await this.expectDateToBe(date);
   }
   async updateWorkoutName(name: string) {
     await this.workoutName.fill('');
@@ -62,5 +68,9 @@ export class WorkoutFormPage {
     const actualNames = await Promise.all(cards.map((card) => card.getHeading()));
     const expectedNames = await Promise.all(exercises.map((card) => card.exercise.name));
     expect(actualNames).toEqual(expect.arrayContaining(expectedNames));
+  }
+  async deleteExerciseCard(exerciseName: string) {
+    const exerciseCard = await ExerciseCardComponent.getByName(this.page, exerciseName);
+    await exerciseCard.deleteExerciseCard();
   }
 }

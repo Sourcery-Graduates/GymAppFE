@@ -39,4 +39,7 @@ export class ExerciseCardComponent {
     const deleteIcons = this.cardBody.getByTestId('CloseIcon');
     await deleteIcons.nth(index).click();
   }
+  async deleteExerciseCard() {
+    await this.deleteIcon.click();
+  }
 }

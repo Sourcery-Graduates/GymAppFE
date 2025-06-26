@@ -5,7 +5,7 @@ import { WorkoutHelper } from '../../helpers/workoutHelper';
 import { WorkoutPage } from '../../pages/workout.page';
 import { MyTrainingPage } from '../../pages/my-training.page';
 import { RoutineHelper } from '../../helpers/routineHelper';
-import { sandbagLoadWorkout } from '../../test-data/workout.data';
+import { barbellCurlWorkout, sandbagLoadWorkout } from '../../test-data/workout.data';
 import { strengthStabilityRoutine } from '../../test-data/routine.data';
 import { RoutinesPage } from '../../pages/routines.page';
 import { RoutineDetailsPage } from '../../pages/routine-details.page';
@@ -105,7 +105,12 @@ test.describe('User with no workouts', async () => {
     const exerciseHelper = new ExerciseHelper(apiContext);
     const routineName = strengthStabilityRoutine.name;
     const routineDesc = strengthStabilityRoutine.description;
-    const today = new Date().toLocaleDateString('en-GB');
+
+    const todayDate = new Date();
+    const tomorrowDate = new Date();
+    tomorrowDate.setDate(todayDate.getDate() + 1);
+    const today = todayDate.toLocaleDateString('en-GB');
+    const tomorrow = tomorrowDate.toLocaleDateString('en-GB');
 
     const exercises = await exerciseHelper.getGivenNumberOfExercises(2);
     const routine = await routineHelper.createRoutine(routineName, routineDesc);
@@ -121,6 +126,18 @@ test.describe('User with no workouts', async () => {
     await workoutFormPage.expectNameToBe(routineName);
     await workoutFormPage.expectCommentToBe('');
     await workoutFormPage.expectWorkoutContainsExercises(exercises);
+
+    await workoutFormPage.updateDate(tomorrow);
+    await workoutFormPage.updateWorkoutName(barbellCurlWorkout.name);
+    await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
+
+    await workoutFormPage.createWorkout();
+
+    await workoutPage.expectHeadingToBeVisible();
+    await workoutPage.expectDateToBe(tomorrow);
+    await workoutPage.expectNameToBeUpdated(barbellCurlWorkout.name);
+    await workoutPage.expectCommentToBeUpdated(barbellCurlWorkout.comment);
+    await workoutPage.expectWorkoutContainsExercises(exercises);
 
     // await workoutHelper.deleteWorkout(workout.id, workout.routineId);
   });
