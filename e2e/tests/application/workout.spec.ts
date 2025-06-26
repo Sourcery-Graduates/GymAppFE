@@ -100,9 +100,10 @@ test.describe('User with no workouts', async () => {
     workoutFormPage = new WorkoutFormPage(page);
   });
 
-  test.only('can create workout from existing routine', async () => {
+  test('can create workout from existing routine', async () => {
     const routineHelper = new RoutineHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
+    const workoutHelper = new WorkoutHelper(apiContext);
     const routineName = strengthStabilityRoutine.name;
     const routineDesc = strengthStabilityRoutine.description;
 
@@ -131,7 +132,7 @@ test.describe('User with no workouts', async () => {
     await workoutFormPage.updateWorkoutName(barbellCurlWorkout.name);
     await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
 
-    await workoutFormPage.createWorkout();
+    const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId();
 
     await workoutPage.expectHeadingToBeVisible();
     await workoutPage.expectDateToBe(tomorrow);
@@ -139,6 +140,6 @@ test.describe('User with no workouts', async () => {
     await workoutPage.expectCommentToBeUpdated(barbellCurlWorkout.comment);
     await workoutPage.expectWorkoutContainsExercises(exercises);
 
-    // await workoutHelper.deleteWorkout(workout.id, workout.routineId);
+    await workoutHelper.deleteWorkout(workoutId, routine.id);
   });
 });

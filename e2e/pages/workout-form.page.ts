@@ -17,8 +17,16 @@ export class WorkoutFormPage {
     this.workoutComment = this.page.getByTestId('workout-comment').locator('textarea:not([readonly])');
   }
 
-  async createWorkout() {
-    await this.createWorkoutButton.click();
+  async createWorkoutAndGetWorkoutId(): Promise<string> {
+    const [response] = await Promise.all([
+      this.page.waitForResponse(
+        (response) => response.url().includes('/api/workout/workout') && response.request().method() === 'POST',
+      ),
+      this.createWorkoutButton.click(),
+    ]);
+
+    const data = await response.json();
+    return data.id;
   }
   async expectHeadingToBeVisible() {
     await expect(this.title).toBeVisible();
