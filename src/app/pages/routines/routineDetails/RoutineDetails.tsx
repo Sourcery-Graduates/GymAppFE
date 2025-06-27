@@ -99,7 +99,12 @@ const RoutineDetails = () => {
               <Button size='small' onClick={openRoutineUpdate}>
                 <EditIcon fontSize='small' /> &nbsp; Edit Routine
               </Button>
-              <Button size='small' className='delete-routine-button' onClick={handleClickOpen} dataTestId='routine-details-delete-routine-button'>
+              <Button
+                size='small'
+                className='delete-routine-button'
+                onClick={handleClickOpen}
+                dataTestId='routine-details-delete-routine-button'
+              >
                 <DeleteForeverIcon fontSize='small' /> &nbsp; Delete Routine
               </Button>
               <ConfirmationDialog
@@ -110,7 +115,12 @@ const RoutineDetails = () => {
               />
             </>
           )}
-          <Button size='small' className='start-workout-button' onClick={startWorkoutHandler}>
+          <Button
+            size='small'
+            className='start-workout-button'
+            onClick={startWorkoutHandler}
+            dataTestId='start-workout-button'
+          >
             <PlayCircleFilledIcon fontSize='small' /> &nbsp; Start Workout
           </Button>
         </div>

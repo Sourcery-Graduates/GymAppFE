@@ -1,4 +1,5 @@
 import { APIRequestContext } from '@playwright/test';
+import { ExerciseHelper } from './exerciseHelper';
 
 export class RoutineHelper {
   apiContext: APIRequestContext;
@@ -18,7 +19,15 @@ export class RoutineHelper {
     return await response.json();
   }
 
-    async deleteRoutine(routineId: string) {
+  async createRoutineWithExercises(routineName: string, routineDesc: string, exercisesNumber: number) {
+    const exerciseHelper = new ExerciseHelper(this.apiContext);
+    const exercises = await exerciseHelper.getGivenNumberOfExercises(exercisesNumber);
+    const routine = await this.createRoutine(routineName, routineDesc);
+    await exerciseHelper.addExercisesToRoutine(routine.id, exercises);
+    return { routine, exercises };
+  }
+
+  async deleteRoutine(routineId: string) {
     const response = await this.apiContext.delete(`/api/workout/routine/${routineId}`);
     if (!response.ok()) throw new Error(`Failed to delete routine: ${response.status()}`);
   }

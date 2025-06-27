@@ -1,33 +1,29 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { ExerciseCardComponent } from '../components/exerciseCard.component';
+import { WorkoutBasePage } from './workout-base.page';
+import { RoutineExercise } from '../test-data/exercises.data';
 
-export class WorkoutPage {
+export class WorkoutPage extends WorkoutBasePage {
   title: Locator;
-  deleteButton: Locator;
-  createSaveButton: Locator;
-
   saveWorkoutConfirmationAlert: Locator;
+  deleteButton: Locator;
   deleteWorkoutConfirmationDialog: Locator;
   deleteWorkoutConfirmationButton: Locator;
 
-  workoutName: Locator;
-  workoutComment: Locator;
-
-  constructor(private page: Page) {
+  constructor(protected page: Page) {
+    super(page);
     this.title = this.page.getByRole('heading', { name: 'Workout' });
-    this.deleteButton = this.page.getByTestId('delete-workout-button');
-    this.createSaveButton = this.page.getByTestId('create-save-workout-button');
-
     this.saveWorkoutConfirmationAlert = this.page.getByText('Workout saved successfully');
+    this.deleteButton = this.page.getByTestId('delete-workout-button');
     this.deleteWorkoutConfirmationDialog = this.page.getByTestId('delete-workout-confirmation-dialog');
     this.deleteWorkoutConfirmationButton = this.page.getByTestId('delete-workout-confirmation-button');
-
-    this.workoutName = this.page.getByTestId('workout-name').locator('input');
-    this.workoutComment = this.page.getByTestId('workout-comment').locator('textarea:not([readonly])');
   }
 
   async goto(workoutId: string) {
     await this.page.goto(`/my-training/${workoutId}`);
+  }
+  async expectToBeOnWorkoutPage(workoutId: string) {
+    await expect(this.page).toHaveURL(`/my-training/${workoutId}`);
   }
   async expectHeadingToBeVisible() {
     await expect(this.title).toBeVisible();
@@ -41,25 +37,7 @@ export class WorkoutPage {
     await this.deleteWorkoutConfirmationButton.click();
   }
   async saveWorkout() {
-    await this.createSaveButton.click();
-  }
-  async updateWorkoutName(name: string) {
-    await this.workoutName.fill('');
-    await this.workoutName.fill(name);
-    await this.expectNameToBeUpdated(name);
-  }
-  async updateWorkoutComment(comment: string) {
-    await this.workoutComment.fill('');
-    await this.workoutComment.fill(comment);
-    await this.expectCommentToBeUpdated(comment);
-  }
-  async expectNameToBeUpdated(name: string) {
-    await expect(this.workoutName).toBeVisible();
-    await expect(this.workoutName).toHaveValue(name);
-  }
-  async expectCommentToBeUpdated(comment: string) {
-    await expect(this.workoutComment).toBeVisible();
-    await expect(this.workoutComment).toHaveValue(comment);
+    await super.clickCreateSaveButton();
   }
   async expectSaveSuccessAlert() {
     await expect(this.saveWorkoutConfirmationAlert).toBeVisible();
@@ -74,5 +52,9 @@ export class WorkoutPage {
     const exerciseCard = await ExerciseCardComponent.getByName(this.page, exerciseName);
     const count = await exerciseCard.setList.count();
     await expect(count).toBe(setCount);
+  }
+  async validateWorkout(formattedDate: string, name: string, comment: string, exercises: RoutineExercise[]) {
+    await this.expectHeadingToBeVisible();
+    await super.validateWorkoutData(formattedDate, name, comment, exercises);
   }
 }
