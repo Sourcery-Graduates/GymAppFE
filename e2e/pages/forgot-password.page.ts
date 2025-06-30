@@ -1,18 +1,20 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { BasePage } from './base.page';
 
-export class ForgotPasswordPage {
-sendEmailButton: Locator;
-errorMessage: Locator;
-returnLoginPageLink: Locator;
+export class ForgotPasswordPage  extends BasePage{
+  url = '/forgot-password';
+  sendEmailButton: Locator;
+  errorMessage: Locator;
+  returnLoginPageLink: Locator;
 
-  constructor(private page: Page) {
+  constructor(protected page: Page) {
+    super(page);
     this.sendEmailButton = this.page.getByTestId('send-email-button');
     this.errorMessage = this.page.locator('#\\:r1\\:-helper-text');
     this.returnLoginPageLink = this.page.getByTestId('return-login-page-link');
-
   }
   async expectToBeOnForgotPasswordPage() {
-    await expect(this.page).toHaveURL('/forgot-password');
+    await expect(this.page).toHaveURL(this.url);
     await expect(this.sendEmailButton).toBeVisible();
   }
   async expectErrorMessage() {

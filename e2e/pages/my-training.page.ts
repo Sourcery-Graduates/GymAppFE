@@ -1,6 +1,8 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { BasePage } from './base.page';
 
-export class MyTrainingPage {
+export class MyTrainingPage extends BasePage{
+  url = '/my-training';
   title: Locator;
   selectView: Locator;
   workoutList: Locator;
@@ -8,7 +10,8 @@ export class MyTrainingPage {
   calendar: Locator;
   workoutInCalendar: Locator;
 
-  constructor(private page: Page) {
+  constructor(protected page: Page) {
+    super(page);
     this.title = this.page.getByTestId('my-training-title');
     this.selectView = this.page.locator('select');
     this.workoutList = this.page.getByTestId('workout-list');
@@ -17,9 +20,6 @@ export class MyTrainingPage {
     this.workoutInCalendar = this.page.getByTestId('item-workout-container');
   }
 
-  async goto() {
-    await this.page.goto('/my-training');
-  }
   async reloadPage() {
     await this.page.reload({ waitUntil: 'load' });
   }

@@ -24,7 +24,6 @@ test.describe('Routines page', async () => {
   test.beforeEach(async ({ page }) => {
     routinesPage = new RoutinesPage(page);
     routineHelper = new RoutineHelper(apiContext);
-    routineDetailsPage = new RoutineDetailsPage(page);
     routineUpdatePage = new RoutineUpdatePage(page);
     await routinesPage.goto();
     await routinesPage.expectHeadingToBeVisible();
@@ -68,10 +67,11 @@ test.describe('Routines page', async () => {
     await routinesPage.expectListRoutineToBeEmpty();
   });
 
-  test('Delete routine directly from routine page', async () => {
-    await routineHelper.createRoutine(routineData.routineName);
+  test('Delete routine directly from routine page', async ({ page }) => {
+    const routine = await routineHelper.createRoutine(routineData.routineName);
     await routinesPage.reloadPage();
     await routinesPage.goToRoutineDetails();
+    routineDetailsPage = new RoutineDetailsPage(page, routine.id);
     await routineDetailsPage.deleteRoutine();
     await routinesPage.expectListRoutineToBeEmpty();
   });
