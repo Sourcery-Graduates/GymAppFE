@@ -129,7 +129,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
     <>
       <form className='workout-form' onSubmit={handleSubmit(onSubmit)}>
         <div className='workout-create'>
-          <div className='workout-create-header'>
+          <div className='workout-create-header' data-testid='workout-create-header'>
             <Typography variant='h4' gutterBottom>
               {isNewWorkout ? 'New Workout' : 'Workout'}
             </Typography>
@@ -161,7 +161,7 @@ const WorkoutForm = ({ initialWorkout, typeOfWorkout }: WorkoutFormProps) => {
             </div>
           </div>
           <div className='workout-create-info'>
-            <div className='name-and-date'>
+            <div className='name-and-date' data-testId='name-and-date'>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <Controller
                   control={control}

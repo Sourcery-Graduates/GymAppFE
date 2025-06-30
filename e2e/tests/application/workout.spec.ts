@@ -5,8 +5,12 @@ import { WorkoutHelper } from '../../helpers/workoutHelper';
 import { WorkoutPage } from '../../pages/workout.page';
 import { MyTrainingPage } from '../../pages/my-training.page';
 import { RoutineHelper } from '../../helpers/routineHelper';
-import { sandbagLoadWorkout } from '../../test-data/workout.data';
+import { barbellCurlWorkout, sandbagLoadWorkout } from '../../test-data/workout.data';
 import { strengthStabilityRoutine } from '../../test-data/routine.data';
+import { RoutinesPage } from '../../pages/routines.page';
+import { RoutineDetailsPage } from '../../pages/routine-details.page';
+import { WorkoutFormPage } from '../../pages/workout-form.page';
+import { addDays, formatDateDDMMYYY } from '../../helpers/dateHelper';
 
 test.describe('User with existing workouts', async () => {
   let apiContext: APIRequestContext;
@@ -67,10 +71,61 @@ test.describe('User with existing workouts', async () => {
     await workoutPage.saveWorkout();
     await workoutPage.expectSaveSuccessAlert();
 
-    await workoutPage.expectNameToBeUpdated(sandbagLoadWorkout.name);
-    await workoutPage.expectCommentToBeUpdated(sandbagLoadWorkout.comment);
+    await workoutPage.expectNameToBe(sandbagLoadWorkout.name);
+    await workoutPage.expectCommentToBe(sandbagLoadWorkout.comment);
     await workoutPage.expectExerciseToHaveSetCount(exerciseName, updatedSetCount);
 
     await workoutHelper.deleteWorkout(workout.id, workout.routineId);
+  });
+});
+
+test.describe('User with no workouts', async () => {
+  let apiContext: APIRequestContext;
+  let routinePage: RoutinesPage;
+  let routineDetailsPage: RoutineDetailsPage;
+  let workoutPage: WorkoutPage;
+  let workoutFormPage: WorkoutFormPage;
+
+  test.beforeAll(async () => {
+    apiContext = await createApiContextFromStorageState('./e2e/.auth/user.json');
+  });
+
+  test.afterAll(async () => {
+    await apiContext.dispose();
+  });
+
+  test.beforeEach(async ({ page }) => {
+    routinePage = new RoutinesPage(page);
+    routineDetailsPage = new RoutineDetailsPage(page);
+    workoutPage = new WorkoutPage(page);
+    workoutFormPage = new WorkoutFormPage(page);
+  });
+
+  test('creates workout from existing routine and verifies updated data', async () => {
+    const routineHelper = new RoutineHelper(apiContext);
+    const workoutHelper = new WorkoutHelper(apiContext);
+    const routineName = strengthStabilityRoutine.name;
+    const routineDesc = strengthStabilityRoutine.description;
+
+    const today = formatDateDDMMYYY(new Date());
+    const tomorrow = formatDateDDMMYYY(addDays(new Date(), 1));
+
+    const { routine, exercises } = await routineHelper.createRoutineWithExercises(routineName, routineDesc, 2);
+    await routinePage.goto();
+    await routinePage.expectHeadingToBeVisible();
+
+    await routinePage.goToRoutineDetails();
+    await routineDetailsPage.startWorkout();
+    await workoutFormPage.validateWorkoutForm(today, routine.name, '', exercises);
+
+    await workoutFormPage.updateDate(tomorrow);
+    await workoutFormPage.updateWorkoutName(barbellCurlWorkout.name);
+    await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
+
+    const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId();
+    await workoutPage.expectToBeOnWorkoutPage(workoutId);
+    await workoutPage.validateWorkoutData(tomorrow, barbellCurlWorkout.name, barbellCurlWorkout.comment, exercises);
+
+    await workoutHelper.deleteWorkout(workoutId, routine.id);
   });
 });
