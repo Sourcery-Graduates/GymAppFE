@@ -1,14 +1,17 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { ExerciseCardComponent } from '../components/exerciseCard.component';
 import { RoutineExercise } from '../test-data/exercises.data';
+import { BasePage } from './base.page';
 
-export class WorkoutBasePage {
+export class WorkoutBasePage extends BasePage {
+  url = '/my-training';
   createWorkoutButton: Locator;
   date: Locator;
   workoutName: Locator;
   workoutComment: Locator;
 
   constructor(protected page: Page) {
+    super(page);
     this.createWorkoutButton = this.page.getByTestId('create-save-workout-button');
     this.date = this.page.getByLabel('Workout Date');
     this.workoutName = this.page.getByTestId('workout-name').locator('input');

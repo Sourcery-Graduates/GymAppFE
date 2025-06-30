@@ -4,14 +4,19 @@ import { WorkoutBasePage } from './workout-base.page';
 import { RoutineExercise } from '../test-data/exercises.data';
 
 export class WorkoutPage extends WorkoutBasePage {
+  url: string;
   title: Locator;
   saveWorkoutConfirmationAlert: Locator;
   deleteButton: Locator;
   deleteWorkoutConfirmationDialog: Locator;
   deleteWorkoutConfirmationButton: Locator;
 
-  constructor(protected page: Page) {
+  constructor(
+    protected page: Page,
+    private workoutId: string,
+  ) {
     super(page);
+    this.url = `/my-training/${workoutId}`;
     this.title = this.page.getByRole('heading', { name: 'Workout' });
     this.saveWorkoutConfirmationAlert = this.page.getByText('Workout saved successfully');
     this.deleteButton = this.page.getByTestId('delete-workout-button');
@@ -19,17 +24,8 @@ export class WorkoutPage extends WorkoutBasePage {
     this.deleteWorkoutConfirmationButton = this.page.getByTestId('delete-workout-confirmation-button');
   }
 
-  async goto(workoutId: string) {
-    await this.page.goto(`/my-training/${workoutId}`);
-  }
-  async expectToBeOnWorkoutPage(workoutId: string) {
-    await expect(this.page).toHaveURL(`/my-training/${workoutId}`);
-  }
   async expectHeadingToBeVisible() {
     await expect(this.title).toBeVisible();
-  }
-  async reloadPage() {
-    await this.page.reload({ waitUntil: 'load' });
   }
   async deleteWorkout() {
     await this.deleteButton.click();

@@ -49,7 +49,7 @@ export class RegisterPage extends BasePage {
   }
 
   async expectToBeOnRegisterPage() {
-    await expect(this.page).toHaveURL('/register');
+    await super.expectToHaveURL();
     await expect(this.emailInput).toBeVisible();
     await expect(this.nextButton).toBeEnabled();
   }

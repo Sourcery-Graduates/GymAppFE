@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './base.page';
 
-export class MyTrainingPage extends BasePage{
+export class MyTrainingPage extends BasePage {
   url = '/my-training';
   title: Locator;
   selectView: Locator;
@@ -27,8 +27,8 @@ export class MyTrainingPage extends BasePage{
     await expect(this.title).toHaveText('MY TRAININGS');
   }
   async expectToBeOnMyTrainingPage() {
+    await super.expectToHaveURL();
     await this.expectHeadingToBeVisible();
-    await expect(this.page).toHaveURL('/my-training');
   }
   async expectDefaultViewIsList() {
     await expect(this.selectView).toHaveValue('List');

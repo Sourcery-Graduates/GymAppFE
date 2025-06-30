@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 export class BasePage {
   url = '';
@@ -10,5 +10,8 @@ export class BasePage {
   }
   async reloadPage() {
     await this.page.reload({ waitUntil: 'load' });
+  }
+  async expectToHaveURL() {
+    await expect(this.page).toHaveURL(this.url);
   }
 }

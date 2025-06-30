@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './base.page';
 
-export class ForgotPasswordPage  extends BasePage{
+export class ForgotPasswordPage extends BasePage {
   url = '/forgot-password';
   sendEmailButton: Locator;
   errorMessage: Locator;
@@ -14,7 +14,7 @@ export class ForgotPasswordPage  extends BasePage{
     this.returnLoginPageLink = this.page.getByTestId('return-login-page-link');
   }
   async expectToBeOnForgotPasswordPage() {
-    await expect(this.page).toHaveURL(this.url);
+    await super.expectToHaveURL();
     await expect(this.sendEmailButton).toBeVisible();
   }
   async expectErrorMessage() {

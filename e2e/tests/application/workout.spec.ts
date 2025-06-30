@@ -26,11 +26,10 @@ test.describe('User with existing workouts', async () => {
   });
 
   test.beforeEach(async ({ page }) => {
-    workoutPage = new WorkoutPage(page);
     myTrainingPage = new MyTrainingPage(page);
   });
 
-  test('can delete workout', async () => {
+  test('can delete workout', async ({ page }) => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
     const routineHelper = new RoutineHelper(apiContext);
@@ -40,7 +39,8 @@ test.describe('User with existing workouts', async () => {
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
     const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
-    await workoutPage.goto(workout.id);
+    workoutPage = new WorkoutPage(page, workout.id);
+    await workoutPage.goto();
     await workoutPage.expectHeadingToBeVisible();
 
     await workoutPage.deleteWorkout();
@@ -50,7 +50,7 @@ test.describe('User with existing workouts', async () => {
     await routineHelper.deleteRoutine(workout.routineId);
   });
 
-  test('can edit workout', async () => {
+  test('can edit workout', async ({ page }) => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
     const routineName = strengthStabilityRoutine.name;
@@ -61,7 +61,8 @@ test.describe('User with existing workouts', async () => {
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
     const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
-    await workoutPage.goto(workout.id);
+    workoutPage = new WorkoutPage(page, workout.id);
+    await workoutPage.goto();
     await workoutPage.expectHeadingToBeVisible();
 
     await workoutPage.updateWorkoutName(sandbagLoadWorkout.name);
@@ -96,12 +97,10 @@ test.describe('User with no workouts', async () => {
 
   test.beforeEach(async ({ page }) => {
     routinePage = new RoutinesPage(page);
-    routineDetailsPage = new RoutineDetailsPage(page);
-    workoutPage = new WorkoutPage(page);
     workoutFormPage = new WorkoutFormPage(page);
   });
 
-  test('creates workout from existing routine and verifies updated data', async () => {
+  test('creates workout from existing routine and verifies updated data', async ({ page }) => {
     const routineHelper = new RoutineHelper(apiContext);
     const workoutHelper = new WorkoutHelper(apiContext);
     const routineName = strengthStabilityRoutine.name;
@@ -114,16 +113,19 @@ test.describe('User with no workouts', async () => {
     await routinePage.goto();
     await routinePage.expectHeadingToBeVisible();
 
+    routineDetailsPage = new RoutineDetailsPage(page, routine.id);
     await routinePage.goToRoutineDetails();
     await routineDetailsPage.startWorkout();
     await workoutFormPage.validateWorkoutForm(today, routine.name, '', exercises);
 
+    await workoutFormPage.expectToHaveURL();
     await workoutFormPage.updateDate(tomorrow);
     await workoutFormPage.updateWorkoutName(barbellCurlWorkout.name);
     await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
 
     const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId();
-    await workoutPage.expectToBeOnWorkoutPage(workoutId);
+    workoutPage = new WorkoutPage(page, workoutId);
+    await workoutPage.expectToHaveURL();
     await workoutPage.validateWorkoutData(tomorrow, barbellCurlWorkout.name, barbellCurlWorkout.comment, exercises);
 
     await workoutHelper.deleteWorkout(workoutId, routine.id);
