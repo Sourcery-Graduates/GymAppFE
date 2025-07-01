@@ -1,9 +1,10 @@
 import { expect, Page } from '@playwright/test';
 
 export class BasePage {
-  
-
-  constructor(protected page: Page, protected readonly url: string) {}
+  constructor(
+    protected page: Page,
+    protected readonly url: string,
+  ) {}
 
   async goto() {
     await this.page.goto(this.url);
