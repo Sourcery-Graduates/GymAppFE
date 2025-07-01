@@ -19,9 +19,6 @@ export class MyTrainingPage extends BasePage {
     this.workoutInCalendar = this.page.getByTestId('item-workout-container');
   }
 
-  async reloadPage() {
-    await this.page.reload({ waitUntil: 'load' });
-  }
   async expectHeadingToBeVisible() {
     await expect(this.title).toHaveText('MY TRAININGS');
   }
