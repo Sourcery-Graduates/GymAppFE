@@ -11,11 +11,13 @@ import { RoutinesPage } from '../../pages/routines.page';
 import { RoutineDetailsPage } from '../../pages/routine-details.page';
 import { WorkoutFormPage } from '../../pages/workout-form.page';
 import { addDays, formatDateDDMMYYY } from '../../helpers/dateHelper';
+import { DataTestManager } from '../../helpers/dataTestManager';
 
 test.describe('User with existing workouts', async () => {
   let apiContext: APIRequestContext;
   let workoutPage: WorkoutPage;
   let myTrainingPage: MyTrainingPage;
+  let dataTestManager: DataTestManager;
 
   test.beforeAll(async () => {
     apiContext = await createApiContextFromStorageState('./e2e/.auth/user.json');
@@ -28,6 +30,11 @@ test.describe('User with existing workouts', async () => {
   test.beforeEach(async ({ page }) => {
     workoutPage = new WorkoutPage(page);
     myTrainingPage = new MyTrainingPage(page);
+    dataTestManager = new DataTestManager();
+  });
+
+  test.afterEach(async () => {
+    await dataTestManager.cleanup();
   });
 
   test('can delete workout', async () => {
@@ -40,14 +47,14 @@ test.describe('User with existing workouts', async () => {
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
     const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
+    dataTestManager.registerCleanup(() => routineHelper.deleteRoutine(workout.routineId));
+
     await workoutPage.goto(workout.id);
     await workoutPage.expectHeadingToBeVisible();
 
     await workoutPage.deleteWorkout();
     await myTrainingPage.expectToBeOnMyTrainingPage();
     await myTrainingPage.expectListIsEmpty();
-
-    await routineHelper.deleteRoutine(workout.routineId);
   });
 
   test('can edit workout', async () => {
@@ -61,6 +68,8 @@ test.describe('User with existing workouts', async () => {
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
     const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
+    dataTestManager.registerCleanup(() => workoutHelper.deleteWorkoutAndRoutine(workout.id, workout.routineId));
+
     await workoutPage.goto(workout.id);
     await workoutPage.expectHeadingToBeVisible();
 
@@ -74,8 +83,6 @@ test.describe('User with existing workouts', async () => {
     await workoutPage.expectNameToBe(sandbagLoadWorkout.name);
     await workoutPage.expectCommentToBe(sandbagLoadWorkout.comment);
     await workoutPage.expectExerciseToHaveSetCount(exerciseName, updatedSetCount);
-
-    await workoutHelper.deleteWorkout(workout.id, workout.routineId);
   });
 });
 
@@ -85,6 +92,7 @@ test.describe('User with no workouts', async () => {
   let routineDetailsPage: RoutineDetailsPage;
   let workoutPage: WorkoutPage;
   let workoutFormPage: WorkoutFormPage;
+  let dataTestManager: DataTestManager;
 
   test.beforeAll(async () => {
     apiContext = await createApiContextFromStorageState('./e2e/.auth/user.json');
@@ -99,6 +107,11 @@ test.describe('User with no workouts', async () => {
     routineDetailsPage = new RoutineDetailsPage(page);
     workoutPage = new WorkoutPage(page);
     workoutFormPage = new WorkoutFormPage(page);
+    dataTestManager = new DataTestManager();
+  });
+
+  test.afterEach(async () => {
+    await dataTestManager.cleanup();
   });
 
   test('creates workout from existing routine and verifies updated data', async () => {
@@ -111,6 +124,8 @@ test.describe('User with no workouts', async () => {
     const tomorrow = formatDateDDMMYYY(addDays(new Date(), 1));
 
     const { routine, exercises } = await routineHelper.createRoutineWithExercises(routineName, routineDesc, 2);
+    dataTestManager.registerCleanup(() => routineHelper.deleteRoutine(routine.id));
+
     await routinePage.goto();
     await routinePage.expectHeadingToBeVisible();
 
@@ -123,9 +138,9 @@ test.describe('User with no workouts', async () => {
     await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
 
     const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId();
+    dataTestManager.registerCleanup(() => workoutHelper.deleteWorkout(workoutId));
+
     await workoutPage.expectToBeOnWorkoutPage(workoutId);
     await workoutPage.validateWorkoutData(tomorrow, barbellCurlWorkout.name, barbellCurlWorkout.comment, exercises);
-
-    await workoutHelper.deleteWorkout(workoutId, routine.id);
   });
 });

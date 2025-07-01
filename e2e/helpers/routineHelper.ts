@@ -27,7 +27,7 @@ export class RoutineHelper {
     return { routine, exercises };
   }
 
-  async deleteRoutine(routineId: string) {
+  async deleteRoutine(routineId: string): Promise<void> {
     const response = await this.apiContext.delete(`/api/workout/routine/${routineId}`);
     if (!response.ok()) throw new Error(`Failed to delete routine: ${response.status()}`);
   }

@@ -3,6 +3,7 @@ import { MyTrainingPage } from '../../pages/my-training.page';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
 import { WorkoutHelper } from '../../helpers/workoutHelper';
 import { ExerciseHelper } from '../../helpers/exerciseHelper';
+import { DataTestManager } from '../../helpers/dataTestManager';
 
 test.describe('User with no workouts', async () => {
   let myTrainingPage: MyTrainingPage;
@@ -33,6 +34,7 @@ test.describe('User with no workouts', async () => {
 test.describe('User with existing workouts', async () => {
   let apiContext: APIRequestContext;
   let myTrainingPage: MyTrainingPage;
+  let dataTestManager: DataTestManager;
 
   test.beforeAll(async () => {
     apiContext = await createApiContextFromStorageState('./e2e/.auth/user.json');
@@ -43,8 +45,12 @@ test.describe('User with existing workouts', async () => {
   });
 
   test.beforeEach(async ({ page }) => {
+    dataTestManager = new DataTestManager();
     myTrainingPage = new MyTrainingPage(page);
     await myTrainingPage.goto();
+  });
+  test.afterEach(async () => {
+    await dataTestManager.cleanup();
   });
 
   test('can switch views on My Training page', async () => {
@@ -58,6 +64,7 @@ test.describe('User with existing workouts', async () => {
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
     const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
+    await dataTestManager.registerCleanup(() => workoutHelper.deleteWorkoutAndRoutine(workout.id, workout.routineId));
     await myTrainingPage.reloadPage();
 
     await myTrainingPage.expectHeadingToBeVisible();
@@ -66,7 +73,5 @@ test.describe('User with existing workouts', async () => {
     await myTrainingPage.switchViewTo(changedView);
     await myTrainingPage.expectCalendarIsVisible();
     await myTrainingPage.expectCalendarContainsWorkout();
-
-    await workoutHelper.deleteWorkout(workout.id, workout.routineId);
   });
 });

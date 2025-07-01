@@ -52,9 +52,12 @@ export class WorkoutHelper {
     return await response.json();
   }
 
-  async deleteWorkout(workoutId: string, routineId: string) {
-    this.routineHelper.deleteRoutine(routineId);
+  async deleteWorkout(workoutId: string): Promise<void> {
     const response = await this.apiContext.delete(`/api/workout/workout/${workoutId}`);
     if (!response.ok()) throw new Error(`Failed to delete workout: ${response.status()}`);
+  }
+  async deleteWorkoutAndRoutine(workoutId: string, routineId: string): Promise<void> {
+    this.routineHelper.deleteRoutine(routineId);
+    this.deleteWorkout(workoutId);
   }
 }
