@@ -3,11 +3,10 @@ import { WorkoutBasePage } from './workout-base.page';
 import { RoutineExercise } from '../../test-data/exercises.data';
 
 export class WorkoutFormPage extends WorkoutBasePage {
-  url = '/my-training/new';
   title: Locator;
 
   constructor(protected page: Page) {
-    super(page);
+    super(page, '/my-training/new');
     this.title = this.page.getByRole('heading', { name: 'New Workout' });
   }
 

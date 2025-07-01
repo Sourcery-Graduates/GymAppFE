@@ -2,7 +2,6 @@ import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './base.page';
 
 export class LoginPage extends BasePage {
-  url = '/';
   heading: Locator;
   emailInput: Locator;
   passwordInput: Locator;
@@ -12,7 +11,7 @@ export class LoginPage extends BasePage {
   registerLink: Locator;
 
   constructor(protected page: Page) {
-    super(page);
+    super(page, '/');
     this.heading = this.page.getByRole('heading', { name: 'Sign in' });
     this.emailInput = this.page.getByRole('textbox', { name: 'Email' });
     this.passwordInput = this.page.getByRole('textbox', { name: 'Password' });

@@ -3,7 +3,6 @@ import { routineData } from '../test-data/routine.data';
 import { BasePage } from './base.page';
 
 export class RoutinesPage extends BasePage {
-  url = '/routines';
   myRoutines: Locator;
   publicRoutines: Locator;
 
@@ -25,7 +24,7 @@ export class RoutinesPage extends BasePage {
   routineItemTitle: Locator;
 
   constructor(protected page: Page) {
-    super(page);
+    super(page, '/routines');
     this.myRoutines = this.page.getByTestId('my-routines');
     this.publicRoutines = this.page.getByTestId('public-routines');
 

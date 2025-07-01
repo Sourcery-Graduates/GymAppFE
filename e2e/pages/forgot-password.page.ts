@@ -2,13 +2,12 @@ import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './base.page';
 
 export class ForgotPasswordPage extends BasePage {
-  url = '/forgot-password';
   sendEmailButton: Locator;
   errorMessage: Locator;
   returnLoginPageLink: Locator;
 
   constructor(protected page: Page) {
-    super(page);
+    super(page, '/forgot-password');
     this.sendEmailButton = this.page.getByTestId('send-email-button');
     this.errorMessage = this.page.locator('#\\:r1\\:-helper-text');
     this.returnLoginPageLink = this.page.getByTestId('return-login-page-link');

@@ -2,7 +2,6 @@ import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './base.page';
 
 export class RegisterPage extends BasePage {
-  url = '/register';
   emailInput: Locator;
   passwordInput: Locator;
   confirmPasswordInput: Locator;
@@ -25,7 +24,7 @@ export class RegisterPage extends BasePage {
   userAlreadyExistsAlert: Locator;
 
   constructor(protected page: Page) {
-    super(page);
+    super(page, '/register');
     this.emailInput = this.page.getByRole('textbox', { name: 'Email adress' });
     this.passwordInput = this.page.getByRole('textbox', { name: 'Password', exact: true });
     this.confirmPasswordInput = this.page.getByRole('textbox', { name: 'Confirm password', exact: true });

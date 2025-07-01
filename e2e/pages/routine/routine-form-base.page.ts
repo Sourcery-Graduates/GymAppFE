@@ -3,12 +3,14 @@ import { routineData } from '../../test-data/routine.data';
 import { BasePage } from '../base.page';
 
 export class RoutineFormBasePage extends BasePage {
-  url = '';
   routineName: Locator;
   saveRoutineButton: Locator;
 
-  constructor(protected page: Page) {
-    super(page);
+  constructor(
+    protected page: Page,
+    protected readonly url: string,
+  ) {
+    super(page, url);
     this.routineName = this.page.getByRole('textbox', { name: 'Routine name' });
     this.saveRoutineButton = this.page.getByTestId('save-routine-button');
   }

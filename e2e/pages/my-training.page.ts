@@ -2,7 +2,6 @@ import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './base.page';
 
 export class MyTrainingPage extends BasePage {
-  url = '/my-training';
   title: Locator;
   selectView: Locator;
   workoutList: Locator;
@@ -11,7 +10,7 @@ export class MyTrainingPage extends BasePage {
   workoutInCalendar: Locator;
 
   constructor(protected page: Page) {
-    super(page);
+    super(page, '/my-training');
     this.title = this.page.getByTestId('my-training-title');
     this.selectView = this.page.locator('select');
     this.workoutList = this.page.getByTestId('workout-list');

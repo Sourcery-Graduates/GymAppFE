@@ -4,7 +4,6 @@ import { WorkoutBasePage } from './workout-base.page';
 import { RoutineExercise } from '../../test-data/exercises.data';
 
 export class WorkoutPage extends WorkoutBasePage {
-  url: string;
   title: Locator;
   saveWorkoutConfirmationAlert: Locator;
   deleteButton: Locator;
@@ -15,8 +14,7 @@ export class WorkoutPage extends WorkoutBasePage {
     protected page: Page,
     private workoutId: string,
   ) {
-    super(page);
-    this.url = `/my-training/${workoutId}`;
+    super(page, `/my-training/${workoutId}`);
     this.title = this.page.getByRole('heading', { name: 'Workout' });
     this.saveWorkoutConfirmationAlert = this.page.getByText('Workout saved successfully');
     this.deleteButton = this.page.getByTestId('delete-workout-button');
