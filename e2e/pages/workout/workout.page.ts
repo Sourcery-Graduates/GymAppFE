@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
-import { ExerciseCardComponent } from '../components/exerciseCard.component';
+import { ExerciseCardComponent } from '../../components/exerciseCard.component';
 import { WorkoutBasePage } from './workout-base.page';
-import { RoutineExercise } from '../test-data/exercises.data';
+import { RoutineExercise } from '../../test-data/exercises.data';
 
 export class WorkoutPage extends WorkoutBasePage {
   url: string;

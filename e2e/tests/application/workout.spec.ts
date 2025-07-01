@@ -2,14 +2,14 @@ import test, { APIRequestContext } from '@playwright/test';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
 import { ExerciseHelper } from '../../helpers/exerciseHelper';
 import { WorkoutHelper } from '../../helpers/workoutHelper';
-import { WorkoutPage } from '../../pages/workout.page';
+import { WorkoutPage } from '../../pages/workout/workout.page';
 import { MyTrainingPage } from '../../pages/my-training.page';
 import { RoutineHelper } from '../../helpers/routineHelper';
 import { barbellCurlWorkout, sandbagLoadWorkout } from '../../test-data/workout.data';
 import { strengthStabilityRoutine } from '../../test-data/routine.data';
 import { RoutinesPage } from '../../pages/routines.page';
-import { RoutineDetailsPage } from '../../pages/routine-details.page';
-import { WorkoutFormPage } from '../../pages/workout-form.page';
+import { RoutineDetailsPage } from '../../pages/routine/routine-details.page';
+import { WorkoutFormPage } from '../../pages/workout/workout-form.page';
 import { addDays, formatDateDDMMYYY } from '../../helpers/dateHelper';
 
 test.describe('User with existing workouts', async () => {
