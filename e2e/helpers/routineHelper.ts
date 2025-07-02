@@ -4,11 +4,9 @@ import { DataTestManager } from './dataTestManager';
 
 export class RoutineHelper {
   apiContext: APIRequestContext;
-  dataTestManager: DataTestManager;
 
   constructor(apiContext: APIRequestContext) {
     this.apiContext = apiContext;
-    this.dataTestManager = new DataTestManager();
   }
 
   async createRoutine(
