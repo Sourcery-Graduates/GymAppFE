@@ -39,21 +39,26 @@ test.describe('Routines page', async () => {
 
   test('Add a new routine without any exercises', async () => {
     const routineId = await routinesPage.addNewRoutineWithNoExercise();
-    dataTestManager.registerCleanup(() => routineHelper.deleteRoutine(routineId));
+    await routineHelper.registerRoutineCleanup(routineId, dataTestManager);
 
     await routinesPage.expectRoutineToBeVisible(routineData.emptyRoutineName);
   });
 
   test('Add a new routine with one exercise', async () => {
     const routineId = await routinesPage.addNewRoutine();
-    dataTestManager.registerCleanup(() => routineHelper.deleteRoutine(routineId));
+    await routineHelper.registerRoutineCleanup(routineId, dataTestManager);
 
     await routinesPage.expectRoutineToBeVisible(routineData.routineName);
   });
 
   test('Edit routine with routine options button', async () => {
-    const routine = await routineHelper.createRoutine(routineData.routineName);
-    dataTestManager.registerCleanup(() => routineHelper.deleteRoutine(routine.id));
+    const registerCleanup = true;
+    await routineHelper.createRoutine(
+      routineData.routineName,
+      routineData.description,
+      dataTestManager,
+      registerCleanup,
+    );
 
     await routinesPage.reloadPage();
     await routinesPage.editRoutineWithRoutineOptions();
@@ -62,8 +67,13 @@ test.describe('Routines page', async () => {
   });
 
   test('Edit routine directly from routine page', async () => {
-    const routine = await routineHelper.createRoutine(routineData.routineName);
-    dataTestManager.registerCleanup(() => routineHelper.deleteRoutine(routine.id));
+    const registerCleanup = true;
+    await routineHelper.createRoutine(
+      routineData.routineName,
+      routineData.description,
+      dataTestManager,
+      registerCleanup,
+    );
 
     await routinesPage.reloadPage();
     await routinesPage.goToRoutineDetails();
@@ -73,14 +83,28 @@ test.describe('Routines page', async () => {
   });
 
   test('Delete routine with routine options button', async () => {
-    await routineHelper.createRoutine(routineData.routineName);
+    const registerCleanup = false;
+    await routineHelper.createRoutine(
+      routineData.routineName,
+      routineData.description,
+      dataTestManager,
+      registerCleanup,
+    );
+
     await routinesPage.reloadPage();
     await routinesPage.deleteRoutineWithRoutineOptions();
     await routinesPage.expectListRoutineToBeEmpty();
   });
 
   test('Delete routine directly from routine page', async () => {
-    await routineHelper.createRoutine(routineData.routineName);
+    const registerCleanup = false;
+    await routineHelper.createRoutine(
+      routineData.routineName,
+      routineData.description,
+      dataTestManager,
+      registerCleanup,
+    );
+
     await routinesPage.reloadPage();
     await routinesPage.goToRoutineDetails();
     await routineDetailsPage.deleteRoutine();

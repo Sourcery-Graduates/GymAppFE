@@ -61,10 +61,19 @@ test.describe('User with existing workouts', async () => {
       'You want to be strong, balanced, and unshakable—the kind of person who could carry all the grocery bags in one trip while standing on one leg.';
     const changedView = 'Calendar';
     const exerciseName = 'Sit Squats';
+    const comment = '';
+    const registerCleanup = true;
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
-    const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
-    await dataTestManager.registerCleanup(() => workoutHelper.deleteWorkoutAndRoutine(workout.id, workout.routineId));
+    await workoutHelper.createWorkoutAndRoutine(
+      routineName,
+      routineDesc,
+      exercise,
+      comment,
+      dataTestManager,
+      registerCleanup,
+    );
+
     await myTrainingPage.reloadPage();
 
     await myTrainingPage.expectHeadingToBeVisible();

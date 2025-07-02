@@ -27,7 +27,7 @@ export class RoutineHelper {
     const routine = await response.json();
 
     if (dataTestManager && registerCleanup) {
-      dataTestManager.registerCleanup(() => this.deleteRoutine(routine.id));
+      await this.registerRoutineCleanup(routine.id, dataTestManager);
     }
     return routine;
   }
@@ -49,5 +49,8 @@ export class RoutineHelper {
   async deleteRoutine(routineId: string): Promise<void> {
     const response = await this.apiContext.delete(`/api/workout/routine/${routineId}`);
     if (!response.ok()) throw new Error(`Failed to delete routine: ${response.status()}`);
+  }
+  async registerRoutineCleanup(routineId: string, dataTestManager: DataTestManager) {
+    dataTestManager.registerCleanup(() => this.deleteRoutine(routineId));
   }
 }

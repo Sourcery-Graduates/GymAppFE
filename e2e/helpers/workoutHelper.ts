@@ -53,7 +53,7 @@ export class WorkoutHelper {
     const workout = await response.json();
 
     if (dataTestManager && registerCleanup) {
-      dataTestManager.registerCleanup(() => this.deleteWorkout(workout.id));
+      await this.registerWorkoutCleanup(workout.id, dataTestManager);
     }
     return workout;
   }
@@ -74,7 +74,15 @@ export class WorkoutHelper {
     await this.routineExercises.addExercisesToRoutine(routine.id, exercises);
 
     // The final step is to create a workout based on the previously added routine and exercises
-    return await this.createWorkout(routineName, routine.id, exercises, comment, dataTestManager, registerCleanup);
+    const workout = await this.createWorkout(
+      routineName,
+      routine.id,
+      exercises,
+      comment,
+      dataTestManager,
+      registerCleanup,
+    );
+    return workout;
   }
 
   async deleteWorkout(workoutId: string): Promise<void> {
@@ -82,7 +90,10 @@ export class WorkoutHelper {
     if (!response.ok()) throw new Error(`Failed to delete workout: ${response.status()}`);
   }
   async deleteWorkoutAndRoutine(workoutId: string, routineId: string): Promise<void> {
-    this.routineHelper.deleteRoutine(routineId);
-    this.deleteWorkout(workoutId);
+    await this.routineHelper.deleteRoutine(routineId);
+    await this.deleteWorkout(workoutId);
+  }
+  async registerWorkoutCleanup(workoutId: string, dataTestManager: DataTestManager) {
+    dataTestManager.registerCleanup(() => this.deleteWorkout(workoutId));
   }
 }

@@ -44,10 +44,18 @@ test.describe('User with existing workouts', async () => {
     const routineName = strengthStabilityRoutine.name;
     const routineDesc = strengthStabilityRoutine.description;
     const exerciseName = sandbagLoadWorkout.exerciseName;
+    const registerCleanup = false;
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
-    const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
-    dataTestManager.registerCleanup(() => routineHelper.deleteRoutine(workout.routineId));
+    const workout = await workoutHelper.createWorkoutAndRoutine(
+      routineName,
+      routineDesc,
+      exercise,
+      '',
+      dataTestManager,
+      registerCleanup,
+    );
+    await routineHelper.registerRoutineCleanup(workout.routineId, dataTestManager);
 
     await workoutPage.goto(workout.id);
     await workoutPage.expectHeadingToBeVisible();
@@ -65,10 +73,17 @@ test.describe('User with existing workouts', async () => {
     const exerciseName = sandbagLoadWorkout.exerciseName;
     const exerciseSetToBeRemoved = 1;
     const updatedSetCount = 2;
+    const registerCleanup = true;
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
-    const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
-    dataTestManager.registerCleanup(() => workoutHelper.deleteWorkoutAndRoutine(workout.id, workout.routineId));
+    const workout = await workoutHelper.createWorkoutAndRoutine(
+      routineName,
+      routineDesc,
+      exercise,
+      '',
+      dataTestManager,
+      registerCleanup,
+    );
 
     await workoutPage.goto(workout.id);
     await workoutPage.expectHeadingToBeVisible();
@@ -119,12 +134,18 @@ test.describe('User with no workouts', async () => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const routineName = strengthStabilityRoutine.name;
     const routineDesc = strengthStabilityRoutine.description;
+    const registerCleanup = true;
 
     const today = formatDateDDMMYYY(new Date());
     const tomorrow = formatDateDDMMYYY(addDays(new Date(), 1));
 
-    const { routine, exercises } = await routineHelper.createRoutineWithExercises(routineName, routineDesc, 2);
-    dataTestManager.registerCleanup(() => routineHelper.deleteRoutine(routine.id));
+    const { routine, exercises } = await routineHelper.createRoutineWithExercises(
+      routineName,
+      routineDesc,
+      2,
+      dataTestManager,
+      registerCleanup,
+    );
 
     await routinePage.goto();
     await routinePage.expectHeadingToBeVisible();
@@ -138,7 +159,7 @@ test.describe('User with no workouts', async () => {
     await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
 
     const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId();
-    dataTestManager.registerCleanup(() => workoutHelper.deleteWorkout(workoutId));
+    await workoutHelper.registerWorkoutCleanup(workoutId, dataTestManager);
 
     await workoutPage.expectToBeOnWorkoutPage(workoutId);
     await workoutPage.validateWorkoutData(tomorrow, barbellCurlWorkout.name, barbellCurlWorkout.comment, exercises);
