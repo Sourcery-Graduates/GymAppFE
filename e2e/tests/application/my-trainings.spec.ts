@@ -62,9 +62,10 @@ test.describe('User with existing workouts', async () => {
     const changedView = 'Calendar';
     const exerciseName = 'Sit Squats';
     const comment = '';
-    const registerCleanup = true;
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
+    //Create routine, workout and register automatic cleanup
+    const registerCleanup = true;
     await workoutHelper.createWorkoutAndRoutine(
       routineName,
       routineDesc,
