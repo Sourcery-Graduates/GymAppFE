@@ -89,10 +89,6 @@ export class WorkoutHelper {
     const response = await this.apiContext.delete(`/api/workout/workout/${workoutId}`);
     if (!response.ok()) throw new Error(`Failed to delete workout: ${response.status()}`);
   }
-  async deleteWorkoutAndRoutine(workoutId: string, routineId: string): Promise<void> {
-    await this.routineHelper.deleteRoutine(routineId);
-    await this.deleteWorkout(workoutId);
-  }
   async registerWorkoutCleanup(workoutId: string, dataTestManager: DataTestManager) {
     dataTestManager.registerCleanup(() => this.deleteWorkout(workoutId));
   }

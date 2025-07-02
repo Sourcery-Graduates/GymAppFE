@@ -125,7 +125,7 @@ test.describe('User with existing routines', async () => {
     await routinesPage.expectListRoutineToBeEmpty();
   });
 
-  test('can elete routine directly from routine page', async () => {
+  test('can delete routine directly from routine page', async () => {
     const shouldRegisterCleanup = false;
     await routineHelper.createRoutine(
       routineData.routineName,

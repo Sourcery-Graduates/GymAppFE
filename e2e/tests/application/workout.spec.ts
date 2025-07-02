@@ -44,9 +44,10 @@ test.describe('User with existing workouts', async () => {
     const routineName = strengthStabilityRoutine.name;
     const routineDesc = strengthStabilityRoutine.description;
     const exerciseName = sandbagLoadWorkout.exerciseName;
-    const registerCleanup = false;
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
+    // Create workout but do not register automatic workout cleanup
+    const registerCleanup = false;
     const workout = await workoutHelper.createWorkoutAndRoutine(
       routineName,
       routineDesc,
@@ -55,6 +56,7 @@ test.describe('User with existing workouts', async () => {
       dataTestManager,
       registerCleanup,
     );
+    // Register cleanup for routine only
     await routineHelper.registerRoutineCleanup(workout.routineId, dataTestManager);
 
     await workoutPage.goto(workout.id);
@@ -73,9 +75,10 @@ test.describe('User with existing workouts', async () => {
     const exerciseName = sandbagLoadWorkout.exerciseName;
     const exerciseSetToBeRemoved = 1;
     const updatedSetCount = 2;
-    const registerCleanup = true;
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
+    // Create workout and register automatic cleanup
+    const registerCleanup = true;
     const workout = await workoutHelper.createWorkoutAndRoutine(
       routineName,
       routineDesc,
@@ -134,11 +137,12 @@ test.describe('User with no workouts', async () => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const routineName = strengthStabilityRoutine.name;
     const routineDesc = strengthStabilityRoutine.description;
-    const registerCleanup = true;
 
     const today = formatDateDDMMYYY(new Date());
     const tomorrow = formatDateDDMMYYY(addDays(new Date(), 1));
 
+    // Create routine and register routine cleanup
+    const registerCleanup = true;
     const { routine, exercises } = await routineHelper.createRoutineWithExercises(
       routineName,
       routineDesc,
