@@ -2,6 +2,7 @@ import { APIRequestContext, expect } from '@playwright/test';
 import { RoutineHelper } from './routineHelper';
 import { ExerciseHelper } from './exerciseHelper';
 import { RoutineExercise } from '../test-data/exercises.data';
+import { DataTestManager } from './dataTestManager';
 
 export class WorkoutHelper {
   apiContext: APIRequestContext;
@@ -14,17 +15,17 @@ export class WorkoutHelper {
     this.routineExercises = new ExerciseHelper(this.apiContext);
   }
 
-  async createWorkout(routineName: string, routineDesc: string, exercises: RoutineExercise[], comment?: string) {
+  async createWorkout(
+    name: string,
+    routineId: string,
+    exercises: RoutineExercise[],
+    comment: string,
+    dataTestManager: DataTestManager,
+    registerCleanup: boolean,
+  ) {
     const todayISO = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).toISOString();
 
-    // First step is to create routine and get routineId from backend response
-    const routine = await this.routineHelper.createRoutine(routineName, routineDesc);
-    expect(routine.id).toBeDefined();
-
-    // The next step is to associate exercises with the routine
-    await this.routineExercises.addExercisesToRoutine(routine.id, exercises);
-
-    // The final step is to create a workout based on the previously added routine and exercises
+    // The step is to create a workout based on the previously added routine and exercises
     const workoutExercises = exercises.map((exercise) => ({
       exerciseId: exercise.exerciseId,
       exerciseName: exercise.exercise.name,
@@ -41,15 +42,39 @@ export class WorkoutHelper {
 
     const response = await this.apiContext.post('/api/workout/workout', {
       data: {
-        name: `${routineName} workout`,
-        routineId: routine.id,
+        name: `${name} workout`,
+        routineId: routineId,
         date: todayISO,
         comment: comment,
         exercises: workoutExercises,
       },
     });
     if (!response.ok()) throw new Error(`Failed to create workout: ${response.status()}`);
-    return await response.json();
+    const workout = await response.json();
+
+    if (dataTestManager && registerCleanup) {
+      dataTestManager.registerCleanup(() => this.deleteWorkout(workout.id));
+    }
+    return workout;
+  }
+
+  async createWorkoutAndRoutine(
+    routineName: string,
+    routineDesc: string,
+    exercises: RoutineExercise[],
+    comment: string,
+    dataTestManager: DataTestManager,
+    registerCleanup: boolean,
+  ) {
+    // First step is to create routine and get routineId from backend response
+    const routine = await this.routineHelper.createRoutine(routineName, routineDesc, dataTestManager, registerCleanup);
+    expect(routine.id).toBeDefined();
+
+    // The next step is to associate exercises with the routine
+    await this.routineExercises.addExercisesToRoutine(routine.id, exercises);
+
+    // The final step is to create a workout based on the previously added routine and exercises
+    return await this.createWorkout(routineName, routine.id, exercises, comment, dataTestManager, registerCleanup);
   }
 
   async deleteWorkout(workoutId: string): Promise<void> {

@@ -12,8 +12,8 @@ export class DataTestManager {
     for (const task of this.tasks) {
       try {
         await task();
-      } catch (error) {
-        throw new Error(`Test data cleanup failed for ${task}`, error);
+      } catch {
+        throw new Error(`Test data cleanup failed for ${task}`);
       }
     }
     this.tasks = [];
