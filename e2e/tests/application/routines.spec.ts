@@ -5,7 +5,7 @@ import { RoutineHelper } from '../../helpers/routineHelper';
 import { RoutineDetailsPage } from '../../pages/routine-details.page';
 import { routineData } from '../../test-data/routine.data';
 import { RoutineUpdatePage } from '../../pages/routine-update.page';
-import { DataTestManager } from '../../helpers/dataTestManager';
+import { DataTestManager } from '../../test-utils/dataTestManager';
 
 test.describe('User without existing routines', async () => {
   let routinesPage: RoutinesPage;
@@ -81,12 +81,10 @@ test.describe('User with existing routines', async () => {
   });
 
   test('can edit routine with routine options button', async () => {
-    const shouldRegisterCleanup = true;
-    await routineHelper.createRoutine(
+    await routineHelper.createRoutineAndRegisterCleanup(
       routineData.routineName,
       routineData.description,
       dataTestManager,
-      shouldRegisterCleanup,
     );
 
     await routinesPage.reloadPage();
@@ -96,12 +94,10 @@ test.describe('User with existing routines', async () => {
   });
 
   test('can edit routine directly from routine page', async () => {
-    const shouldRegisterCleanup = true;
-    await routineHelper.createRoutine(
+    await routineHelper.createRoutineAndRegisterCleanup(
       routineData.routineName,
       routineData.description,
       dataTestManager,
-      shouldRegisterCleanup,
     );
 
     await routinesPage.reloadPage();
@@ -112,13 +108,7 @@ test.describe('User with existing routines', async () => {
   });
 
   test('can delete routine with routine options button', async () => {
-    const shouldRegisterCleanup = false;
-    await routineHelper.createRoutine(
-      routineData.routineName,
-      routineData.description,
-      dataTestManager,
-      shouldRegisterCleanup,
-    );
+    await routineHelper.createRoutine(routineData.routineName, routineData.description);
 
     await routinesPage.reloadPage();
     await routinesPage.deleteRoutineWithRoutineOptions();
@@ -126,13 +116,7 @@ test.describe('User with existing routines', async () => {
   });
 
   test('can delete routine directly from routine page', async () => {
-    const shouldRegisterCleanup = false;
-    await routineHelper.createRoutine(
-      routineData.routineName,
-      routineData.description,
-      dataTestManager,
-      shouldRegisterCleanup,
-    );
+    await routineHelper.createRoutine(routineData.routineName, routineData.description);
 
     await routinesPage.reloadPage();
     await routinesPage.goToRoutineDetails();

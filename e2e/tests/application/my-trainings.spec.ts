@@ -3,7 +3,7 @@ import { MyTrainingPage } from '../../pages/my-training.page';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
 import { WorkoutHelper } from '../../helpers/workoutHelper';
 import { ExerciseHelper } from '../../helpers/exerciseHelper';
-import { DataTestManager } from '../../helpers/dataTestManager';
+import { DataTestManager } from '../../test-utils/dataTestManager';
 
 test.describe('User with no workouts', async () => {
   let myTrainingPage: MyTrainingPage;
@@ -64,19 +64,15 @@ test.describe('User with existing workouts', async () => {
     const comment = '';
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
-    //Create routine, workout and register automatic cleanup
-    const registerCleanup = true;
-    await workoutHelper.createWorkoutAndRoutine(
+    await workoutHelper.createWorkoutWithRoutineAndRegisterCleanup(
       routineName,
       routineDesc,
       exercise,
       comment,
       dataTestManager,
-      registerCleanup,
     );
 
     await myTrainingPage.reloadPage();
-
     await myTrainingPage.expectHeadingToBeVisible();
     await myTrainingPage.expectListContainsWorkouts();
 

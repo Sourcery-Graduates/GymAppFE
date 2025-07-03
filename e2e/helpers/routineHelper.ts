@@ -1,6 +1,6 @@
 import { APIRequestContext } from '@playwright/test';
 import { ExerciseHelper } from './exerciseHelper';
-import { DataTestManager } from './dataTestManager';
+import { DataTestManager } from '../test-utils/dataTestManager';
 
 export class RoutineHelper {
   apiContext: APIRequestContext;
@@ -9,12 +9,7 @@ export class RoutineHelper {
     this.apiContext = apiContext;
   }
 
-  async createRoutine(
-    name: string,
-    description: string = '',
-    dataTestManager: DataTestManager,
-    registerCleanup: boolean,
-  ) {
+  async createRoutine(name: string, description: string = '') {
     const response = await this.apiContext.post('/api/workout/routine', {
       data: {
         name: name,
@@ -22,24 +17,32 @@ export class RoutineHelper {
       },
     });
     if (!response.ok()) throw new Error(`Failed to create routine: ${response.status()}`);
-    const routine = await response.json();
+    return await response.json();
+  }
 
-    if (dataTestManager && registerCleanup) {
-      await this.registerRoutineCleanup(routine.id, dataTestManager);
-    }
+  async createRoutineAndRegisterCleanup(name: string, description: string = '', dataTestManager: DataTestManager) {
+    const routine = await this.createRoutine(name, description);
+    await this.registerRoutineCleanup(routine.id, dataTestManager);
     return routine;
   }
 
-  async createRoutineWithExercises(
+  async createRoutineWithExercises(name: string, description: string = '', exercisesNumber: number) {
+    const exerciseHelper = new ExerciseHelper(this.apiContext);
+    const exercises = await exerciseHelper.getGivenNumberOfExercises(exercisesNumber);
+    const routine = await this.createRoutine(name, description);
+    await exerciseHelper.addExercisesToRoutine(routine.id, exercises);
+    return { routine, exercises };
+  }
+
+  async createRoutineWithExercisesAndRegisterCleanup(
     name: string,
     description: string = '',
     exercisesNumber: number,
     dataTestManager: DataTestManager,
-    registerCleanup: boolean,
   ) {
     const exerciseHelper = new ExerciseHelper(this.apiContext);
     const exercises = await exerciseHelper.getGivenNumberOfExercises(exercisesNumber);
-    const routine = await this.createRoutine(name, description, dataTestManager, registerCleanup);
+    const routine = await this.createRoutineAndRegisterCleanup(name, description, dataTestManager);
     await exerciseHelper.addExercisesToRoutine(routine.id, exercises);
     return { routine, exercises };
   }
