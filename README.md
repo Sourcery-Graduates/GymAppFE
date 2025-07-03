@@ -234,6 +234,8 @@ Tests are located in the following directories:
 ```
 e2e/
 ├── pages/                        # Contains page object classes
+├── helpers/                      # Contains utilities that interact with the system under test (app)
+├── test-utils/                   # Contains utilities that support test framework and test environment
 └── tests/
 |      └── application/           # Tests using shared login data
 |      └── authentication/        # Login and registration tests
@@ -277,3 +279,34 @@ We use Playwright projects to separate test categories and apply different confi
 - **Separation of concerns** - setup, authentication and application test are kept separately
 - **Selective configuration** - shared login used where needed (application project)
 - **Clear test management** - easier to run or skip specific test groups
+
+### 🗑️ Test Data Cleanup Strategy
+
+We use custom `TestDataManager` utility to manage and clean up test data created during automated tests.
+
+**How it works:**
+
+-> Each test that creates test data (via UI or via API) should register a cleanup task
+
+-> These cleanup tasks are executed automatically in `afterEach` to ensure test isolation and keep the environment clean
+
+Tests should not directly call delete endpoints, unless the goal is to verify deletion.
+Always use `createXAndRegisterCleanup()` helper methods for consistency.
+
+**Example usage:**
+
+```ts
+test.beforeEach(() => {
+  dataTestManager = new DataTestManager();
+});
+
+test.afterEach(() => {
+  await dataTestManager.cleanup();
+});
+
+test('creates a routine', async () => {
+  await routineHelper.createRoutineAndRegisterCleanup('Test routine', 'Test routine description', dataTestManager);
+
+  // assertions
+});
+```
