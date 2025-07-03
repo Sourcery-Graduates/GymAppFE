@@ -114,7 +114,7 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
   });
 
   return (
-    <div className='routine-form-container'>
+    <div className='routine-form-container' data-testid='routine-form-component'>
       <div className='routine-options-bar'>
         <IconButton aria-label='go back' onClick={goBackHandler}>
           <ArrowBackIosNewIcon sx={{ color: 'accent.main' }} />
@@ -141,6 +141,7 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
           {...register('name')}
           error={!!errors.name}
           helperText={errors.name?.message}
+          data-testid='routine-name'
         />
         <TextField
           label='Description'
@@ -153,6 +154,7 @@ const RoutineForm: React.FC<RoutineProps> = ({ routine }) => {
           {...register('description')}
           error={!!errors.description}
           helperText={errors.description?.message}
+          data-testid='routine-description'
         />
       </form>
       <div className='routine-exercise-list'>
