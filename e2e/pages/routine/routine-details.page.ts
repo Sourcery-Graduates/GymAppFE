@@ -1,11 +1,16 @@
 import { Locator, Page } from '@playwright/test';
+import { BasePage } from '../base.page';
 
-export class RoutineDetailsPage {
+export class RoutineDetailsPage extends BasePage {
   deleteRoutineButton: Locator;
   deleteRoutineConfirmationButton: Locator;
   startWorkoutButton: Locator;
 
-  constructor(private page: Page) {
+  constructor(
+    protected page: Page,
+    private routineId: string,
+  ) {
+    super(page, `/routines/routine-details/${routineId}`);
     this.deleteRoutineButton = this.page.getByTestId('routine-details-delete-routine-button');
     this.deleteRoutineConfirmationButton = this.page.getByTestId('delete-workout-confirmation-button');
     this.startWorkoutButton = this.page.getByTestId('start-workout-button');

@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
-import { ExerciseCardComponent } from '../components/exerciseCard.component';
+import { ExerciseCardComponent } from '../../components/exerciseCard.component';
 import { WorkoutBasePage } from './workout-base.page';
-import { RoutineExercise } from '../test-data/exercises.data';
+import { RoutineExercise } from '../../test-data/exercises.data';
 
 export class WorkoutPage extends WorkoutBasePage {
   title: Locator;
@@ -10,8 +10,11 @@ export class WorkoutPage extends WorkoutBasePage {
   deleteWorkoutConfirmationDialog: Locator;
   deleteWorkoutConfirmationButton: Locator;
 
-  constructor(protected page: Page) {
-    super(page);
+  constructor(
+    protected page: Page,
+    private workoutId: string,
+  ) {
+    super(page, `/my-training/${workoutId}`);
     this.title = this.page.getByRole('heading', { name: 'Workout' });
     this.saveWorkoutConfirmationAlert = this.page.getByText('Workout saved successfully');
     this.deleteButton = this.page.getByTestId('delete-workout-button');
@@ -19,17 +22,8 @@ export class WorkoutPage extends WorkoutBasePage {
     this.deleteWorkoutConfirmationButton = this.page.getByTestId('delete-workout-confirmation-button');
   }
 
-  async goto(workoutId: string) {
-    await this.page.goto(`/my-training/${workoutId}`);
-  }
-  async expectToBeOnWorkoutPage(workoutId: string) {
-    await expect(this.page).toHaveURL(`/my-training/${workoutId}`);
-  }
   async expectHeadingToBeVisible() {
     await expect(this.title).toBeVisible();
-  }
-  async reloadPage() {
-    await this.page.reload({ waitUntil: 'load' });
   }
   async deleteWorkout() {
     await this.deleteButton.click();

@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { BasePage } from './base.page';
 
-export class LoginPage {
+export class LoginPage extends BasePage {
   heading: Locator;
   emailInput: Locator;
   passwordInput: Locator;
@@ -9,7 +10,8 @@ export class LoginPage {
   credentialsError: Locator;
   registerLink: Locator;
 
-  constructor(private page: Page) {
+  constructor(protected page: Page) {
+    super(page, '/');
     this.heading = this.page.getByRole('heading', { name: 'Sign in' });
     this.emailInput = this.page.getByRole('textbox', { name: 'Email' });
     this.passwordInput = this.page.getByRole('textbox', { name: 'Password' });
@@ -19,15 +21,12 @@ export class LoginPage {
     this.registerLink = this.page.locator('body > div > div.register-container > p > a');
   }
 
-  async goto() {
-    await this.page.goto('/');
-  }
   async gotoRegisterPage() {
-    await this.page.goto('/');
+    await super.goto();
     await this.registerLink.click();
   }
   async gotoForgotPasswordPage() {
-    await this.page.goto('/');
+    await super.goto();
     await this.forgotPasswordLink.click();
   }
   async expectHeadingToBeVisible() {
