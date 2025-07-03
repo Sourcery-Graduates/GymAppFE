@@ -285,8 +285,10 @@ We use Playwright projects to separate test categories and apply different confi
 We use custom `TestDataManager` utility to manage and clean up test data created during automated tests.
 
 **How it works:**
--> Each test creates test data (via UI or via API) should register a cleanup task
--> These cleanup taks are executed automatically in `afterEach` to ensure test isolation and keep the environment clean
+
+-> Each test that creates test data (via UI or via API) should register a cleanup task
+
+-> These cleanup tasks are executed automatically in `afterEach` to ensure test isolation and keep the environment clean
 
 Tests should not directly call delete endpoints, unless the goal is to verify deletion.
 Always use `createXAndRegisterCleanup()` helper methods for consistency.
@@ -294,22 +296,17 @@ Always use `createXAndRegisterCleanup()` helper methods for consistency.
 **Example usage:**
 
 ```ts
-test.beforeEach(()=> {
+test.beforeEach(() => {
   dataTestManager = new DataTestManager();
 });
 
-test.afterEach(()=> {
+test.afterEach(() => {
   await dataTestManager.cleanup();
 });
 
-test('creates a routine', async ()=> {
-   await routineHelper.createRoutineAndRegisterCleanup(
-      'Test routine',
-     ''',
-      dataTestManager,
-    );
+test('creates a routine', async () => {
+  await routineHelper.createRoutineAndRegisterCleanup('Test routine', 'Test routine description', dataTestManager);
 
-    // assertions
+  // assertions
 });
-
 ```
