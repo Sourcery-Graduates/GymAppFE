@@ -2,9 +2,9 @@ import test, { APIRequestContext } from '@playwright/test';
 import { RoutinesPage } from '../../pages/routines.page';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
 import { RoutineHelper } from '../../helpers/routineHelper';
-import { RoutineDetailsPage } from '../../pages/routine-details.page';
+import { RoutineDetailsPage } from '../../pages/routine/routine-details.page';
 import { routineData } from '../../test-data/routine.data';
-import { RoutineUpdatePage } from '../../pages/routine-update.page';
+import { RoutineUpdatePage } from '../../pages/routine/routine-update.page';
 
 test.describe('Routines page', async () => {
   let routinesPage: RoutinesPage;
@@ -24,8 +24,6 @@ test.describe('Routines page', async () => {
   test.beforeEach(async ({ page }) => {
     routinesPage = new RoutinesPage(page);
     routineHelper = new RoutineHelper(apiContext);
-    routineDetailsPage = new RoutineDetailsPage(page);
-    routineUpdatePage = new RoutineUpdatePage(page);
     await routinesPage.goto();
     await routinesPage.expectHeadingToBeVisible();
   });
@@ -42,22 +40,28 @@ test.describe('Routines page', async () => {
     await routineHelper.deleteRoutine(routineId);
   });
 
-  test('Edit routine with routine options button', async () => {
+  test('Edit routine with routine options button', async ({ page }) => {
     const routine = await routineHelper.createRoutine(routineData.routineName);
     await routinesPage.reloadPage();
     await routinesPage.editRoutineWithRoutineOptions();
+
+    routineUpdatePage = new RoutineUpdatePage(page, routine.id);
     await routineUpdatePage.updateRoutine();
     await routinesPage.expectRoutineNameToBeUpdated();
+
     await routineHelper.deleteRoutine(routine.id);
   });
 
-  test('Edit routine directly from routine page', async () => {
+  test('Edit routine directly from routine page', async ({ page }) => {
     const routine = await routineHelper.createRoutine(routineData.routineName);
     await routinesPage.reloadPage();
     await routinesPage.goToRoutineDetails();
     await routinesPage.goToEditRoutineForm();
+
+    routineUpdatePage = new RoutineUpdatePage(page, routine.id);
     await routineUpdatePage.updateRoutine();
     await routinesPage.expectRoutineNameToBeUpdated();
+
     await routineHelper.deleteRoutine(routine.id);
   });
 
@@ -68,11 +72,14 @@ test.describe('Routines page', async () => {
     await routinesPage.expectListRoutineToBeEmpty();
   });
 
-  test('Delete routine directly from routine page', async () => {
-    await routineHelper.createRoutine(routineData.routineName);
+  test('Delete routine directly from routine page', async ({ page }) => {
+    const routine = await routineHelper.createRoutine(routineData.routineName);
     await routinesPage.reloadPage();
     await routinesPage.goToRoutineDetails();
+
+    routineDetailsPage = new RoutineDetailsPage(page, routine.id);
     await routineDetailsPage.deleteRoutine();
+
     await routinesPage.expectListRoutineToBeEmpty();
   });
 });
