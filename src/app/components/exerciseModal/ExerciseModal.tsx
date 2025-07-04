@@ -75,10 +75,10 @@ const ExerciseModal = ({ open, handleClose, onSave }: ExerciseModalProps) => {
 
   return (
     <Dialog onClose={handleClose} open={open} className='exercise-modal-dialog'>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} data-testid='add-exercise-modal'>
         <DialogTitle>Add exercise</DialogTitle>
         <DialogContent>
-          <div className='form-row'>
+          <div className='form-row' data-testid='choose-exercise'>
             <Controller
               name='exerciseId'
               control={control}

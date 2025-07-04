@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { routineData } from '../test-data/routine.data';
 import { BasePage } from './base.page';
+import { RoutineCreatePage } from './routine/routine-create.page';
 
 export class RoutinesPage extends BasePage {
   myRoutines: Locator;
@@ -11,9 +12,6 @@ export class RoutinesPage extends BasePage {
   routineDescription: Locator;
   addExerciseButton: Locator;
   saveRoutineButton: Locator;
-
-  chooseExercise: Locator;
-  saveButton: Locator;
 
   routineOptions: Locator;
   editRoutineButton: Locator;
@@ -33,9 +31,6 @@ export class RoutinesPage extends BasePage {
     this.routineDescription = this.page.locator('#\\:r9\\:');
     this.addExerciseButton = this.page.getByTestId('add-exercise-button');
     this.saveRoutineButton = this.page.getByTestId('save-routine-button');
-
-    this.chooseExercise = this.page.locator('#\\:rd\\:');
-    this.saveButton = this.page.getByTestId('save-button');
 
     this.routineOptions = this.page.getByRole('button', { name: 'Routine options' });
     this.editRoutineButton = this.page.getByText('Edit Routine');
@@ -62,24 +57,31 @@ export class RoutinesPage extends BasePage {
     const data = await response.json();
     return data.id;
   }
-  async addNewRoutineWithNoExercise() {
+
+  async clickNewRoutineButton(): Promise<RoutineCreatePage> {
     await this.newRoutineButton.click();
-    await this.routineName.fill(routineData.emptyRoutineName);
-    await this.routineDescription.fill(routineData.noExerciseDescription);
+    return new RoutineCreatePage(this.page);
+  }
+
+  async addNewRoutineWithNoExercise() {
+    const createRoutinePage = await this.clickNewRoutineButton();
+    await createRoutinePage.name.fill(routineData.emptyRoutineName);
+    await createRoutinePage.description.fill(routineData.noExerciseDescription);
 
     const routineId = await this.saveAndGetRoutineId();
 
     return routineId;
   }
-  async addNewRoutine() {
-    await this.newRoutineButton.click();
-    await this.routineName.fill(routineData.routineName);
-    await this.routineDescription.fill(routineData.oneExerciseDescription);
 
-    await this.addExerciseButton.click();
-    await this.chooseExercise.fill('push');
-    await this.page.getByRole('option', { name: 'Push Press', exact: true }).click();
-    await this.saveButton.click();
+  async addNewRoutine() {
+    const createRoutinePage = await this.clickNewRoutineButton();
+    await createRoutinePage.name.fill(routineData.routineName);
+    await createRoutinePage.description.fill(routineData.oneExerciseDescription);
+
+    const exerciseModal = await createRoutinePage.addExercise();
+    await exerciseModal.expectHeadingToBeVisible();
+    await exerciseModal.chooseExercise();
+    await exerciseModal.saveButton.click();
 
     const routineId = await this.saveAndGetRoutineId();
 
