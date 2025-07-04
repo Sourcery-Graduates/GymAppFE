@@ -96,7 +96,7 @@ const RoutineDetails = () => {
         <div className='routine-options'>
           {data?.routine.userId === userId && (
             <>
-              <Button size='small' onClick={openRoutineUpdate}>
+              <Button size='small' onClick={openRoutineUpdate} dataTestId='routine-details-edit-routine-button'>
                 <EditIcon fontSize='small' /> &nbsp; Edit Routine
               </Button>
               <Button

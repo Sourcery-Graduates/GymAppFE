@@ -29,4 +29,16 @@ export class RoutineFormBasePage extends BasePage {
     this.addExerciseButton.click();
     return new AddExerciseCardComponent(this.page);
   }
+
+  async saveAndGetRoutineId(): Promise<string> {
+    const [response] = await Promise.all([
+      this.page.waitForResponse(
+        (response) => response.url().includes('/api/workout/routine') && response.request().method() === 'POST',
+      ),
+      this.saveRoutineButton.click(),
+    ]);
+
+    const data = await response.json();
+    return data.id;
+  }
 }
