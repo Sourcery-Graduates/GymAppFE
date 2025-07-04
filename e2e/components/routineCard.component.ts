@@ -6,22 +6,24 @@ export class RoutineCardComponent {
   name: Locator;
   description: Locator;
   optionsButton: Locator;
+  clickableArea: Locator;
 
   constructor(root: Locator) {
     this.root = root;
     this.name = this.root.getByTestId('routine-item-title');
     this.description = this.root.getByTestId('routine-item-description');
     this.optionsButton = this.root.getByTestId('MoreVertIcon');
+    this.clickableArea = this.root.getByTestId('routine-item-title-container');
   }
 
-  static async getByName(page: Page, name: string): Promise<RoutineCardComponent> {
-    const root = page.getByTestId('routine-item').filter({ hasText: name });
+  static async getByRoutineId(page: Page, routineId: string): Promise<RoutineCardComponent> {
+    const root = page.getByTestId(`routine-item-${routineId}`);
     await expect(root).toBeVisible();
     return new RoutineCardComponent(root);
   }
 
   async click(page: Page, routineId: string): Promise<RoutineDetailsPage> {
-    await this.root.click();
+    await this.clickableArea.click();
     return new RoutineDetailsPage(page, routineId);
   }
 }

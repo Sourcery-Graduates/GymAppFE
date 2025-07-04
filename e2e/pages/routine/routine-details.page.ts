@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from '../base.page';
 import { RoutineUpdatePage } from './routine-update.page';
 
@@ -19,9 +19,9 @@ export class RoutineDetailsPage extends BasePage {
     this.startWorkoutButton = this.page.getByTestId('start-workout-button');
   }
 
-  async editRoutine(routine) {
+  async editRoutine(routineId: string) {
     await this.editRoutineButton.click();
-    return new RoutineUpdatePage(this.page, routine.id);
+    return new RoutineUpdatePage(this.page, routineId);
   }
 
   async deleteRoutine() {

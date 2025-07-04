@@ -8,7 +8,6 @@ import { RoutineHelper } from '../../helpers/routineHelper';
 import { barbellCurlWorkout, sandbagLoadWorkout } from '../../test-data/workout.data';
 import { strengthStabilityRoutine } from '../../test-data/routine.data';
 import { RoutinesPage } from '../../pages/routines.page';
-import { RoutineDetailsPage } from '../../pages/routine/routine-details.page';
 import { WorkoutFormPage } from '../../pages/workout/workout-form.page';
 import { addDays, formatDateDDMMYYY } from '../../helpers/dateHelper';
 
@@ -83,7 +82,6 @@ test.describe('User with existing workouts', async () => {
 test.describe('User with no workouts', async () => {
   let apiContext: APIRequestContext;
   let routinePage: RoutinesPage;
-  let routineDetailsPage: RoutineDetailsPage;
   let workoutPage: WorkoutPage;
   let workoutFormPage: WorkoutFormPage;
 
@@ -113,8 +111,7 @@ test.describe('User with no workouts', async () => {
     await routinePage.goto();
     await routinePage.expectHeadingToBeVisible();
 
-    routineDetailsPage = new RoutineDetailsPage(page, routine.id);
-    await routinePage.goToRoutineDetails();
+    const routineDetailsPage = await routinePage.goToRoutineDetailsPage(routine.id);
     await routineDetailsPage.startWorkout();
     await workoutFormPage.validateWorkoutForm(today, routine.name, '', exercises);
 

@@ -41,7 +41,7 @@ export class RoutinesPage extends BasePage {
 
   async addNewRoutineWithNoExercise() {
     const createRoutinePage = await this.clickNewRoutineButton();
-    await createRoutinePage.name.fill(routineData.emptyRoutineName);
+    await createRoutinePage.name.fill(routineData.emptyRoutineName); //TODO: static names will be fixed with GYM-264
     await createRoutinePage.description.fill(routineData.noExerciseDescription);
 
     const routineId = await createRoutinePage.saveAndGetRoutineId();
@@ -51,7 +51,7 @@ export class RoutinesPage extends BasePage {
 
   async addNewRoutine() {
     const createRoutinePage = await this.clickNewRoutineButton();
-    await createRoutinePage.name.fill(routineData.routineName);
+    await createRoutinePage.name.fill(routineData.routineName); //TODO: static names will be fixed with GYM-264
     await createRoutinePage.description.fill(routineData.oneExerciseDescription);
 
     const exerciseModal = await createRoutinePage.addExercise();
@@ -63,32 +63,34 @@ export class RoutinesPage extends BasePage {
 
     return routineId;
   }
-  async expectRoutineToBeVisible(routineName: string) {
-    await expect(this.routineItemTitle).toHaveText(routineName);
+  async expectRoutineToBeVisible(routineId: string) {
+    const routineCard = await RoutineCardComponent.getByRoutineId(this.page, routineId);
+    await expect(routineCard.root).toBeVisible();
   }
 
-  async editRoutineWithRoutineOptions(routine): Promise<RoutineUpdatePage> {
-    const routineCard = await RoutineCardComponent.getByName(this.page, routine.name);
+  async editRoutineWithRoutineOptions(routineId: string): Promise<RoutineUpdatePage> {
+    const routineCard = await RoutineCardComponent.getByRoutineId(this.page, routineId);
     await routineCard.optionsButton.click();
     await this.editRoutineButton.click();
-    return new RoutineUpdatePage(this.page, routine.id);
+    return new RoutineUpdatePage(this.page, routineId);
   }
 
-  async deleteRoutineWithRoutineOptions(routineName: string) {
-    const routineCard = await RoutineCardComponent.getByName(this.page, routineName);
+  async deleteRoutineWithRoutineOptions(routineId: string) {
+    const routineCard = await RoutineCardComponent.getByRoutineId(this.page, routineId);
     await routineCard.optionsButton.click();
     await this.deleteRoutineButton.click();
     await this.deleteRoutineConfirmationButton.click();
   }
-  async goToRoutineDetailsPage(routine) {
-    const routineCard = await RoutineCardComponent.getByName(this.page, routine.name);
-    const routineDetailsPage = await routineCard.click(this.page, routine.id);
+  async goToRoutineDetailsPage(routineId: string) {
+    const routineCard = await RoutineCardComponent.getByRoutineId(this.page, routineId);
+    const routineDetailsPage = await routineCard.click(this.page, routineId);
     return routineDetailsPage;
   }
   async expectListRoutineToBeEmpty() {
     await expect(this.routineList).toBeEmpty();
   }
-  async expectRoutineNameToBeUpdated(routineCard) {
-    await expect(routineCard.name).toHaveText(routineData.routineUpdatedName);
+  async expectRoutineNameToBeUpdated(routineId: string) {
+    const updatedRoutineCard = await RoutineCardComponent.getByRoutineId(this.page, routineId);
+    await expect(updatedRoutineCard.name).toHaveText(routineData.routineUpdatedName); //TODO: static names will be fixed with GYM-264
   }
 }
