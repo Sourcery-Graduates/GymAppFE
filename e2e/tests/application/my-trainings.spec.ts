@@ -3,6 +3,7 @@ import { MyTrainingPage } from '../../pages/my-training.page';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
 import { WorkoutHelper } from '../../helpers/workoutHelper';
 import { ExerciseHelper } from '../../helpers/exerciseHelper';
+import { DataTestManager } from '../../test-utils/dataTestManager';
 
 test.describe('User with no workouts', async () => {
   let myTrainingPage: MyTrainingPage;
@@ -33,6 +34,7 @@ test.describe('User with no workouts', async () => {
 test.describe('User with existing workouts', async () => {
   let apiContext: APIRequestContext;
   let myTrainingPage: MyTrainingPage;
+  let dataTestManager: DataTestManager;
 
   test.beforeAll(async () => {
     apiContext = await createApiContextFromStorageState('./e2e/.auth/user.json');
@@ -43,8 +45,12 @@ test.describe('User with existing workouts', async () => {
   });
 
   test.beforeEach(async ({ page }) => {
+    dataTestManager = new DataTestManager();
     myTrainingPage = new MyTrainingPage(page);
     await myTrainingPage.goto();
+  });
+  test.afterEach(async () => {
+    await dataTestManager.cleanup();
   });
 
   test('can switch views on My Training page', async () => {
@@ -55,18 +61,23 @@ test.describe('User with existing workouts', async () => {
       'You want to be strong, balanced, and unshakable—the kind of person who could carry all the grocery bags in one trip while standing on one leg.';
     const changedView = 'Calendar';
     const exerciseName = 'Sit Squats';
+    const comment = '';
 
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
-    const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise);
-    await myTrainingPage.reloadPage();
+    await workoutHelper.createWorkoutWithRoutineAndRegisterCleanup(
+      routineName,
+      routineDesc,
+      exercise,
+      comment,
+      dataTestManager,
+    );
 
+    await myTrainingPage.reloadPage();
     await myTrainingPage.expectHeadingToBeVisible();
     await myTrainingPage.expectListContainsWorkouts();
 
     await myTrainingPage.switchViewTo(changedView);
     await myTrainingPage.expectCalendarIsVisible();
     await myTrainingPage.expectCalendarContainsWorkout();
-
-    await workoutHelper.deleteWorkout(workout.id, workout.routineId);
   });
 });
