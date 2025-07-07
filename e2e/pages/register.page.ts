@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { BasePage } from './base.page';
 
-export class RegisterPage {
+export class RegisterPage extends BasePage {
   emailInput: Locator;
   passwordInput: Locator;
   confirmPasswordInput: Locator;
@@ -22,7 +23,8 @@ export class RegisterPage {
   registerButton: Locator;
   userAlreadyExistsAlert: Locator;
 
-  constructor(private page: Page) {
+  constructor(protected page: Page) {
+    super(page, '/register');
     this.emailInput = this.page.getByRole('textbox', { name: 'Email adress' });
     this.passwordInput = this.page.getByRole('textbox', { name: 'Password', exact: true });
     this.confirmPasswordInput = this.page.getByRole('textbox', { name: 'Confirm password', exact: true });
@@ -46,7 +48,7 @@ export class RegisterPage {
   }
 
   async expectToBeOnRegisterPage() {
-    await expect(this.page).toHaveURL('/register');
+    await super.expectToHaveURL();
     await expect(this.emailInput).toBeVisible();
     await expect(this.nextButton).toBeEnabled();
   }
@@ -94,7 +96,13 @@ export class RegisterPage {
     await expect(this.locationInput).toBeVisible();
     await expect(this.bioInput).toBeVisible();
   }
-  async expectPreviousEnteredDataIsVisible(email: string, password: string, username: string, firstName: string, lastName: string) {
+  async expectPreviousEnteredDataIsVisible(
+    email: string,
+    password: string,
+    username: string,
+    firstName: string,
+    lastName: string,
+  ) {
     await this.backButton.click();
     await expect(this.usernameInput).toHaveValue(username);
     await expect(this.firstNameInput).toHaveValue(firstName);

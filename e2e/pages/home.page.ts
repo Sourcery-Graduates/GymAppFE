@@ -1,15 +1,14 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { BasePage } from './base.page';
 
-export class HomePage {
+export class HomePage extends BasePage {
   welcomeMessage: Locator;
 
-  constructor(private page: Page) {
+  constructor(protected page: Page) {
+    super(page, '/');
     this.welcomeMessage = this.page.getByTestId('welcome-message');
   }
 
-  async goto() {
-    await this.page.goto('/');
-  }
   async expectWelcomeMessage() {
     await expect(this.welcomeMessage).toHaveText('Welcome to Gym App!');
   }

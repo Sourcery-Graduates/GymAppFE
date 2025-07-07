@@ -2,14 +2,14 @@ import test, { APIRequestContext } from '@playwright/test';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
 import { ExerciseHelper } from '../../helpers/exerciseHelper';
 import { WorkoutHelper } from '../../helpers/workoutHelper';
-import { WorkoutPage } from '../../pages/workout.page';
+import { WorkoutPage } from '../../pages/workout/workout.page';
 import { MyTrainingPage } from '../../pages/my-training.page';
 import { RoutineHelper } from '../../helpers/routineHelper';
 import { barbellCurlWorkout, sandbagLoadWorkout } from '../../test-data/workout.data';
 import { strengthStabilityRoutine } from '../../test-data/routine.data';
 import { RoutinesPage } from '../../pages/routines.page';
-import { RoutineDetailsPage } from '../../pages/routine-details.page';
-import { WorkoutFormPage } from '../../pages/workout-form.page';
+import { RoutineDetailsPage } from '../../pages/routine/routine-details.page';
+import { WorkoutFormPage } from '../../pages/workout/workout-form.page';
 import { addDays, formatDateDDMMYYY } from '../../helpers/dateHelper';
 import { DataTestManager } from '../../test-utils/dataTestManager';
 
@@ -28,7 +28,6 @@ test.describe('User with existing workouts', async () => {
   });
 
   test.beforeEach(async ({ page }) => {
-    workoutPage = new WorkoutPage(page);
     myTrainingPage = new MyTrainingPage(page);
     dataTestManager = new DataTestManager();
   });
@@ -37,7 +36,7 @@ test.describe('User with existing workouts', async () => {
     await dataTestManager.cleanup();
   });
 
-  test('can delete workout', async () => {
+  test('can delete workout', async ({ page }) => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
     const routineHelper = new RoutineHelper(apiContext);
@@ -51,7 +50,8 @@ test.describe('User with existing workouts', async () => {
     // Register cleanup for routine only
     await routineHelper.registerRoutineCleanup(workout.routineId, dataTestManager);
 
-    await workoutPage.goto(workout.id);
+    workoutPage = new WorkoutPage(page, workout.id);
+    await workoutPage.goto();
     await workoutPage.expectHeadingToBeVisible();
 
     await workoutPage.deleteWorkout();
@@ -59,7 +59,7 @@ test.describe('User with existing workouts', async () => {
     await myTrainingPage.expectListIsEmpty();
   });
 
-  test('can edit workout', async () => {
+  test('can edit workout', async ({ page }) => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
     const routineName = strengthStabilityRoutine.name;
@@ -77,7 +77,8 @@ test.describe('User with existing workouts', async () => {
       dataTestManager,
     );
 
-    await workoutPage.goto(workout.id);
+    workoutPage = new WorkoutPage(page, workout.id);
+    await workoutPage.goto();
     await workoutPage.expectHeadingToBeVisible();
 
     await workoutPage.updateWorkoutName(sandbagLoadWorkout.name);
@@ -111,8 +112,6 @@ test.describe('User with no workouts', async () => {
 
   test.beforeEach(async ({ page }) => {
     routinePage = new RoutinesPage(page);
-    routineDetailsPage = new RoutineDetailsPage(page);
-    workoutPage = new WorkoutPage(page);
     workoutFormPage = new WorkoutFormPage(page);
     dataTestManager = new DataTestManager();
   });
@@ -121,7 +120,7 @@ test.describe('User with no workouts', async () => {
     await dataTestManager.cleanup();
   });
 
-  test('creates workout from existing routine and verifies updated data', async () => {
+  test('creates workout from existing routine and verifies updated data', async ({ page }) => {
     const routineHelper = new RoutineHelper(apiContext);
     const workoutHelper = new WorkoutHelper(apiContext);
     const routineName = strengthStabilityRoutine.name;
@@ -140,10 +139,12 @@ test.describe('User with no workouts', async () => {
     await routinePage.goto();
     await routinePage.expectHeadingToBeVisible();
 
+    routineDetailsPage = new RoutineDetailsPage(page, routine.id);
     await routinePage.goToRoutineDetails();
     await routineDetailsPage.startWorkout();
     await workoutFormPage.validateWorkoutForm(today, routine.name, '', exercises);
 
+    await workoutFormPage.expectToHaveURL();
     await workoutFormPage.updateDate(tomorrow);
     await workoutFormPage.updateWorkoutName(barbellCurlWorkout.name);
     await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
@@ -151,7 +152,8 @@ test.describe('User with no workouts', async () => {
     const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId();
     await workoutHelper.registerWorkoutCleanup(workoutId, dataTestManager);
 
-    await workoutPage.expectToBeOnWorkoutPage(workoutId);
+    workoutPage = new WorkoutPage(page, workoutId);
+    await workoutPage.expectToHaveURL();
     await workoutPage.validateWorkoutData(tomorrow, barbellCurlWorkout.name, barbellCurlWorkout.comment, exercises);
   });
 });

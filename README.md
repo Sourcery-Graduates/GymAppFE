@@ -233,9 +233,12 @@ Tests are located in the following directories:
 
 ```
 e2e/
+├── components/                   # Contains reusable code
+├── helpers/                      # Contains helper methods
 ├── pages/                        # Contains page object classes
 ├── helpers/                      # Contains utilities that interact with the system under test (app)
 ├── test-utils/                   # Contains utilities that support test framework and test environment
+├── test-data/                    # Contains test data
 └── tests/
 |      └── application/           # Tests using shared login data
 |      └── authentication/        # Login and registration tests
@@ -310,3 +313,11 @@ test('creates a routine', async () => {
   // assertions
 });
 ```
+
+### 📦 Page Object Structure
+
+The test suites follows the Page Object Model with a shared `BasePage` class, providing common functionalities such as `goto`, `reloadPage`, `expectToHaveURL`.
+
+Feature specific pages extend this base and define their own selectors and actions.
+
+For reusable forms/views with shared structure, intermediate base pages (e.g. `WorkoutBasePage`, `RoutineFormBasePage`) are added to encapsulate shared logic across create/edit flows.

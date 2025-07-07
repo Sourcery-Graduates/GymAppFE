@@ -1,7 +1,8 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { routineData } from '../test-data/routine.data';
+import { BasePage } from './base.page';
 
-export class RoutinesPage {
+export class RoutinesPage extends BasePage {
   myRoutines: Locator;
   publicRoutines: Locator;
 
@@ -22,7 +23,8 @@ export class RoutinesPage {
   routineItem: Locator;
   routineItemTitle: Locator;
 
-  constructor(private page: Page) {
+  constructor(protected page: Page) {
+    super(page, '/routines');
     this.myRoutines = this.page.getByTestId('my-routines');
     this.publicRoutines = this.page.getByTestId('public-routines');
 
@@ -45,12 +47,6 @@ export class RoutinesPage {
     this.routineItemTitle = this.page.getByTestId('routine-item-title');
   }
 
-  async goto() {
-    await this.page.goto('/routines');
-  }
-  async reloadPage() {
-    await this.page.reload({ waitUntil: 'load' });
-  }
   async expectHeadingToBeVisible() {
     await expect(this.myRoutines).toHaveText('My Routines');
     await expect(this.publicRoutines).toHaveText('Public Routines');
@@ -72,7 +68,7 @@ export class RoutinesPage {
     await this.routineDescription.fill(routineData.noExerciseDescription);
 
     const routineId = await this.saveAndGetRoutineId();
-    
+
     return routineId;
   }
   async addNewRoutine() {
@@ -86,7 +82,7 @@ export class RoutinesPage {
     await this.saveButton.click();
 
     const routineId = await this.saveAndGetRoutineId();
-    
+
     return routineId;
   }
   async expectRoutineToBeVisible(routineName: string) {

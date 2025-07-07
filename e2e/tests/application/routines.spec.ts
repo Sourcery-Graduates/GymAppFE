@@ -2,9 +2,9 @@ import test, { APIRequestContext } from '@playwright/test';
 import { RoutinesPage } from '../../pages/routines.page';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
 import { RoutineHelper } from '../../helpers/routineHelper';
-import { RoutineDetailsPage } from '../../pages/routine-details.page';
+import { RoutineDetailsPage } from '../../pages/routine/routine-details.page';
 import { routineData } from '../../test-data/routine.data';
-import { RoutineUpdatePage } from '../../pages/routine-update.page';
+import { RoutineUpdatePage } from '../../pages/routine/routine-update.page';
 import { DataTestManager } from '../../test-utils/dataTestManager';
 
 test.describe('User without existing routines', async () => {
@@ -22,9 +22,9 @@ test.describe('User without existing routines', async () => {
   });
 
   test.beforeEach(async ({ page }) => {
-    routinesPage = new RoutinesPage(page);
     routineHelper = new RoutineHelper(apiContext);
     dataTestManager = new DataTestManager();
+    routinesPage = new RoutinesPage(page);
     await routinesPage.goto();
     await routinesPage.expectHeadingToBeVisible();
   });
@@ -67,11 +67,9 @@ test.describe('User with existing routines', async () => {
   });
 
   test.beforeEach(async ({ page }) => {
-    routinesPage = new RoutinesPage(page);
-    routineHelper = new RoutineHelper(apiContext);
-    routineDetailsPage = new RoutineDetailsPage(page);
-    routineUpdatePage = new RoutineUpdatePage(page);
     dataTestManager = new DataTestManager();
+    routineHelper = new RoutineHelper(apiContext);
+    routinesPage = new RoutinesPage(page);
     await routinesPage.goto();
     await routinesPage.expectHeadingToBeVisible();
   });
@@ -80,8 +78,8 @@ test.describe('User with existing routines', async () => {
     await dataTestManager.cleanup();
   });
 
-  test('can edit routine with routine options button', async () => {
-    await routineHelper.createRoutineAndRegisterCleanup(
+  test('can edit routine with routine options button', async ({ page }) => {
+    const routine = await routineHelper.createRoutineAndRegisterCleanup(
       routineData.routineName,
       routineData.description,
       dataTestManager,
@@ -89,12 +87,14 @@ test.describe('User with existing routines', async () => {
 
     await routinesPage.reloadPage();
     await routinesPage.editRoutineWithRoutineOptions();
+
+    routineUpdatePage = new RoutineUpdatePage(page, routine.id);
     await routineUpdatePage.updateRoutine();
     await routinesPage.expectRoutineNameToBeUpdated();
   });
 
-  test('can edit routine directly from routine page', async () => {
-    await routineHelper.createRoutineAndRegisterCleanup(
+  test('can edit routine directly from routine page', async ({ page }) => {
+    const routine = await routineHelper.createRoutineAndRegisterCleanup(
       routineData.routineName,
       routineData.description,
       dataTestManager,
@@ -103,6 +103,8 @@ test.describe('User with existing routines', async () => {
     await routinesPage.reloadPage();
     await routinesPage.goToRoutineDetails();
     await routinesPage.goToEditRoutineForm();
+
+    routineUpdatePage = new RoutineUpdatePage(page, routine.id);
     await routineUpdatePage.updateRoutine();
     await routinesPage.expectRoutineNameToBeUpdated();
   });
@@ -115,12 +117,15 @@ test.describe('User with existing routines', async () => {
     await routinesPage.expectListRoutineToBeEmpty();
   });
 
-  test('can delete routine directly from routine page', async () => {
-    await routineHelper.createRoutine(routineData.routineName, routineData.description);
+  test('can delete routine directly from routine page', async ({ page }) => {
+    const routine = await routineHelper.createRoutine(routineData.routineName, routineData.description);
 
     await routinesPage.reloadPage();
     await routinesPage.goToRoutineDetails();
+
+    routineDetailsPage = new RoutineDetailsPage(page, routine.id);
     await routineDetailsPage.deleteRoutine();
+
     await routinesPage.expectListRoutineToBeEmpty();
   });
 });
