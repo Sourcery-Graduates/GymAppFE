@@ -18,9 +18,16 @@ const TrainingCard = ({ workout }: TrainingCardProps) => {
   };
 
   return (
-    <div onClick={handleCardClick} className={'workout-card'} key={workout.id}>
+    <div
+      onClick={handleCardClick}
+      className={'workout-card'}
+      key={workout.id}
+      data-testid={`workout-card-${workout.id}`}
+    >
       <div className='workout-card__header'>
-        <div className={'workout-card__header--name'}>{workout.name}</div>
+        <div className={'workout-card__header--name'} data-testid={'workout-card-name'}>
+          {workout.name}
+        </div>
         <div className={'workout-card__header--date'}>{new Date(workout.date).toLocaleDateString('en-GB')}</div>
       </div>
       <div className={'workout-card__exercises'}>{`Exercises: ${workout.exercises.length}`}</div>

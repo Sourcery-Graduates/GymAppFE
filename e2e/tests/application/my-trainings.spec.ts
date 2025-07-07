@@ -69,4 +69,27 @@ test.describe('User with existing workouts', async () => {
 
     await workoutHelper.deleteWorkout(workout.id, workout.routineId);
   });
+
+  test('navigates to workout details page after clicking workout card', async () => {
+    const workoutHelper = new WorkoutHelper(apiContext);
+    const exerciseHelper = new ExerciseHelper(apiContext);
+    const routineName = 'Strength & Stability';
+    const routineDesc =
+      'You want to be strong, balanced, and unshakable—the kind of person who could carry all the grocery bags in one trip while standing on one leg.';
+    const exerciseName = 'Sit Squats';
+
+    const exercise = await exerciseHelper.getExerciseByName(exerciseName);
+    const workout = await workoutHelper.createWorkout(routineName, routineDesc, exercise, '');
+    await myTrainingPage.reloadPage();
+    await myTrainingPage.expectHeadingToBeVisible();
+    await myTrainingPage.expectListContainsWorkouts();
+
+    const workoutPage = await myTrainingPage.clickWorkoutCard(workout.id);
+    await workoutPage.expectToHaveURL();
+    await workoutPage.expectHeadingToBeVisible();
+    await workoutPage.expectNameToBe(workout.name);
+    await workoutPage.expectCommentToBe(workout.comment);
+
+    await workoutHelper.deleteWorkout(workout.id, workout.routineId);
+  });
 });
