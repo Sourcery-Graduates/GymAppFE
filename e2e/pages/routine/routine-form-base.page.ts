@@ -21,7 +21,7 @@ export class RoutineFormBasePage extends BasePage {
   }
 
   async updateRoutine() {
-    await this.name.fill(routineData.routineUpdatedName);
+    await this.name.fill(routineData.routineUpdatedName); //TODO: static data will be fixed with GYM-264
     await this.saveRoutineButton.click();
   }
 
