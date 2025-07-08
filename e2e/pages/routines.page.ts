@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
-import { routineData } from '../test-data/routine.data';
 import { BasePage } from './base.page';
+import { RoutineFactory } from '../factories/routine.factory';
 
 export class RoutinesPage extends BasePage {
   myRoutines: Locator;
@@ -62,19 +62,19 @@ export class RoutinesPage extends BasePage {
     const data = await response.json();
     return data.id;
   }
-  async addNewRoutineWithNoExercise() {
+  async addNewRoutineWithNoExercise(routine: RoutineFactory) {
     await this.newRoutineButton.click();
-    await this.routineName.fill(routineData.emptyRoutineName);
-    await this.routineDescription.fill(routineData.noExerciseDescription);
+    await this.routineName.fill(routine.getName());
+    await this.routineDescription.fill(routine.getDescription());
 
     const routineId = await this.saveAndGetRoutineId();
 
     return routineId;
   }
-  async addNewRoutine() {
+  async addNewRoutine(routine: RoutineFactory) {
     await this.newRoutineButton.click();
-    await this.routineName.fill(routineData.routineName);
-    await this.routineDescription.fill(routineData.oneExerciseDescription);
+    await this.routineName.fill(routine.getName());
+    await this.routineDescription.fill(routine.getDescription());
 
     await this.addExerciseButton.click();
     await this.chooseExercise.fill('push');
@@ -103,8 +103,8 @@ export class RoutinesPage extends BasePage {
   async expectListRoutineToBeEmpty() {
     await expect(this.routineList).toBeEmpty();
   }
-  async expectRoutineNameToBeUpdated() {
-    await expect(this.routineItemTitle).toHaveText(routineData.routineUpdatedName);
+  async expectRoutineNameToBeUpdated(name: string) {
+    await expect(this.routineItemTitle).toHaveText(name);
   }
   async goToEditRoutineForm() {
     await this.editRoutineButton.click();

@@ -1,5 +1,4 @@
 import { Locator, Page } from '@playwright/test';
-import { routineData } from '../../test-data/routine.data';
 import { BasePage } from '../base.page';
 
 export class RoutineFormBasePage extends BasePage {
@@ -15,8 +14,8 @@ export class RoutineFormBasePage extends BasePage {
     this.saveRoutineButton = this.page.getByTestId('save-routine-button');
   }
 
-  async updateRoutine() {
-    await this.routineName.fill(routineData.routineUpdatedName);
+  async updateRoutine(name: string) {
+    await this.routineName.fill(name);
     await this.saveRoutineButton.click();
   }
 }
