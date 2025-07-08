@@ -32,13 +32,13 @@ test.describe('User without existing routines', async () => {
 
   test('can add a new routine without any exercises', async () => {
     const routine = RoutineFactory.init(apiContext, dataTestManager);
-    routine.createViaUI(routinesPage, false);
+    await routine.createViaUI(routinesPage, false);
     await routinesPage.expectRoutineToBeVisible(routine.getName());
   });
 
   test('can add a new routine with one exercise', async () => {
     const routine = RoutineFactory.init(apiContext, dataTestManager);
-    routine.createViaUI(routinesPage, true);
+    await routine.createViaUI(routinesPage);
     await routinesPage.expectRoutineToBeVisible(routine.getName());
   });
 });

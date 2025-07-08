@@ -60,7 +60,7 @@ export class RoutineFactory {
     return routine;
   }
 
-  async createViaUI(routinesPage: RoutinesPage, withExercises: boolean) {
+  async createViaUI(routinesPage: RoutinesPage, withExercises = true) {
     const routineId = withExercises
       ? await routinesPage.addNewRoutine(this)
       : await routinesPage.addNewRoutineWithNoExercise(this);
