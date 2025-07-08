@@ -35,19 +35,13 @@ test.describe('User without existing routines', async () => {
 
   test('can add a new routine without any exercises', async () => {
     const routine = RoutineFactory.init(apiContext, dataTestManager);
-    const routineId = await routinesPage.addNewRoutineWithNoExercise(routine);
-    // Register cleanup for routine to be removed in afterEach
-    await routineHelper.registerRoutineCleanup(routineId, dataTestManager);
-
+    await routinesPage.addNewRoutineWithNoExercise(routine, routineHelper, dataTestManager);
     await routinesPage.expectRoutineToBeVisible(routine.getName());
   });
 
   test('can add a new routine with one exercise', async () => {
     const routine = RoutineFactory.init(apiContext, dataTestManager);
-    const routineId = await routinesPage.addNewRoutine(routine);
-    // Register cleanup for routine to be removed in afterEach
-    await routineHelper.registerRoutineCleanup(routineId, dataTestManager);
-
+    await routinesPage.addNewRoutine(routine, routineHelper, dataTestManager);
     await routinesPage.expectRoutineToBeVisible(routine.getName());
   });
 });

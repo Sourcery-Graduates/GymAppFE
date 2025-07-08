@@ -9,7 +9,7 @@ export class RoutineFactory {
   private registerCleanup: boolean;
 
   constructor(
-    private apiContex: APIRequestContext,
+    private apiContext: APIRequestContext,
     private dataTestManager: DataTestManager,
   ) {
     this.name = faker.music.songName();
@@ -17,8 +17,8 @@ export class RoutineFactory {
     this.registerCleanup = true;
   }
 
-  static init(apiContex: APIRequestContext, dataTestManager: DataTestManager) {
-    return new RoutineFactory(apiContex, dataTestManager);
+  static init(apiContext: APIRequestContext, dataTestManager: DataTestManager) {
+    return new RoutineFactory(apiContext, dataTestManager);
   }
 
   getName(): string {
@@ -47,7 +47,7 @@ export class RoutineFactory {
   }
 
   async create() {
-    const helper = new RoutineHelper(this.apiContex);
+    const helper = new RoutineHelper(this.apiContext);
     const routine = await helper.createRoutine(this.name, this.description);
     if (this.registerCleanup) {
       await helper.registerRoutineCleanup(routine.id, this.dataTestManager);
@@ -56,7 +56,7 @@ export class RoutineFactory {
   }
 
   async createWithExercises(exerciseCount: number) {
-    const helper = new RoutineHelper(this.apiContex);
+    const helper = new RoutineHelper(this.apiContext);
     const routine = await helper.createRoutineWithExercises(this.name, this.description, exerciseCount);
     if (this.registerCleanup) {
       await helper.registerRoutineCleanup(routine.routine.id, this.dataTestManager);

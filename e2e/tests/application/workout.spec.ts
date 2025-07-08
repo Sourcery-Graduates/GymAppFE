@@ -118,7 +118,7 @@ test.describe('User with no workouts', async () => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const today = formatDateDDMMYYY(new Date());
     const tomorrow = formatDateDDMMYYY(addDays(new Date(), 1));
-    
+
     const { routine, exercises } = await RoutineFactory.init(apiContext, dataTestManager).createWithExercises(2);
     await routinePage.goto();
     await routinePage.expectHeadingToBeVisible();
@@ -133,8 +133,7 @@ test.describe('User with no workouts', async () => {
     await workoutFormPage.updateWorkoutName(barbellCurlWorkout.name);
     await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
 
-    const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId();
-    await workoutHelper.registerWorkoutCleanup(workoutId, dataTestManager);
+    const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId(workoutHelper, dataTestManager);
 
     workoutPage = new WorkoutPage(page, workoutId);
     await workoutPage.expectToHaveURL();

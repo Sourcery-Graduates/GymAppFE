@@ -20,12 +20,6 @@ export class RoutineHelper {
     return await response.json();
   }
 
-  async createRoutineAndRegisterCleanup(name: string, description: string = '', dataTestManager: DataTestManager) {
-    const routine = await this.createRoutine(name, description);
-    await this.registerRoutineCleanup(routine.id, dataTestManager);
-    return routine;
-  }
-
   async createRoutineWithExercises(name: string, description: string = '', exercisesNumber: number) {
     const exerciseHelper = new ExerciseHelper(this.apiContext);
     const exercises = await exerciseHelper.getGivenNumberOfExercises(exercisesNumber);
