@@ -19,6 +19,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@faker-js/faker": "^9.9.0",
     "@fontsource/roboto": "^5.1.0",
     "@hookform/resolvers": "^3.10.0",
     "@mui/icons-material": "^6.2.0",
