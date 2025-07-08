@@ -1,7 +1,6 @@
 import test, { APIRequestContext } from '@playwright/test';
 import { RoutinesPage } from '../../pages/routines.page';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
-import { RoutineHelper } from '../../helpers/routineHelper';
 import { RoutineDetailsPage } from '../../pages/routine/routine-details.page';
 import { RoutineUpdatePage } from '../../pages/routine/routine-update.page';
 import { DataTestManager } from '../../test-utils/dataTestManager';
@@ -9,7 +8,6 @@ import { RoutineFactory } from '../../factories/routine.factory';
 
 test.describe('User without existing routines', async () => {
   let routinesPage: RoutinesPage;
-  let routineHelper: RoutineHelper;
   let apiContext: APIRequestContext;
   let dataTestManager: DataTestManager;
 
@@ -22,7 +20,6 @@ test.describe('User without existing routines', async () => {
   });
 
   test.beforeEach(async ({ page }) => {
-    routineHelper = new RoutineHelper(apiContext);
     dataTestManager = new DataTestManager();
     routinesPage = new RoutinesPage(page);
     await routinesPage.goto();
@@ -35,13 +32,13 @@ test.describe('User without existing routines', async () => {
 
   test('can add a new routine without any exercises', async () => {
     const routine = RoutineFactory.init(apiContext, dataTestManager);
-    await routinesPage.addNewRoutineWithNoExercise(routine, routineHelper, dataTestManager);
+    routine.createViaUI(routinesPage, false);
     await routinesPage.expectRoutineToBeVisible(routine.getName());
   });
 
   test('can add a new routine with one exercise', async () => {
     const routine = RoutineFactory.init(apiContext, dataTestManager);
-    await routinesPage.addNewRoutine(routine, routineHelper, dataTestManager);
+    routine.createViaUI(routinesPage, true);
     await routinesPage.expectRoutineToBeVisible(routine.getName());
   });
 });

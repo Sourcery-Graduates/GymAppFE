@@ -133,7 +133,8 @@ test.describe('User with no workouts', async () => {
     await workoutFormPage.updateWorkoutName(barbellCurlWorkout.name);
     await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
 
-    const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId(workoutHelper, dataTestManager);
+    const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId();
+    await workoutHelper.registerWorkoutCleanup(workoutId, dataTestManager);
 
     workoutPage = new WorkoutPage(page, workoutId);
     await workoutPage.expectToHaveURL();

@@ -1,8 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './base.page';
 import { RoutineFactory } from '../factories/routine.factory';
-import { DataTestManager } from '../test-utils/dataTestManager';
-import { RoutineHelper } from '../helpers/routineHelper';
 
 export class RoutinesPage extends BasePage {
   myRoutines: Locator;
@@ -64,22 +62,16 @@ export class RoutinesPage extends BasePage {
     const data = await response.json();
     return data.id;
   }
-  async addNewRoutineWithNoExercise(
-    routine: RoutineFactory,
-    routineHelper: RoutineHelper,
-    dataTestManager: DataTestManager,
-  ) {
+  async addNewRoutineWithNoExercise(routine: RoutineFactory) {
     await this.newRoutineButton.click();
     await this.routineName.fill(routine.getName());
     await this.routineDescription.fill(routine.getDescription());
 
     const routineId = await this.saveAndGetRoutineId();
-    // Register cleanup for routine to be removed in afterEach
-    await routineHelper.registerRoutineCleanup(routineId, dataTestManager);
 
     return routineId;
   }
-  async addNewRoutine(routine: RoutineFactory, routineHelper: RoutineHelper, dataTestManager: DataTestManager) {
+  async addNewRoutine(routine: RoutineFactory) {
     await this.newRoutineButton.click();
     await this.routineName.fill(routine.getName());
     await this.routineDescription.fill(routine.getDescription());
@@ -90,8 +82,6 @@ export class RoutinesPage extends BasePage {
     await this.saveButton.click();
 
     const routineId = await this.saveAndGetRoutineId();
-    // Register cleanup for routine to be removed in afterEach
-    await routineHelper.registerRoutineCleanup(routineId, dataTestManager);
 
     return routineId;
   }

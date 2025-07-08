@@ -2,6 +2,7 @@ import { APIRequestContext } from '@playwright/test';
 import { DataTestManager } from '../test-utils/dataTestManager';
 import { faker } from '@faker-js/faker';
 import { RoutineHelper } from '../helpers/routineHelper';
+import { RoutinesPage } from '../pages/routines.page';
 
 export class RoutineFactory {
   private name: string;
@@ -36,11 +37,6 @@ export class RoutineFactory {
     this.description = description;
     return this;
   }
-  withRandomNameAndDescription() {
-    this.name = faker.music.songName();
-    this.description = faker.lorem.sentence();
-    return this;
-  }
   withoutCleanup() {
     this.registerCleanup = false;
     return this;
@@ -62,6 +58,18 @@ export class RoutineFactory {
       await helper.registerRoutineCleanup(routine.routine.id, this.dataTestManager);
     }
     return routine;
+  }
+
+  async createViaUI(routinesPage: RoutinesPage, withExercises: boolean) {
+    const routineId = withExercises
+      ? await routinesPage.addNewRoutine(this)
+      : await routinesPage.addNewRoutineWithNoExercise(this);
+
+    if (this.registerCleanup) {
+      const helper = new RoutineHelper(this.apiContext);
+      await helper.registerRoutineCleanup(routineId, this.dataTestManager);
+    }
+    return routineId;
   }
 
   static async generateRandomNameAndDescription() {
