@@ -4,6 +4,7 @@ import { createApiContextFromStorageState } from '../../helpers/generateApiConte
 import { WorkoutHelper } from '../../helpers/workoutHelper';
 import { ExerciseHelper } from '../../helpers/exerciseHelper';
 import { DataTestManager } from '../../test-utils/dataTestManager';
+import { RoutineFactory } from '../../factories/routine.factory';
 
 test.describe('User with no workouts', async () => {
   let myTrainingPage: MyTrainingPage;
@@ -56,21 +57,13 @@ test.describe('User with existing workouts', async () => {
   test('can switch views on My Training page', async () => {
     const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
-    const routineName = 'Strength & Stability';
-    const routineDesc =
-      'You want to be strong, balanced, and unshakable—the kind of person who could carry all the grocery bags in one trip while standing on one leg.';
     const changedView = 'Calendar';
     const exerciseName = 'Sit Squats';
     const comment = '';
 
+    const routine = await RoutineFactory.init(apiContext, dataTestManager).create();
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
-    await workoutHelper.createWorkoutWithRoutineAndRegisterCleanup(
-      routineName,
-      routineDesc,
-      exercise,
-      comment,
-      dataTestManager,
-    );
+    await workoutHelper.createWorkoutAndRegisterCleanup(routine.name, routine.id, exercise, comment, dataTestManager);
 
     await myTrainingPage.reloadPage();
     await myTrainingPage.expectHeadingToBeVisible();
