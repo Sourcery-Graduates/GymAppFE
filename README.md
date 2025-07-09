@@ -289,12 +289,11 @@ We use custom `TestDataManager` utility to manage and clean up test data created
 
 **How it works:**
 
--> Each test that creates test data (via UI or via API) should register a cleanup task
+-> Each factory that creates test data (via UI or via API) has automatic registartion of cleanup task
 
 -> These cleanup tasks are executed automatically in `afterEach` to ensure test isolation and keep the environment clean
 
 Tests should not directly call delete endpoints, unless the goal is to verify deletion.
-Always use `createXAndRegisterCleanup()` helper methods for consistency.
 
 **Example usage:**
 
@@ -308,7 +307,9 @@ test.afterEach(() => {
 });
 
 test('creates a routine', async () => {
-  await routineHelper.createRoutineAndRegisterCleanup('Test routine', 'Test routine description', dataTestManager);
+  const routine = await RoutineFactory
+      .init(apiContext, dataTestManager)
+      .create();             // automatic registration of cleanup task is done within create()
 
   // assertions
 });
@@ -321,3 +322,40 @@ The test suites follows the Page Object Model with a shared `BasePage` class, pr
 Feature specific pages extend this base and define their own selectors and actions.
 
 For reusable forms/views with shared structure, intermediate base pages (e.g. `WorkoutBasePage`, `RoutineFormBasePage`) are added to encapsulate shared logic across create/edit flows.
+
+### 📦 RoutineFactory - Test Data Generator for Routines
+
+`RoutineFactory` provides a convenient way to create test data for routines via API or UI. Test data is generated using `faker` as well as there is possibility to create with own test data using fluent interface `.withName()`, `.withDescription()`. It supports automatic cleanup registration to keep test environment clean and isolated.
+
+Create a routine via API:
+
+```ts
+const routine = await RoutineFactory
+      .init(apiContext, dataTestManager)
+      .withName('Push Day')
+      .create();
+```
+
+Create a routine with exercises via API:
+
+```ts
+const routine = await RoutineFactory
+      .init(apiContext, dataTestManager)
+      .createWithExercises(3);
+```
+
+Create a routine via UI:
+
+```ts
+const routine = RoutineFactory.init(apiContext, dataTestManager);
+await routine.createViaUI(routinesPage);
+```
+
+Skip cleanup registration:
+
+```ts
+const routine = await RoutineFactory
+      .init(apiContext, dataTestManager)
+      .withoutCleanup()
+      .create();
+```
