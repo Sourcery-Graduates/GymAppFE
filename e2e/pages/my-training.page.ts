@@ -1,5 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './base.page';
+import { WorkoutCardComponent } from '../components/workoutCard.component';
+import { WorkoutPage } from './workout/workout.page';
 
 export class MyTrainingPage extends BasePage {
   title: Locator;
@@ -34,6 +36,11 @@ export class MyTrainingPage extends BasePage {
   }
   async expectListContainsWorkouts() {
     await expect(this.workoutList).not.toBeEmpty();
+  }
+  async clickWorkoutCard(workoutId: string) {
+    const workoutCard = await WorkoutCardComponent.getByWorkoutId(this.page, workoutId);
+    await workoutCard.click(this.page, workoutId);
+    return new WorkoutPage(this.page, workoutId);
   }
   async switchViewTo(view: string) {
     await this.selectView.selectOption(view);

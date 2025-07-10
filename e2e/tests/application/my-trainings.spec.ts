@@ -73,4 +73,30 @@ test.describe('User with existing workouts', async () => {
     await myTrainingPage.expectCalendarIsVisible();
     await myTrainingPage.expectCalendarContainsWorkout();
   });
+
+  test('navigates to workout details page after clicking workout card', async () => {
+    const workoutHelper = new WorkoutHelper(apiContext);
+    const exerciseHelper = new ExerciseHelper(apiContext);
+    const exerciseName = 'Sit Squats';
+    const comment = '';
+
+    const routine = await RoutineFactory.init(apiContext, dataTestManager).create();
+    const exercise = await exerciseHelper.getExerciseByName(exerciseName);
+    const workout = await workoutHelper.createWorkoutAndRegisterCleanup(
+      routine.name,
+      routine.id,
+      exercise,
+      comment,
+      dataTestManager,
+    );
+    await myTrainingPage.reloadPage();
+    await myTrainingPage.expectHeadingToBeVisible();
+    await myTrainingPage.expectListContainsWorkouts();
+
+    const workoutPage = await myTrainingPage.clickWorkoutCard(workout.id);
+    await workoutPage.expectToHaveURL();
+    await workoutPage.expectHeadingToBeVisible();
+    await workoutPage.expectNameToBe(workout.name);
+    await workoutPage.expectCommentToBe(workout.comment);
+  });
 });
