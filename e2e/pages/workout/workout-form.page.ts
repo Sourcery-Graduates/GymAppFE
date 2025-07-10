@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { WorkoutBasePage } from './workout-base.page';
-import { RoutineExercise } from '../../test-data/exercises.data';
+import { RoutineExercise } from '../../models/exercises.data';
 
 export class WorkoutFormPage extends WorkoutBasePage {
   title: Locator;

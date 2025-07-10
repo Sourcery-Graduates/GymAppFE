@@ -1,5 +1,5 @@
 import { APIRequestContext } from '@playwright/test';
-import { RoutineExercise } from '../test-data/exercises.data';
+import { RoutineExercise } from '../models/exercises.data';
 
 export class ExerciseHelper {
   apiContext: APIRequestContext;
