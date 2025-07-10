@@ -1,5 +1,4 @@
 import { Locator, Page } from '@playwright/test';
-import { routineData } from '../../test-data/routine.data';
 import { BasePage } from '../base.page';
 import { AddExerciseCardComponent } from '../../components/addExerciseCard.component';
 
@@ -20,8 +19,8 @@ export class RoutineFormBasePage extends BasePage {
     this.addExerciseButton = this.page.getByTestId('add-exercise-button');
   }
 
-  async updateRoutine() {
-    await this.name.fill(routineData.routineUpdatedName); //TODO: static data will be fixed with GYM-264
+  async updateRoutine(name: string) {
+    await this.name.fill(name);
     await this.saveRoutineButton.click();
   }
 

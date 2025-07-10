@@ -1,9 +1,9 @@
 import { expect, Locator, Page } from '@playwright/test';
-import { routineData } from '../test-data/routine.data';
 import { BasePage } from './base.page';
 import { RoutineCreatePage } from './routine/routine-create.page';
 import { RoutineCardComponent } from '../components/routineCard.component';
 import { RoutineUpdatePage } from './routine/routine-update.page';
+import { RoutineFactory } from '../factories/routine.factory';
 
 export class RoutinesPage extends BasePage {
   myRoutines: Locator;
@@ -39,20 +39,20 @@ export class RoutinesPage extends BasePage {
     return new RoutineCreatePage(this.page);
   }
 
-  async addNewRoutineWithNoExercise() {
+  async addNewRoutineWithNoExercise(routine: RoutineFactory) {
     const createRoutinePage = await this.clickNewRoutineButton();
-    await createRoutinePage.name.fill(routineData.emptyRoutineName); //TODO: static names will be fixed with GYM-264
-    await createRoutinePage.description.fill(routineData.noExerciseDescription);
+    await createRoutinePage.name.fill(routine.getName());
+    await createRoutinePage.description.fill(routine.getDescription());
 
     const routineId = await createRoutinePage.saveAndGetRoutineId();
 
     return routineId;
   }
 
-  async addNewRoutine() {
+  async addNewRoutine(routine: RoutineFactory) {
     const createRoutinePage = await this.clickNewRoutineButton();
-    await createRoutinePage.name.fill(routineData.routineName); //TODO: static names will be fixed with GYM-264
-    await createRoutinePage.description.fill(routineData.oneExerciseDescription);
+    await createRoutinePage.name.fill(routine.getName());
+    await createRoutinePage.description.fill(routine.getDescription());
 
     const exerciseModal = await createRoutinePage.addExercise();
     await exerciseModal.expectHeadingToBeVisible();
@@ -89,8 +89,8 @@ export class RoutinesPage extends BasePage {
   async expectListRoutineToBeEmpty() {
     await expect(this.routineList).toBeEmpty();
   }
-  async expectRoutineNameToBeUpdated(routineId: string) {
+  async expectRoutineNameToBeUpdated(routineId: string, name: string ) {
     const updatedRoutineCard = await RoutineCardComponent.getByRoutineId(this.page, routineId);
-    await expect(updatedRoutineCard.name).toHaveText(routineData.routineUpdatedName); //TODO: static names will be fixed with GYM-264
+    await expect(updatedRoutineCard.name).toHaveText(name);
   }
 }

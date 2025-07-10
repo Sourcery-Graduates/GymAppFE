@@ -1,8 +1,8 @@
-import { APIRequestContext, expect } from '@playwright/test';
+import { APIRequestContext } from '@playwright/test';
 import { RoutineHelper } from './routineHelper';
 import { ExerciseHelper } from './exerciseHelper';
-import { RoutineExercise } from '../test-data/exercises.data';
 import { DataTestManager } from '../test-utils/dataTestManager';
+import { RoutineExercise } from '../models/exercises.data';
 
 export class WorkoutHelper {
   apiContext: APIRequestContext;
@@ -57,42 +57,6 @@ export class WorkoutHelper {
   ) {
     const workout = await this.createWorkout(name, routineId, exercises, comment);
     await this.registerWorkoutCleanup(workout.id, dataTestManager);
-    return workout;
-  }
-
-  async createWorkoutAndRoutine(
-    routineName: string,
-    routineDesc: string,
-    exercises: RoutineExercise[],
-    comment: string,
-  ) {
-    // First step is to create routine and get routineId from backend response
-    const routine = await this.routineHelper.createRoutine(routineName, routineDesc);
-    expect(routine.id).toBeDefined();
-
-    // The next step is to associate exercises with the routine
-    await this.routineExercises.addExercisesToRoutine(routine.id, exercises);
-
-    // The final step is to create a workout based on the previously added routine and exercises
-    const workout = await this.createWorkout(routineName, routine.id, exercises, comment);
-    return workout;
-  }
-
-  async createWorkoutWithRoutineAndRegisterCleanup(
-    routineName: string,
-    routineDesc: string,
-    exercises: RoutineExercise[],
-    comment: string,
-    dataTestManager: DataTestManager,
-  ) {
-    const routine = await this.routineHelper.createRoutineAndRegisterCleanup(routineName, routineDesc, dataTestManager);
-    const workout = await this.createWorkoutAndRegisterCleanup(
-      routineName,
-      routine.id,
-      exercises,
-      comment,
-      dataTestManager,
-    );
     return workout;
   }
 
