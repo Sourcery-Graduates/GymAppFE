@@ -1,6 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 import { BasePage } from '../base.page';
 import { AddExerciseCardComponent } from '../../components/addExerciseCard.component';
+import { RoutinesPage } from '../routines.page';
 
 export class RoutineFormBasePage extends BasePage {
   name: Locator;
@@ -19,9 +20,10 @@ export class RoutineFormBasePage extends BasePage {
     this.addExerciseButton = this.page.getByTestId('add-exercise-button');
   }
 
-  async updateRoutine(name: string) {
+  async updateRoutine(name: string): Promise<RoutinesPage> {
     await this.name.fill(name);
     await this.saveRoutineButton.click();
+    return new RoutinesPage(this.page);
   }
 
   async addExercise(): Promise<AddExerciseCardComponent> {

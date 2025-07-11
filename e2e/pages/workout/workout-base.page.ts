@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { ExerciseCardComponent } from '../../components/exerciseCard.component';
-import { RoutineExercise } from '../../test-data/exercises.data';
 import { BasePage } from '../base.page';
+import { RoutineExercise } from '../../models/exercises.data';
 
 export class WorkoutBasePage extends BasePage {
   createWorkoutButton: Locator;

@@ -101,7 +101,7 @@ test.describe('User with existing routines', async () => {
 
     await routinesPage.reloadPage();
     const routineDetailsPage = await routinesPage.goToRoutineDetailsPage(routine.id);
-    await routineDetailsPage.deleteRoutine();
+    routinesPage = await routineDetailsPage.deleteRoutine();
     await routinesPage.expectListRoutineToBeEmpty();
   });
 });

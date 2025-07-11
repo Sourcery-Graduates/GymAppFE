@@ -1,7 +1,8 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { ExerciseCardComponent } from '../../components/exerciseCard.component';
 import { WorkoutBasePage } from './workout-base.page';
-import { RoutineExercise } from '../../test-data/exercises.data';
+import { RoutineExercise } from '../../models/exercises.data';
+import { MyTrainingPage } from '../my-training.page';
 
 export class WorkoutPage extends WorkoutBasePage {
   title: Locator;
@@ -25,10 +26,11 @@ export class WorkoutPage extends WorkoutBasePage {
   async expectHeadingToBeVisible() {
     await expect(this.title).toBeVisible();
   }
-  async deleteWorkout() {
+  async deleteWorkout(): Promise<MyTrainingPage> {
     await this.deleteButton.click();
     await expect(this.deleteWorkoutConfirmationDialog).toHaveText('Are you sure you want to delete this Workout?');
     await this.deleteWorkoutConfirmationButton.click();
+    return new MyTrainingPage(this.page);
   }
   async saveWorkout() {
     await super.clickCreateSaveButton();
