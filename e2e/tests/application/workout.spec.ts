@@ -6,7 +6,6 @@ import { WorkoutPage } from '../../pages/workout/workout.page';
 import { MyTrainingPage } from '../../pages/my-training.page';
 import { barbellCurlWorkout, sandbagLoadWorkout } from '../../test-data/workout.data';
 import { RoutinesPage } from '../../pages/routines.page';
-import { WorkoutFormPage } from '../../pages/workout/workout-form.page';
 import { addDays, formatDateDDMMYYY } from '../../helpers/dateHelper';
 import { DataTestManager } from '../../test-utils/dataTestManager';
 import { RoutineFactory } from '../../factories/routine.factory';
@@ -25,8 +24,7 @@ test.describe('User with existing workouts', async () => {
     await apiContext.dispose();
   });
 
-  test.beforeEach(async ({ page }) => {
-    myTrainingPage = new MyTrainingPage(page);
+  test.beforeEach(async () => {
     dataTestManager = new DataTestManager();
   });
 
@@ -48,7 +46,7 @@ test.describe('User with existing workouts', async () => {
     await workoutPage.goto();
     await workoutPage.expectHeadingToBeVisible();
 
-    await workoutPage.deleteWorkout();
+    myTrainingPage = await workoutPage.deleteWorkout();
     await myTrainingPage.expectToBeOnMyTrainingPage();
     await myTrainingPage.expectListIsEmpty();
   });
@@ -91,7 +89,6 @@ test.describe('User with no workouts', async () => {
   let apiContext: APIRequestContext;
   let routinePage: RoutinesPage;
   let workoutPage: WorkoutPage;
-  let workoutFormPage: WorkoutFormPage;
   let dataTestManager: DataTestManager;
 
   test.beforeAll(async () => {
@@ -104,7 +101,6 @@ test.describe('User with no workouts', async () => {
 
   test.beforeEach(async ({ page }) => {
     routinePage = new RoutinesPage(page);
-    workoutFormPage = new WorkoutFormPage(page);
     dataTestManager = new DataTestManager();
   });
 
@@ -122,9 +118,8 @@ test.describe('User with no workouts', async () => {
     await routinePage.expectHeadingToBeVisible();
 
     const routineDetailsPage = await routinePage.goToRoutineDetailsPage(routine.id);
-    await routineDetailsPage.startWorkout();
+    const workoutFormPage = await routineDetailsPage.startWorkout();
     await workoutFormPage.validateWorkoutForm(today, routine.name, '', exercises);
-
     await workoutFormPage.expectToHaveURL();
     await workoutFormPage.updateDate(tomorrow);
     await workoutFormPage.updateWorkoutName(barbellCurlWorkout.name);
