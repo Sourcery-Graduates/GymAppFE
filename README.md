@@ -221,11 +221,29 @@ npm install
 Particular scripts could be used to run tests:
 
 ```bash
-npm run test:playwright             // running all tests
-npm run test:playwright:headed      // running all tests in headed mode
-npm run test:auth                   // running login and registration tests
-npm run test:app                    // running shared login tests with first generating new user session
+npm run test:playwright             # Running all tests
+npm run test:playwright:headed      # Running all tests in headed mode
+npm run test:auth                   # Running login and registration tests
+npm run test:app                    # Running shared login tests with first generating new user session
 ```
+
+### 📊 Test Reports
+
+After running the tests, you can generate and open reports using the provided scripts:
+
+```bash
+npm run playwright:report     # Open the latest Playwright HTML report
+npm run allure:report         # Generate and open the Allure report
+```
+The reports are located in the following folders, respectively:
+```
+├── allure-report/                   # Contains Allure report files
+├── playwright-report/               # Contains Playwright report
+```
+
+ℹ️ **Note**: To use Allure, make sure it is installed on your machine. You can follow the official [Allure instalation guide](https://allurereport.org/docs/install/).
+
+For more details about integrating Allure with Playwright, see the [allure-playwright documentation](https://github.com/allure-framework/allure-js/tree/main/packages/allure-playwright).
 
 ### 📂 Test Structure
 

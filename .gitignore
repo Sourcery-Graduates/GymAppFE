@@ -30,3 +30,7 @@ dist-ssr
 /blob-report/
 /playwright/.cache/
 /e2e/.auth/
+
+# Allure
+/allure-results/
+/allure-report/
