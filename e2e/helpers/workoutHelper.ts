@@ -1,18 +1,12 @@
 import { APIRequestContext } from '@playwright/test';
-import { RoutineHelper } from './routineHelper';
-import { ExerciseHelper } from './exerciseHelper';
 import { DataTestManager } from '../test-utils/dataTestManager';
 import { RoutineExercise } from '../models/exercises.data';
 
 export class WorkoutHelper {
   apiContext: APIRequestContext;
-  routineHelper: RoutineHelper;
-  routineExercises: ExerciseHelper;
 
   constructor(apiContext: APIRequestContext) {
     this.apiContext = apiContext;
-    this.routineHelper = new RoutineHelper(this.apiContext);
-    this.routineExercises = new ExerciseHelper(this.apiContext);
   }
 
   async createWorkout(name: string, routineId: string, exercises: RoutineExercise[], comment: string) {
@@ -45,18 +39,6 @@ export class WorkoutHelper {
     if (!response.ok()) throw new Error(`Failed to create workout: ${response.status()}`);
     const workout = await response.json();
 
-    return workout;
-  }
-
-  async createWorkoutAndRegisterCleanup(
-    name: string,
-    routineId: string,
-    exercises: RoutineExercise[],
-    comment: string,
-    dataTestManager: DataTestManager,
-  ) {
-    const workout = await this.createWorkout(name, routineId, exercises, comment);
-    await this.registerWorkoutCleanup(workout.id, dataTestManager);
     return workout;
   }
 
