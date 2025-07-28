@@ -1,10 +1,10 @@
 import test, { APIRequestContext } from '@playwright/test';
 import { MyTrainingPage } from '../../pages/my-training.page';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
-import { WorkoutHelper } from '../../helpers/workoutHelper';
 import { ExerciseHelper } from '../../helpers/exerciseHelper';
 import { DataTestManager } from '../../test-utils/dataTestManager';
 import { RoutineFactory } from '../../factories/routine.factory';
+import { WorkoutFactory } from '../../factories/workout.factory';
 
 test.describe('User with no workouts', async () => {
   let myTrainingPage: MyTrainingPage;
@@ -55,15 +55,13 @@ test.describe('User with existing workouts', async () => {
   });
 
   test('can switch views on My Training page', async () => {
-    const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
     const changedView = 'Calendar';
     const exerciseName = 'Sit Squats';
-    const comment = '';
 
     const routine = await RoutineFactory.init(apiContext, dataTestManager).create();
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
-    await workoutHelper.createWorkoutAndRegisterCleanup(routine.name, routine.id, exercise, comment, dataTestManager);
+    await WorkoutFactory.init(apiContext, dataTestManager).createWithExercises(routine.id, exercise);
 
     await myTrainingPage.reloadPage();
     await myTrainingPage.expectHeadingToBeVisible();
@@ -75,20 +73,12 @@ test.describe('User with existing workouts', async () => {
   });
 
   test('navigates to workout details page after clicking workout card', async () => {
-    const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
     const exerciseName = 'Sit Squats';
-    const comment = '';
 
     const routine = await RoutineFactory.init(apiContext, dataTestManager).create();
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
-    const workout = await workoutHelper.createWorkoutAndRegisterCleanup(
-      routine.name,
-      routine.id,
-      exercise,
-      comment,
-      dataTestManager,
-    );
+    const workout = await WorkoutFactory.init(apiContext, dataTestManager).createWithExercises(routine.id, exercise);
     await myTrainingPage.reloadPage();
     await myTrainingPage.expectHeadingToBeVisible();
     await myTrainingPage.expectListContainsWorkouts();

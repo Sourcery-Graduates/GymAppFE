@@ -235,7 +235,9 @@ After running the tests, you can generate and open reports using the provided sc
 npm run playwright:report     # Open the latest Playwright HTML report
 npm run allure:report         # Generate and open the Allure report
 ```
+
 The reports are located in the following folders, respectively:
+
 ```
 ├── allure-report/                   # Contains Allure report files
 ├── playwright-report/               # Contains Playwright report
@@ -325,9 +327,7 @@ test.afterEach(() => {
 });
 
 test('creates a routine', async () => {
-  const routine = await RoutineFactory
-      .init(apiContext, dataTestManager)
-      .create();             // automatic registration of cleanup task is done within create()
+  const routine = await RoutineFactory.init(apiContext, dataTestManager).create(); // automatic registration of cleanup task is done within create()
 
   // assertions
 });
@@ -348,18 +348,13 @@ For reusable forms/views with shared structure, intermediate base pages (e.g. `W
 Create a routine via API:
 
 ```ts
-const routine = await RoutineFactory
-      .init(apiContext, dataTestManager)
-      .withName('Push Day')
-      .create();
+const routine = await RoutineFactory.init(apiContext, dataTestManager).withName('Push Day').create();
 ```
 
 Create a routine with exercises via API:
 
 ```ts
-const routine = await RoutineFactory
-      .init(apiContext, dataTestManager)
-      .createWithExercises(3);
+const routine = await RoutineFactory.init(apiContext, dataTestManager).createWithExercises(3);
 ```
 
 Create a routine via UI:
@@ -372,8 +367,9 @@ await routine.createViaUI(routinesPage);
 Skip cleanup registration:
 
 ```ts
-const routine = await RoutineFactory
-      .init(apiContext, dataTestManager)
-      .withoutCleanup()
-      .create();
+const routine = await RoutineFactory.init(apiContext, dataTestManager).withoutCleanup().create();
 ```
+
+### 📦 WorkoutFactory - Test Data Generator for Workouts
+
+Similarly to `RoutineFactory`, `WorkoutFactory` provides a convenient way to create test data for workouts via API or UI. Test data is generated using `faker` as well as there is possibility to create with own test data using fluent interface `.withName()`, `.withComment()`. It supports automatic cleanup registration to keep test environment clean and isolated.

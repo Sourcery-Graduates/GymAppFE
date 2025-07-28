@@ -1,7 +1,6 @@
 import test, { APIRequestContext } from '@playwright/test';
 import { createApiContextFromStorageState } from '../../helpers/generateApiContext';
 import { ExerciseHelper } from '../../helpers/exerciseHelper';
-import { WorkoutHelper } from '../../helpers/workoutHelper';
 import { WorkoutPage } from '../../pages/workout/workout.page';
 import { MyTrainingPage } from '../../pages/my-training.page';
 import { barbellCurlWorkout, sandbagLoadWorkout } from '../../test-data/workout.data';
@@ -9,6 +8,7 @@ import { RoutinesPage } from '../../pages/routines.page';
 import { addDays, formatDateDDMMYYY } from '../../helpers/dateHelper';
 import { DataTestManager } from '../../test-utils/dataTestManager';
 import { RoutineFactory } from '../../factories/routine.factory';
+import { WorkoutFactory } from '../../factories/workout.factory';
 
 test.describe('User with existing workouts', async () => {
   let apiContext: APIRequestContext;
@@ -33,14 +33,13 @@ test.describe('User with existing workouts', async () => {
   });
 
   test('can delete workout', async ({ page }) => {
-    const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
-    const routine = await RoutineFactory.init(apiContext, dataTestManager).create();
     const exerciseName = sandbagLoadWorkout.exerciseName;
     const exercise = await exerciseHelper.getExerciseByName(exerciseName);
-
-    // Create workout but do not register automatic workout cleanup
-    const workout = await workoutHelper.createWorkout(routine.name, routine.id, exercise, '');
+    const routine = await RoutineFactory.init(apiContext, dataTestManager).create();
+    const workout = await WorkoutFactory.init(apiContext, dataTestManager)
+      .withoutCleanup()
+      .createWithExercises(routine.id, exercise);
 
     workoutPage = new WorkoutPage(page, workout.id);
     await workoutPage.goto();
@@ -52,7 +51,6 @@ test.describe('User with existing workouts', async () => {
   });
 
   test('can edit workout', async ({ page }) => {
-    const workoutHelper = new WorkoutHelper(apiContext);
     const exerciseHelper = new ExerciseHelper(apiContext);
     const routine = await RoutineFactory.init(apiContext, dataTestManager).create();
     const exerciseName = sandbagLoadWorkout.exerciseName;
@@ -60,13 +58,7 @@ test.describe('User with existing workouts', async () => {
     const exerciseSetToBeRemoved = 1;
     const updatedSetCount = 2;
 
-    const workout = await workoutHelper.createWorkoutAndRegisterCleanup(
-      routine.name,
-      routine.id,
-      exercise,
-      '',
-      dataTestManager,
-    );
+    const workout = await WorkoutFactory.init(apiContext, dataTestManager).createWithExercises(routine.id, exercise);
 
     workoutPage = new WorkoutPage(page, workout.id);
     await workoutPage.goto();
@@ -109,7 +101,6 @@ test.describe('User with no workouts', async () => {
   });
 
   test('creates workout from existing routine and verifies updated data', async ({ page }) => {
-    const workoutHelper = new WorkoutHelper(apiContext);
     const today = formatDateDDMMYYY(new Date());
     const tomorrow = formatDateDDMMYYY(addDays(new Date(), 1));
 
@@ -125,8 +116,7 @@ test.describe('User with no workouts', async () => {
     await workoutFormPage.updateWorkoutName(barbellCurlWorkout.name);
     await workoutFormPage.updateWorkoutComment(barbellCurlWorkout.comment);
 
-    const workoutId = await workoutFormPage.createWorkoutAndGetWorkoutId();
-    await workoutHelper.registerWorkoutCleanup(workoutId, dataTestManager);
+    const workoutId = await WorkoutFactory.init(apiContext, dataTestManager).createViaUI(workoutFormPage);
 
     workoutPage = new WorkoutPage(page, workoutId);
     await workoutPage.expectToHaveURL();
