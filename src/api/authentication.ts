@@ -1,4 +1,4 @@
-import api from '@/config/axios/config';
+import api, { authApi } from '@/config/axios/config';
 import { ForgotPasswordForm, PasswordChangeRequest, Register } from '@/types/entities/Authentication';
 
 const baseUrl = 'api/auth';
@@ -32,17 +32,9 @@ export const passwordReset = async (requestBody: ForgotPasswordForm): Promise<st
   return data;
 };
 
-const authUrl = import.meta.env.VITE_AUTH_URL;
-
 export const logoutRequest = async () => {
   try {
-    await fetch(`${authUrl}/logout`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    await authApi.post('/logout');
   } catch (error) {
     console.error("Error during logout: ", error);
   }
@@ -50,23 +42,16 @@ export const logoutRequest = async () => {
 
 export const refreshAccessToken = async () => {
   try {
-    const response = await fetch(`${authUrl}/token`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        grant_type: 'refresh_token',
-        client_id: 'public-client',
-      }),
+    const params = new URLSearchParams({
+      grant_type: 'refresh_token',
+      client_id: 'public-client',
     });
 
-    if (!response.ok) {
-      throw new Error('Error updating tokens');
-    }
+    const response = await authApi.post('/token', params, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
 
-    const data = await response.json();
+    const data = response.data;
 
     localStorage.setItem('ROCP_token', data.access_token);
     if (data.id_token) {
@@ -75,7 +60,7 @@ export const refreshAccessToken = async () => {
     localStorage.setItem('ROCP_tokenExpire', (Math.floor(Date.now() / 1000) + data.expires_in).toString());
 
   } catch (error) {
-    console.error('Error updating tokens\':', error);
+    console.error('Error updating tokens:', error);
     localStorage.removeItem('ROCP_token');
     localStorage.removeItem('ROCP_idToken');
     window.location.href = '/login';
